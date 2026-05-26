@@ -1,0 +1,50 @@
+﻿# Day2 Chunk 생성 결과
+
+## 1. 생성 요약
+
+- 읽은 문서 수: {{doc_count}}
+- 생성된 chunk 수: {{chunk_count}}
+- chunk preview JSON 경로: `{{chunk_preview_path}}`
+
+## 2. 문서별 chunk 수
+
+| 문서명 | chunk 수 |
+|---|---:|
+{{#doc_counts}}
+| {{doc_name}} | {{chunk_count}} |
+{{/doc_counts}}
+{{^doc_counts}}
+| 읽은 문서 없음 | 0 |
+{{/doc_counts}}
+
+## 3. metadata 추출 예시
+
+{{#sample_chunks}}
+### {{chunk_id}}
+
+- chunk_id: {{chunk_id}}
+- doc_name: {{doc_name}}
+- section_title: {{section_title}}
+- alarm_code: {{alarm_code}}
+- equipment_id: {{equipment_id}}
+- keywords: {{keywords}}
+- text 미리보기: {{text_preview}}
+
+{{/sample_chunks}}
+{{^sample_chunks}}
+- 생성된 chunk가 없습니다. docs 폴더에 Markdown 문서가 있는지 확인해 주세요.
+{{/sample_chunks}}
+
+## 4. 다음 단계 안내
+
+다음 단계에서는 `{{next_file_name}}`를 실행해 chunk를 Chroma Vector DB에 저장합니다.
+
+입력 파일:
+
+`outputs/day2/chunk_preview.json`
+
+실행 명령어:
+
+```bash
+python src/day2/{{next_file_name}}
+```

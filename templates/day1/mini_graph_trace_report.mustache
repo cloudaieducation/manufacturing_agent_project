@@ -1,0 +1,128 @@
+﻿# {{case_name}}: 교육용 가상 실습 결과
+
+> 이 결과는 AI Agent Architecture 강의용 가상 데이터로 생성되었습니다.  
+> 실제 삼성디스플레이의 사내 데이터, 실제 설비명, 실제 라인명, 실제 알람 코드, 실제 공정 조건과 무관합니다.  
+> 이 파일은 LangGraph의 State, Node, Edge, Conditional Edge와 LLM 호출부 분리 구조를 이해하기 위한 교육용 산출물입니다.
+
+---
+
+## 1. 실습 목적
+
+이번 실습은 Chain과 Graph의 차이를 이해하기 위한 미니 실습입니다.  
+Chain은 정해진 순서대로 실행되지만, Graph는 조건에 따라 다음 단계가 달라질 수 있습니다.  
+또한 LLM 호출은 `src/day1/mini_graph_runner.py`에서 직접 처리하지 않고 `src/llm_client.py`로 분리합니다.
+
+---
+
+## 2. 실행 케이스 이름
+
+- {{case_name}}
+
+---
+
+## 3. 입력 정보
+
+| 항목 | 값 |
+|---|---|
+| user_query | {{user_query}} |
+| line_id | {{line_id}} |
+| process_name | {{process_name}} |
+| equipment_id | {{equipment_id_display}} |
+| alarm_code | {{alarm_code_display}} |
+
+---
+
+## 4. LangGraph 흐름 요약
+
+```text
+START
+ → start_node
+ → parse_query_node
+ → check_required_info_node
+ → 조건부 분기
+    - 필수 정보 있음:
+      search_log_node
+      → summarize_result_node
+      → build_llm_prompt_node
+      → generate_llm_response_node
+      → END
+
+    - 필수 정보 부족:
+      ask_more_info_node
+      → END
+```
+
+---
+
+## 5. Node 실행 Trace
+
+| 순서 | Node | 입력 요약 | 출력 요약 | 다음 이동 |
+|---:|---|---|---|---|
+{{{trace_table}}}
+
+---
+
+## 6. Conditional Edge 분기 결과
+
+- next_action: `{{next_action}}`
+- 분기 결과: {{route_result}}
+
+---
+
+## 7. 로그 요약
+
+```json
+{{{summary_text}}}
+```
+
+---
+
+## 8. 생성된 LLM 프롬프트
+
+```markdown
+{{{llm_prompt}}}
+```
+
+---
+
+## 9. LLM 응답
+
+```markdown
+{{{llm_response}}}
+```
+
+---
+
+## 10. 오류 및 주의 사항
+
+{{{error_text}}}
+
+---
+
+## 11. 최종 메시지
+
+{{{message_text}}}
+
+---
+
+## 12. Chain과 LangGraph의 차이
+
+- Chain은 “정해진 순서대로 처리하는 흐름”입니다.
+- LangGraph는 State를 들고 Node 사이를 이동합니다.
+- Conditional Edge를 사용하면 입력 정보 유무에 따라 다음 단계가 달라질 수 있습니다.
+- 이번 예제에서는 equipment_id와 alarm_code가 있으면 로그 조회와 LLM 요약으로 이동하고, 없으면 추가 정보 요청으로 이동합니다.
+
+---
+
+## 13. LLM 호출부 교체 가능 구조 설명
+
+- `src/day1/mini_graph_runner.py`는 `src/llm_client.py`만 호출합니다.
+- `mini_graph_runner.py`는 `cloud_llm.py` 또는 `mock_llm.py`를 직접 알지 못합니다.
+- `llm_client.py`가 Cloud LLM 또는 mock LLM을 선택합니다.
+- 따라서 나중에 회사 정책에 따라 OpenAI, Claude, 사내 LLM, 로컬 LLM 등으로 바꾸더라도 Graph 본체 코드는 크게 바꾸지 않는 구조를 만들 수 있습니다.
+
+---
+
+## 14. 다음 실습 연결
+
+7교시 `src/day1/day1_agent_v0_template.py`에서는 로그 조회, 매뉴얼 검색, 프롬프트 생성, LLM 응답 생성을 하나의 Day1 Agent v0 흐름으로 통합합니다.

@@ -1,0 +1,44 @@
+# Day5 Final Trace Review
+
+## 1. Trace 리뷰 목적
+- Trace는 Agent 실행의 블랙박스입니다.
+- 어떤 Tool을 사용했는지, Guardrail이 작동했는지, 결과 파일이 생성되었는지 확인합니다.
+- 결과물만 보지 말고 Trace도 함께 확인해야 합니다.
+
+## 2. Trace 파일 요약
+- Final MCP Trace row 수: {{summary.final_trace_count}}
+- Action Lab Trace row 수: {{summary.action_trace_count}}
+- 전체 Trace row 수: {{summary.total_trace_count}}
+- 깨진 JSONL row 수: {{summary.broken_row_count}}
+
+## 3. Tool 사용 요약
+- Tool 종류 수: {{summary.tool_kind_count}}
+
+{{#tool_counts}}
+- {{tool_name}}: {{count}}회
+{{/tool_counts}}
+
+## 4. Guardrail / Action 이벤트 요약
+- Guardrail 이벤트 수: {{summary.guardrail_event_count}}
+- Action Lab 이벤트 수: {{summary.action_event_count}}
+
+## 5. 결과 파일 생성 여부
+{{#outputs}}
+- {{name}}: {{status}} / {{path}}
+{{/outputs}}
+
+## 6. Trace 파일별 상태
+{{#trace_files}}
+- {{name}}: exists={{exists}}, row_count={{row_count}}, broken_row_count={{broken_row_count}} / {{path}}
+{{/trace_files}}
+
+## 7. 수강생용 해석
+- Trace를 보면 Agent가 어떤 Tool을 사용했고 어떤 결과 파일을 만들었는지 확인할 수 있습니다.
+- final_mcp_call_trace.jsonl은 리포트 생성형 Agent의 Tool 실행 흐름을 보여줍니다.
+- action_lab_trace.jsonl은 원인 후보 랭킹, 체크리스트 생성, 라우팅 같은 업무 Action 실행 흔적을 보여줍니다.
+- Agent 실습에서는 결과물만 확인하지 말고 Trace, Guardrail, output 파일을 함께 확인해야 합니다.
+
+---
+교육용 메시지:
+{{education_message}}
+리포트 생성 Agent든, 원인 후보 랭킹 Agent든, 체크리스트 생성 Agent든, 담당 부서 라우팅 Agent든, 모든 Agent Action은 Trace로 검토할 수 있어야 합니다.

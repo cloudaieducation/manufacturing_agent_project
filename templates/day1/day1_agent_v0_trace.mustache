@@ -1,0 +1,89 @@
+﻿# Day1 Agent v0 실행 Trace: 교육용 가상 실습 Trace
+
+> 이 Trace는 AI Agent Architecture 강의용 가상 데이터로 생성되었습니다.  
+> 실제 삼성디스플레이의 사내 데이터, 실제 설비명, 실제 라인명, 실제 알람 코드, 실제 공정 조건과 무관합니다.  
+> API Key, 환경변수 전체 목록, 시스템 민감정보는 저장하지 않습니다.
+
+---
+
+## 1. Trace 목적
+
+이 파일은 Day1 Agent v0가 어떤 Node를 어떤 순서로 실행했는지 확인하기 위한 교육용 Trace입니다.  
+LangGraph의 State, Node, Edge, Conditional Edge를 이해하는 데 사용합니다.
+
+---
+
+## 2. 입력 정보
+
+| 항목 | 값 |
+|---|---|
+| user_query | {{user_query}} |
+| line_id | {{line_id}} |
+| process_name | {{process_name}} |
+| equipment_id | {{equipment_id}} |
+| alarm_code | {{alarm_code}} |
+
+---
+
+## 3. LangGraph 실행 흐름
+
+```text
+START
+ → load_input_node
+ → check_required_info_node
+ → 조건부 분기
+    - 필수 정보 있음:
+      search_log_node
+      → search_manual_node
+      → build_prompt_node
+      → generate_response_node
+      → build_final_report_node
+      → END
+
+    - 필수 정보 부족:
+      ask_more_info_node
+      → END
+```
+
+---
+
+## 4. Node 실행 Trace
+
+| 순서 | Node | 입력 요약 | 출력 요약 | 다음 이동 |
+|---:|---|---|---|---|
+{{{trace_table}}}
+
+---
+
+## 5. Conditional Edge 분기 결과
+
+- next_action: `{{next_action}}`
+- 분기 결과: {{route_result}}
+
+---
+
+## 6. LLM 호출부 교체 가능 구조 설명
+
+- `src/day1/day1_agent_v0_simple` 파일은 `llm_client.py`만 호출합니다.
+- Agent 본체는 `cloud_llm.py` 또는 `mock_llm.py`를 직접 알지 못합니다.
+- `llm_client.py`가 Cloud LLM 또는 mock LLM을 선택합니다.
+- 따라서 회사 정책에 따라 OpenAI, Claude, 사내 LLM, 로컬 LLM 등으로 바꾸더라도 Agent 본체 코드는 크게 바꾸지 않는 구조를 만들 수 있습니다.
+
+---
+
+## 7. 메시지
+
+{{{messages}}}
+
+---
+
+## 8. 오류 및 주의 사항
+
+{{{errors}}}
+
+---
+
+## 9. 다음 실습 연결
+
+2일차에는 `alarm_manual.md` 단순 검색을 RAG 검색으로 확장합니다.  
+문서를 chunk로 나누고 metadata를 붙인 뒤 Top-3 검색 결과를 State에 저장하는 구조로 발전시킵니다.

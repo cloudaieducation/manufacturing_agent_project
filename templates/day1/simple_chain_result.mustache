@@ -1,0 +1,78 @@
+﻿# 1일차 Chain 실습 결과: 교육용 가상 실습 결과
+
+> 이 결과는 AI Agent Architecture 강의용 가상 데이터로 생성되었습니다.  
+> 실제 삼성디스플레이의 사내 데이터, 실제 설비명, 실제 라인명, 실제 알람 코드, 실제 공정 조건과 무관합니다.  
+> 이 파일은 Chain 기반 업무 처리 흐름을 이해하기 위한 교육용 산출물입니다.
+
+---
+
+## 1. Chain 실행 개요
+
+이번 실습에서는 다음 순서로 Chain을 실행했습니다.
+
+1. 사용자 요청 읽기
+2. 알람 코드 확인
+3. 매뉴얼에서 관련 내용 검색
+4. Prompt Mustache 템플릿으로 프롬프트 생성
+5. `llm_client.py`의 `generate_response(prompt)` 호출
+6. Result Mustache 템플릿으로 Markdown 결과 저장
+
+| 항목 | 값 |
+|---|---|
+| 시나리오 | {{scenario_name}} |
+| 가상 라인명 | {{line_id}} |
+| 가상 공정 | {{process_name}} |
+| 가상 설비 ID | {{equipment_id}} |
+| 가상 알람 코드 | {{alarm_code}} |
+| LLM 호출 경로 | `src/llm_client.py` |
+
+---
+
+## 2. 사용자 요청
+
+```text
+{{user_query}}
+```
+
+---
+
+## 3. 참고 매뉴얼 내용
+
+```markdown
+{{{manual_section}}}
+```
+
+---
+
+## 4. 생성된 프롬프트
+
+```markdown
+{{{prompt}}}
+```
+
+---
+
+## 5. LLM 응답
+
+```markdown
+{{{response}}}
+```
+
+---
+
+## 6. 이번 실습에서 확인한 점
+
+- Chain은 정해진 순서대로 실행되는 업무 처리 흐름입니다.
+- 이번 실습의 Chain은 “사용자 요청 → 매뉴얼 검색 → 프롬프트 생성 → LLM 응답” 순서로 구성됩니다.
+- Python 코드는 실행 흐름을 담당합니다.
+- Prompt 문장은 `templates/day1/simple_chain_prompt.mustache`에서 관리합니다.
+- 결과 Markdown 문서는 `templates/day1/simple_chain_result.mustache`에서 관리합니다.
+- `simple_chain_starter_simple` 파일은 Gemini/OpenAI/Anthropic/Ollama/NVIDIA SDK를 직접 import하지 않습니다.
+- LLM provider 선택은 `llm_client.py`가 담당합니다.
+
+---
+
+## 7. 다음 실습 연결
+
+6교시 `src/day1/mini_graph_runner.py`에서는 조건에 따라 다음 단계가 달라지는 mini Graph를 실습합니다.  
+7교시 `src/day1/day1_agent_v0_template.py`에서는 로그 조회, 매뉴얼 검색, 프롬프트 생성, LLM 응답을 통합하여 Day1 Agent v0 구조로 연결합니다.

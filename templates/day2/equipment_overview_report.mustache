@@ -1,0 +1,45 @@
+# 설비 통합 Overview 보고서
+
+## 1. 설비 기본 정보
+- 설비 ID: {{equipment.equipment_id}}
+- 라인 ID: {{equipment.line_id}}
+- 공정명: {{equipment.process_name}}
+- 설비 유형: {{equipment.equipment_type}}
+- 위치: {{equipment.location}}
+- 중요도: {{equipment.criticality}}
+- 담당 팀: {{equipment.owner_team}}
+
+## 2. 최근 알람 이력
+{{#alarms}}
+- 시간: {{timestamp}}
+  - 알람 코드: {{alarm_code}}
+  - 알람명: {{alarm_name}}
+  - 심각도: {{severity}}
+  - 메시지: {{message}}
+{{/alarms}}
+
+## 3. 최근 공정 상태
+{{#process}}
+- 시간: {{timestamp}}
+  - 상태: {{status}}
+  - 온도: {{temperature}}
+  - 압력: {{pressure}}
+  - 처리량: {{throughput}}
+{{/process}}
+
+## 4. 최근 품질 지표
+{{#quality}}
+- 시간: {{timestamp}}
+  - 라인 ID: {{line_id}}
+  - 수율: {{yield_rate}}
+  - 불량률: {{defect_rate}}
+  - 검사 수량: {{inspection_count}}
+{{/quality}}
+
+## 5. 최근 정비 이력
+{{#maintenance}}
+- 정비일: {{maintenance_date}}
+  - 정비 유형: {{maintenance_type}}
+  - 조치 내용: {{action_taken}}
+  - 담당자: {{technician}}
+{{/maintenance}}

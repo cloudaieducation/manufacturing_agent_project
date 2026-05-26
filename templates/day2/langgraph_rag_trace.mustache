@@ -1,0 +1,69 @@
+﻿# Day2 LangGraph RAG 실행 Trace
+
+## 1. 실행 개요
+
+- 실제 LangGraph StateGraph를 사용했습니다.
+- Chroma Vector DB 기반 RAG 검색을 사용했습니다.
+- CSV 검색이 아니며, `chunk_metadata.csv`를 읽지 않습니다.
+- {{llm_note}}
+
+## 2. 사용자 질문
+
+- user_query: {{user_query}}
+
+## 3. 최종 State 요약
+
+- equipment_id: {{equipment_id}}
+- alarm_code: {{alarm_code}}
+- rewritten_query: {{rewritten_query}}
+- grounding_status: {{grounding_status}}
+- needs_rewrite: {{needs_rewrite}}
+- retry_count: {{retry_count}}
+- errors: {{errors_text}}
+
+## 4. 검색된 근거 문서
+
+{{#has_retrieved_docs}}
+{{#retrieved_docs}}
+### Rank {{rank}}
+
+- rank: {{rank}}
+- score: {{score}}
+- distance: {{distance}}
+- doc_name: {{doc_name}}
+- section_title: {{section_title}}
+- chunk_id: {{chunk_id}}
+- keywords: {{keywords}}
+- preview: {{preview}}
+
+{{/retrieved_docs}}
+{{/has_retrieved_docs}}
+{{^has_retrieved_docs}}
+- 검색된 근거 문서가 없습니다.
+{{/has_retrieved_docs}}
+
+## 5. Node 실행 Trace
+
+{{#has_trace_items}}
+{{#trace_items}}
+### {{node_name}}
+
+- node_name: {{node_name}}
+- status: {{status}}
+- message: {{message}}
+- input_summary: {{input_summary}}
+- output_summary: {{output_summary}}
+
+{{/trace_items}}
+{{/has_trace_items}}
+{{^has_trace_items}}
+- 실행 Trace가 없습니다.
+{{/has_trace_items}}
+
+## 6. 최종 답변 초안
+
+{{final_answer}}
+
+## 7. 다음 단계 안내
+
+{{next_step_text}}

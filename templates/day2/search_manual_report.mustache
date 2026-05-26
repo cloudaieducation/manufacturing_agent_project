@@ -1,0 +1,25 @@
+# 설비 매뉴얼 검색 보고서
+
+## 검색 정보
+
+- 검색어: {{query}}
+- 검색 방식: {{search_mode}}
+- 요청 결과 수: {{top_k}}
+- 실제 결과 수: {{result_count}}
+
+## 검색 결과
+
+{{#results}}
+### {{rank}}. {{doc_name}}
+
+- 점수: {{score}}
+- 문서 조각 ID: {{chunk_id}}
+- 알람 코드: {{alarm_code}}
+- 설비 유형: {{equipment_type}}
+- 증상: {{symptom}}
+- 권장 조치: {{action}}
+
+본문:
+{{text}}
+
+{{/results}}

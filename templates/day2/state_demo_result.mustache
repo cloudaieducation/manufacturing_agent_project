@@ -1,0 +1,69 @@
+﻿# Day2 LangGraph State 구조 데모
+
+## 1. State 역할 요약
+
+- State는 LangGraph Node 사이에서 전달되는 작업 상태입니다.
+- retrieved_docs는 Chroma Vector DB 검색 결과가 저장되는 자리입니다.
+- trace는 각 Node가 어떤 일을 했는지 기록하는 실행 이력입니다.
+- graph_state.py는 State 구조를 정의할 뿐, Chroma 검색이나 LangGraph 실행은 직접 수행하지 않습니다.
+
+## 2. 현재 State 요약
+
+- user_query: {{user_query}}
+- rewritten_query: {{rewritten_query}}
+- equipment_id: {{equipment_id}}
+- alarm_code: {{alarm_code}}
+- grounding_status: {{grounding_status}}
+- needs_rewrite: {{needs_rewrite}}
+- retry_count: {{retry_count}}
+- errors: {{errors_text}}
+
+## 3. Retrieved Docs 예시
+
+{{#has_retrieved_docs}}
+{{#retrieved_docs}}
+### Retrieved Doc {{rank}}
+
+- rank: {{rank}}
+- score: {{score}}
+- doc_name: {{doc_name}}
+- section_title: {{section_title}}
+- chunk_id: {{chunk_id}}
+- keywords: {{keywords}}
+- preview: {{preview}}
+
+{{/retrieved_docs}}
+{{/has_retrieved_docs}}
+{{^has_retrieved_docs}}
+- 검색된 문서 조각이 없습니다.
+{{/has_retrieved_docs}}
+
+## 4. Trace 예시
+
+{{#has_trace_items}}
+{{#trace_items}}
+### {{node_name}}
+
+- node_name: {{node_name}}
+- status: {{status}}
+- message: {{message}}
+- input_summary: {{input_summary}}
+- output_summary: {{output_summary}}
+
+{{/trace_items}}
+{{/has_trace_items}}
+{{^has_trace_items}}
+- 실행 Trace가 없습니다.
+{{/has_trace_items}}
+
+## 5. 다음 단계 안내
+
+다음 단계에서는 `langgraph_rag_graph_runner.py`에서 실제 LangGraph StateGraph를 구성합니다.
+
+`retrieve_docs_node`가 `rag_search.py`의 `search_top_k()`를 호출해 Chroma 검색 결과를 State의 `retrieved_docs` 필드에 저장합니다.
+
+실행 명령어:
+
+```powershell
+python src/day2/graph_state_날짜_시간.py
+```

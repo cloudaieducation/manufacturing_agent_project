@@ -1,0 +1,144 @@
+﻿{
+  "description": "2일차 RAG 실습용 샘플 질의 목록",
+  "queries": [
+    {
+      "id": "Q001",
+      "user_query": "ALM-TEMP-402 알람은 디스플레이 패널 제조 라인의 증착 공정에서 어떤 의미로 해석해야 하나요?",
+      "expected_keywords": [
+        "ALM-TEMP-402",
+        "온도 상승",
+        "반복 알람",
+        "증착 공정"
+      ],
+      "expected_docs": [
+        "alarm_manual.md",
+        "troubleshooting_guide.md"
+      ],
+      "intent": "알람 의미 확인",
+      "difficulty": "basic"
+    },
+    {
+      "id": "Q002",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402 반복 알람이 발생했을 때 가능한 원인 후보를 정리해 주세요.",
+      "expected_keywords": [
+        "EQP-EV-03",
+        "ALM-TEMP-402",
+        "반복 알람",
+        "원인 후보",
+        "온도 상승"
+      ],
+      "expected_docs": [
+        "alarm_manual.md",
+        "troubleshooting_guide.md"
+      ],
+      "intent": "원인 후보 확인",
+      "difficulty": "basic"
+    },
+    {
+      "id": "Q003",
+      "user_query": "온도 상승 반복 알람이 발생했을 때 1차로 확인해야 할 항목은 무엇인지 알려 주세요.",
+      "expected_keywords": [
+        "온도 상승",
+        "반복 알람",
+        "1차 확인 항목",
+        "공정 상태",
+        "냉각 상태"
+      ],
+      "expected_docs": [
+        "troubleshooting_guide.md"
+      ],
+      "intent": "1차 확인 항목 정리",
+      "difficulty": "basic"
+    },
+    {
+      "id": "Q004",
+      "user_query": "ALM-TEMP-402 반복 알람이 품질 지표와 관련될 가능성이 있는지 검토해 주세요.",
+      "expected_keywords": [
+        "ALM-TEMP-402",
+        "품질 지표",
+        "품질 영향",
+        "반복 알람",
+        "검사 결과"
+      ],
+      "expected_docs": [
+        "troubleshooting_guide.md",
+        "quality_standard.md"
+      ],
+      "intent": "품질 영향 가능성 확인",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "Q005",
+      "user_query": "EQP-EV-03에서 온도 상승 알람이 반복될 때 불량률, 수율, 검사 결과를 함께 확인해야 하는 이유는 무엇인가요?",
+      "expected_keywords": [
+        "EQP-EV-03",
+        "불량률",
+        "수율",
+        "검사 결과",
+        "품질 지표",
+        "온도 상승"
+      ],
+      "expected_docs": [
+        "quality_standard.md",
+        "troubleshooting_guide.md"
+      ],
+      "intent": "품질 지표 확인 이유 설명",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "Q006",
+      "user_query": "ALM-TEMP-402 발생 전후로 최근 정비 이력과 설정 변경 여부를 확인해야 하는 이유를 설명해 주세요.",
+      "expected_keywords": [
+        "ALM-TEMP-402",
+        "정비 이력",
+        "설정 변경",
+        "반복 알람",
+        "확인 필요"
+      ],
+      "expected_docs": [
+        "alarm_manual.md",
+        "troubleshooting_guide.md",
+        "quality_standard.md"
+      ],
+      "intent": "정비 이력 확인 필요성 설명",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "Q007",
+      "user_query": "검색된 문서 근거가 부족할 때 AI Agent는 EQP-EV-03의 ALM-TEMP-402 원인에 대해 어떻게 답변해야 하나요?",
+      "expected_keywords": [
+        "AI Agent",
+        "근거 부족",
+        "EQP-EV-03",
+        "ALM-TEMP-402",
+        "원인 후보",
+        "추가 확인"
+      ],
+      "expected_docs": [
+        "troubleshooting_guide.md",
+        "quality_standard.md"
+      ],
+      "intent": "근거 부족 시 답변 방식 확인",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "Q008",
+      "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 공정 상태, 품질 지표, 정비 이력을 종합해서 추가 확인 항목을 정리해 주세요.",
+      "expected_keywords": [
+        "EQP-EV-03",
+        "ALM-TEMP-402",
+        "공정 상태",
+        "품질 지표",
+        "정비 이력",
+        "추가 확인 항목"
+      ],
+      "expected_docs": [
+        "alarm_manual.md",
+        "troubleshooting_guide.md",
+        "quality_standard.md"
+      ],
+      "intent": "종합 추가 확인 항목 정리",
+      "difficulty": "advanced"
+    }
+  ]
+}

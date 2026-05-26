@@ -1,0 +1,57 @@
+# Day4 MCP Multi-Agent Quality Gate 결과
+
+## 1. Quality Gate 목적
+
+- Quality Gate는 5일차 Final MCP Multi-Agent 통합 실습으로 넘어가기 전에 Day4 산출물이 준비되었는지 확인하는 체크리스트입니다.
+- 완벽한 제품 인증이 아니라 실습 진행 가능 여부를 확인하는 교육용 점검 절차입니다.
+- Trace, Rule Based Routing, LLM Tool Selection, Validator, Guardrail 결과를 함께 확인합니다.
+
+## 2. 전체 판정
+
+- 생성 시간: `{{generated_at}}`
+- Quality Gate 이름: `{{quality_gate_name}}`
+- 전체 판정: **{{overall_status}}**
+- 판정 이유: {{status_reason}}
+
+## 3. 입력 파일 점검
+
+| 항목 | 파일 경로 | 상태 | 설명 |
+|---|---|---|---|
+{{#input_file_rows}}
+| {{name}} | `{{path}}` | {{status}} | {{message}} |
+{{/input_file_rows}}
+
+## 4. 영역별 품질 점검
+
+| 영역 | 판정 | 주요 요약 | 판정 이유 | 보완 필요 |
+|---|---|---|---|---|
+{{#check_rows}}
+| {{name}} | {{status}} | {{summary_text}} | {{reason}} | {{need_fix_text}} |
+{{/check_rows}}
+
+## 5. 5일차 진행 가능 여부
+
+전체 판정이 `PASS`이면 5일차 Final MCP Multi-Agent 통합 실습으로 바로 진행할 수 있습니다.
+전체 판정이 `CONDITIONAL_PASS`이면 실습은 진행할 수 있지만, 아래 Backlog를 확인하고 보완하는 것이 좋습니다.
+전체 판정이 `HOLD`이면 핵심 산출물을 먼저 생성하거나 JSON 오류를 수정해야 합니다.
+
+현재 전체 판정은 **{{overall_status}}**입니다.
+
+## 6. 보완 Backlog
+
+{{#backlog}}
+- {{.}}
+{{/backlog}}
+{{^backlog}}
+보완 Backlog가 없습니다.
+{{/backlog}}
+
+## 7. 강의용 해석
+
+- Trace 분석은 Agent가 실제로 무엇을 했는지 보여줍니다.
+- Rule Based Routing은 안정적인 기준선입니다.
+- LLM Tool Selection은 유연하지만 틀릴 수 있습니다.
+- Validator는 LLM 선택과 Tool Plan을 검사합니다.
+- Guardrail은 위험 요청을 차단합니다.
+- Quality Gate는 이 결과들을 모아 5일차 통합 준비 여부를 판단합니다.
+- PASS가 아니어도 CONDITIONAL_PASS라면 실습은 진행할 수 있지만 보완 항목을 확인해야 합니다.

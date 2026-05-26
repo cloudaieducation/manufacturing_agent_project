@@ -1,0 +1,44 @@
+﻿# 1일차 첫 실행 결과: 단순 버전
+
+> 이 결과는 AI Agent Architecture 강의용 가상 데이터로 생성되었습니다.  
+> 실제 삼성디스플레이의 사내 데이터, 실제 설비명, 실제 라인명, 실제 알람 코드, 실제 공정 조건과 무관합니다.  
+> 이 파일은 `llm_client.py`를 통한 LLM 응답을 함께 저장한 교육용 산출물입니다.
+
+---
+
+## 1. 입력 조건
+
+| 항목 | 값 |
+|---|---|
+| 가상 설비 ID | {{equipment_id}} |
+| 가상 알람 코드 | {{alarm_code}} |
+| 관련 로그 수 | {{total_count}}건 |
+| 최초 발생 시각 | {{first_time}} |
+| 마지막 발생 시각 | {{last_time}} |
+| 심각도 분포 | {{severity_counts}} |
+
+---
+
+## 2. LLM 전달 Prompt
+
+```markdown
+{{{prompt}}}
+```
+
+---
+
+## 3. LLM 응답
+
+```markdown
+{{{llm_response}}}
+```
+
+---
+
+## 4. 이번 단순 버전에서 확인한 점
+
+- Python 코드는 데이터 읽기, 로그 필터링, LLM 호출, 결과 저장 흐름만 담당합니다.
+- Prompt 문구는 `templates/day1/first_sample_run_prompt.mustache`에서 관리합니다.
+- Result Markdown 문서 구조는 `templates/day1/first_sample_run_result.mustache`에서 관리합니다.
+- LLM 호출은 `llm_client.py`의 `generate_response(prompt)`를 통해 수행합니다.
+- 이 파일은 provider별 LLM SDK를 직접 import하지 않습니다.

@@ -1,0 +1,113 @@
+﻿# Day1 Agent v0 실행 결과: 교육용 가상 실습 결과
+
+> 이 결과는 AI Agent Architecture 강의용 가상 데이터로 생성되었습니다.  
+> 실제 삼성디스플레이의 사내 데이터, 실제 설비명, 실제 라인명, 실제 알람 코드, 실제 공정 조건과 무관합니다.  
+> 이 파일은 1일차에 만든 Prompt, Chain, LangGraph, LLM 호출부 분리 구조를 하나로 연결한 교육용 Agent v0 산출물입니다.
+
+---
+
+## 1. 사용자 요청
+
+```text
+{{user_query}}
+```
+
+{{#additional_message}}
+---
+
+## 2. 추가 정보 요청
+
+{{additional_message}}
+{{/additional_message}}
+
+---
+
+## 3. 입력 조건
+
+| 항목 | 값 |
+|---|---|
+| line_id | {{line_id}} |
+| process_name | {{process_name}} |
+| equipment_id | {{equipment_id}} |
+| alarm_code | {{alarm_code}} |
+
+---
+
+## 4. Agent 실행 흐름 요약
+
+```text
+START
+ → load_input_node
+ → check_required_info_node
+ → 조건부 분기
+    - 필수 정보 있음:
+      search_log_node
+      → search_manual_node
+      → build_prompt_node
+      → generate_response_node
+      → build_final_report_node
+      → END
+
+    - 필수 정보 부족:
+      ask_more_info_node
+      → END
+```
+
+---
+
+## 5. 로그 조회 요약
+
+```json
+{{{log_summary_text}}}
+```
+
+---
+
+## 6. 매뉴얼 근거 요약
+
+```markdown
+{{{manual_section}}}
+```
+
+---
+
+## 7. LLM 최종 응답
+
+```markdown
+{{{llm_response}}}
+```
+
+---
+
+## 8. 추가 확인 필요 사항
+
+- 이 결과는 교육용 가상 로그와 교육용 가상 매뉴얼을 기반으로 합니다.
+- 실제 원인 확정이나 실제 조치 지시로 사용하면 안 됩니다.
+- 실제 품질 영향 여부는 별도 데이터와 담당자 검토가 필요한 영역입니다.
+- Agent는 로그와 매뉴얼에 없는 내용을 단정하지 않아야 합니다.
+
+---
+
+## 9. 오늘 만든 Agent v0의 한계
+
+- 아직 RAG 구조가 아닙니다.
+- 아직 MCP 구조가 아닙니다.
+- 아직 PostgreSQL DB Tool이 없습니다.
+- 아직 Guardrail은 프롬프트 제약 조건 수준입니다.
+- 매뉴얼 검색은 단순 문자열 검색 수준입니다.
+- 복잡한 Agent 평가나 Trace 분석은 4일차에 다룹니다.
+
+---
+
+## 10. 2일차 RAG 실습 연결
+
+2일차에는 `alarm_manual.md` 단순 검색을 다음 구조로 확장합니다.
+
+- Markdown 문서 로드
+- chunk 분할
+- metadata 생성
+- Top-3 검색
+- 검색 결과를 State에 저장
+- 근거 문서 기반 답변 생성
+
+즉, Day1 Agent v0는 2일차 RAG Agent v1로 확장되는 출발점입니다.

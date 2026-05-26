@@ -1,0 +1,21 @@
+﻿timestamp,line_id,process_name,equipment_id,alarm_code,severity,alarm_message,chamber_id,measured_value,reference_range,repeat_count,lot_group,operator_note
+2026-05-01 09:05:12,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training chamber temperature deviation detected,EDU-CH-01,72.4,EDU 기준 범위 60~70,1,EDU-LOT-A,챔버 온도 편차 알람 최초 확인
+2026-05-01 09:18:44,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training chamber temperature deviation repeated,EDU-CH-01,73.1,EDU 기준 범위 60~70,2,EDU-LOT-A,동일 챔버에서 온도 편차 재발
+2026-05-01 09:41:08,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-VAC-210,INFO,Training vacuum level check notification,EDU-CH-01,41.0,EDU 기준 범위 35~45,1,EDU-LOT-A,진공 상태 확인 필요
+2026-05-01 10:06:31,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training repeated chamber temperature deviation,EDU-CH-01,75.8,EDU 기준 범위 60~70,3,EDU-LOT-B,온도 편차가 반복되어 확인 필요
+2026-05-01 10:28:17,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-PRESS-115,WARNING,Training chamber pressure variation detected,EDU-CH-02,52.6,EDU 기준 범위 45~55,1,EDU-LOT-B,압력 변동 알림 확인
+2026-05-01 10:52:49,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training temperature value unstable during deposition,EDU-CH-01,73.9,EDU 기준 범위 60~70,4,EDU-LOT-B,온도 값이 안정적이지 않음
+2026-05-01 11:20:05,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training frequent temperature deviation pattern detected,EDU-CH-01,76.2,EDU 기준 범위 60~70,5,EDU-LOT-C,반복 발생 패턴으로 판단 필요
+2026-05-01 11:47:33,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-FLOW-301,INFO,Training gas flow check notification,EDU-CH-02,28.5,EDU 기준 범위 25~35,1,EDU-LOT-C,흐름 상태 참고 확인
+2026-05-01 13:08:22,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training temperature deviation occurred after pause,EDU-CH-01,74.3,EDU 기준 범위 60~70,6,EDU-LOT-D,일시 확인 후 다시 알람 발생
+2026-05-01 13:36:54,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training temperature deviation continued in same chamber,EDU-CH-01,77.0,EDU 기준 범위 60~70,7,EDU-LOT-D,동일 챔버 중심으로 반복됨
+2026-05-01 14:04:18,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-PRESS-115,INFO,Training pressure value returned near guide range,EDU-CH-02,49.7,EDU 기준 범위 45~55,2,EDU-LOT-D,압력 상태는 교육 기준 범위 근처
+2026-05-01 14:29:41,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training chamber temperature deviation reappeared,EDU-CH-01,73.6,EDU 기준 범위 60~70,8,EDU-LOT-E,온도 편차 재확인
+2026-05-01 15:02:16,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training repeated high temperature deviation requires review,EDU-CH-01,76.8,EDU 기준 범위 60~70,9,EDU-LOT-E,반복 알람으로 원인 검토 필요
+2026-05-01 15:31:09,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-VAC-210,WARNING,Training vacuum variation observed with temperature alarm history,EDU-CH-01,47.2,EDU 기준 범위 35~45,2,EDU-LOT-E,온도 알람 이력과 함께 참고 필요
+2026-05-01 16:05:27,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training temperature deviation observed again before review,EDU-CH-01,74.9,EDU 기준 범위 60~70,10,EDU-LOT-F,검토 전 온도 편차 재발
+2026-05-01 16:38:45,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training repeated chamber temperature alarm summary point,EDU-CH-01,77.4,EDU 기준 범위 60~70,11,EDU-LOT-F,Agent 요약 실습용 핵심 로그
+2026-05-02 09:12:11,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training temperature deviation occurred on next training day,EDU-CH-01,73.2,EDU 기준 범위 60~70,12,EDU-LOT-G,다음 날에도 유사 알람 발생
+2026-05-02 09:44:37,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-FLOW-301,INFO,Training flow status check after repeated temperature alarms,EDU-CH-02,31.4,EDU 기준 범위 25~35,2,EDU-LOT-G,흐름 값은 교육 기준 범위 내로 보임
+2026-05-02 10:18:03,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,CRITICAL,Training repeated temperature deviation continued,EDU-CH-01,76.5,EDU 기준 범위 60~70,13,EDU-LOT-H,반복 발생 여부를 최종 확인할 로그
+2026-05-02 10:55:29,EDU-LINE-07,Thin Film Deposition,EQP-EV-03,ALM-TEMP-402,WARNING,Training alarm condition remained under observation,EDU-CH-01,72.8,EDU 기준 범위 60~70,14,EDU-LOT-H,추가 관찰 대상으로 기록
