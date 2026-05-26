@@ -100,3 +100,6 @@ fastmcp
 # Mustache 템플릿 기반 Markdown 보고서 생성에 사용합니다.
 chevron>=0.14.0
 pystache>=0.6.5
+notebook 
+jupyter 
+ipykernel

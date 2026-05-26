@@ -18,15 +18,65 @@
 - 실제 사내 데이터가 아니라 DisplayEdu Fab 교육용 가상 데이터만 사용합니다.
 """
 
+# ============================================================
+# 파일명: mini_graph_runner.py
+# 목적:
+#   여러 처리 단계를 "흐름도"처럼 연결하는 LangGraph의 기본 개념
+#   (State, Node, Edge, Conditional Edge)을 이해하기 위한 1일차 실습 파일입니다.
+#
+# 이 파일에서 배우는 핵심 용어:
+#   - State(상태): 작업하면서 계속 채워 나가는 "작업 기록지" 같은 dict 자료입니다.
+#                  각 단계는 이 기록지를 읽고, 새 내용을 적은 뒤 다음 단계로 넘깁니다.
+#   - Node(노드): 전체 흐름 중 "하나의 처리 단계"입니다. (예: 로그 조회 단계)
+#   - Edge(엣지): "한 단계가 끝나면 다음 어느 단계로 갈지"를 잇는 연결선입니다.
+#   - Conditional Edge(조건부 엣지): 상황에 따라 다음 단계가 달라지는 연결선입니다.
+#                  (예: 필요한 정보가 있으면 로그 조회로, 없으면 추가 정보 요청으로)
+#   - Graph(그래프): 위 단계와 연결선을 모두 합친 "전체 작업 순서도"입니다.
+#
+# 전체 실행 흐름:
+#   1. 입력 파일(JSON, CSV)을 읽습니다.
+#   2. "정상 케이스"와 "정보 부족 케이스" 두 개의 초기 State를 만듭니다.
+#   3. 각 처리 단계를 Node(내부 함수)로 정의합니다.
+#   4. Node들을 Edge와 Conditional Edge로 연결해 Graph를 구성합니다.
+#   5. 두 케이스를 각각 실행하여 분기(조건부 흐름)가 어떻게 달라지는지 확인합니다.
+#   6. 실행 과정을 Trace(실행 기록) Markdown으로 저장합니다.
+#
+# 초보자를 위한 비유:
+#   Graph는 공장의 "작업 순서도"입니다.
+#   State는 제품을 따라다니는 "작업 지시서 겸 기록지"이고,
+#   Node는 각 작업 구간, Conditional Edge는 "합격이면 포장으로, 불합격이면 재검사로"처럼
+#   상황에 따라 길이 갈라지는 갈림길입니다.
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
 
 import pandas as pd
 import pystache
+# LangGraph에서 그래프를 만들 때 쓰는 도구들입니다.
+# - StateGraph: State(작업 기록지)를 들고 단계들을 연결하는 그래프 본체
+# - START / END: 그래프의 "시작 지점"과 "끝 지점"을 나타내는 특별한 표시
 from langgraph.graph import END, START, StateGraph
 
 
+# ------------------------------------------------------------
+# 함수명: run_mini_graph
+# 역할:
+#   LangGraph로 만든 미니 그래프를 "정상 케이스"와 "정보 부족 케이스"
+#   두 가지로 실행하고, 그 실행 과정을 Trace 보고서로 저장합니다.
+#
+# 입력값:
+#   없음 (필요한 데이터는 함수 안에서 파일로 읽습니다.)
+#
+# 출력값:
+#   반환값은 없습니다.
+#   진행 상황을 화면에 출력하고, Trace 결과를 Markdown 파일로 저장합니다.
+#
+# 초보자 설명:
+#   같은 그래프라도 입력 State에 따라 거쳐 가는 Node가 달라진다는 점을
+#   두 케이스를 직접 비교하며 보여 주는 함수입니다.
+# ------------------------------------------------------------
 def run_mini_graph():
     """
     1일차 LangGraph 미니 실습을 실행합니다.
@@ -62,6 +112,12 @@ def run_mini_graph():
     query_data = json.loads(query_path.read_text(encoding="utf-8-sig"))
     logs = pd.read_csv(csv_path, encoding="utf-8-sig")
 
+    # ------------------------------------------------------------
+    # 단계: 초기 State(작업 기록지) 만들기
+    #   - State는 그래프가 실행되는 동안 계속 값이 채워지는 dict입니다.
+    #   - 아래 normal_state는 "필수 정보가 모두 있는 정상 케이스"용 기록지입니다.
+    #   - log_results, trace 등 빈 목록/딕셔너리는 단계가 진행되며 채워집니다.
+    # ------------------------------------------------------------
     normal_state = {
         "user_query": str(query_data.get("user_query", "")),
         "line_id": str(query_data.get("line_id", "")),
@@ -93,6 +149,9 @@ def run_mini_graph():
     missing_state["llm_response"] = ""
     missing_state["next_action"] = ""
 
+    # 아래 내부 함수들이 각각 하나의 Node(처리 단계)입니다.
+    # 모든 Node는 state(작업 기록지)를 받아서, 내용을 채운 뒤 다시 state를 돌려줍니다.
+    # add_trace는 "이 단계에서 무슨 일을 했는지"를 기록지에 남겨 두는 도우미 함수입니다.
     def add_trace(state, node_name, input_summary, output_summary, next_node):
         state["trace"].append(
             {
@@ -135,6 +194,9 @@ def run_mini_graph():
         state["messages"].append(message)
         return add_trace(state, "check_required_info_node", "equipment_id와 alarm_code 존재 여부 확인", message, next_node)
 
+    # 이 함수는 Conditional Edge(조건부 분기)에서 "다음에 어느 Node로 갈지"를 정합니다.
+    # 앞 단계가 state에 넣어 둔 next_action 값을 보고 갈림길을 선택합니다.
+    # 반환하는 문자열이 곧 "다음에 실행할 Node 이름"이 됩니다.
     def route_after_required_info_check(state):
         if state.get("next_action") == "search_log":
             return "search_log_node"
@@ -239,6 +301,14 @@ def run_mini_graph():
         state["messages"].append(message)
         return add_trace(state, "generate_llm_response_node", "llm_prompt를 llm_client.generate_response에 전달", message, "END")
 
+    # ------------------------------------------------------------
+    # 단계: Node들을 연결해 Graph(작업 순서도) 만들기
+    #   - StateGraph(dict): State를 dict로 다루는 그래프를 새로 만듭니다.
+    #   - add_node("이름", 함수): 처리 단계 하나를 그래프에 등록합니다.
+    #   - add_edge(A, B): A가 끝나면 항상 B로 이동하도록 연결합니다.
+    #   - add_conditional_edges(...): 조건에 따라 갈 곳이 달라지는 갈림길을 연결합니다.
+    #   - compile(): 위에서 그린 순서도를 실제로 실행 가능한 형태로 완성합니다.
+    # ------------------------------------------------------------
     graph = StateGraph(dict)
     graph.add_node("start_node", start_node)
     graph.add_node("parse_query_node", parse_query_node)
@@ -251,6 +321,9 @@ def run_mini_graph():
     graph.add_edge(START, "start_node")
     graph.add_edge("start_node", "parse_query_node")
     graph.add_edge("parse_query_node", "check_required_info_node")
+    # 여기가 핵심 갈림길입니다.
+    # check_required_info_node가 끝나면 route_after_required_info_check가 다음 Node를 정하고,
+    # 아래 딕셔너리는 "그 반환값 → 실제 이동할 Node" 연결표 역할을 합니다.
     graph.add_conditional_edges(
         "check_required_info_node",
         route_after_required_info_check,
@@ -328,5 +401,9 @@ def main():
     run_mini_graph()
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# (예: 터미널에서 `python src/day1/mini_graph_runner.py` 를 입력했을 때)
+# 다른 파일에서 import해서 사용할 때는 실행되지 않습니다.
+# 초보자 관점에서는 "이 파일의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()

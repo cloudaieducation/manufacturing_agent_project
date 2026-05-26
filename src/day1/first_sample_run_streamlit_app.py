@@ -19,6 +19,36 @@
 - 실제 사내 데이터가 아니라 DisplayEdu Fab 교육용 가상 데이터만 사용합니다.
 """
 
+# ============================================================
+# 파일명: first_sample_run_streamlit_app.py
+# 목적:
+#   first_sample_run.py와 같은 "첫 Agent 실행" 흐름을,
+#   터미널 출력 대신 웹 화면(Streamlit)에서 눈으로 보며 확인하는 실습 파일입니다.
+#
+# Streamlit이란?(초보자 설명):
+#   파이썬 코드만으로 간단한 웹 화면을 만들어 주는 도구입니다.
+#   st.title, st.button, st.dataframe 처럼 st.~ 로 시작하는 명령이 화면 요소가 됩니다.
+#   화면에서 버튼을 누르면 연결된 파이썬 코드가 실행됩니다.
+#
+# 이 파일에서 배우는 것:
+#   1. 버튼 클릭으로 Agent 흐름을 실행하고 결과를 화면에 표시하는 방법
+#   2. 입력 파일 / Prompt / LLM 응답 / 최종 보고서를 화면 단계별로 보여 주는 방법
+#   3. CLI 버전(first_sample_run.py)과 같은 로직을 화면용으로 감싸는 구조
+#
+# 전체 실행 흐름:
+#   1. 화면 제목과 안내를 그립니다.
+#   2. 프로젝트 루트를 찾고, 사용 파일 내용을 화면에 보여 줍니다.
+#   3. "Agent 실행하기" 버튼을 누르면 run_agent_once()가 한 번 실행됩니다.
+#   4. 실행 결과(로그 요약 / Prompt / LLM 응답 / 보고서)를 단계별로 화면에 표시합니다.
+#
+# 초보자를 위한 비유:
+#   CLI 버전이 "혼자 조용히 일하고 결과 파일만 남기는 직원"이라면,
+#   이 화면은 "일하는 과정을 화면에 중계해서 보여 주는 직원"과 같습니다.
+#
+# 실행 방법:
+#   streamlit run src/day1/first_sample_run_streamlit_app.py
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
@@ -28,6 +58,22 @@ import pystache
 import streamlit as st
 
 
+# ------------------------------------------------------------
+# 함수명: find_project_root
+# 역할:
+#   data / docs / src 폴더가 함께 들어 있는 위치를 위로 거슬러 올라가며 찾아
+#   "프로젝트 루트 폴더"로 정합니다.
+#
+# 입력값:
+#   없음
+#
+# 출력값:
+#   프로젝트 루트 폴더 경로(Path)
+#
+# 초보자 설명:
+#   실습 폴더를 다른 위치로 옮겨도 파일을 잘 찾도록 도와주는 함수입니다.
+#   "공통으로 들어 있는 폴더 묶음을 기준으로 집을 찾는다"고 생각하면 됩니다.
+# ------------------------------------------------------------
 def find_project_root():
     """
     현재 파일 위치를 기준으로 프로젝트 루트 폴더를 찾습니다.
@@ -44,6 +90,23 @@ def find_project_root():
     return current_file.parents[2]
 
 
+# ------------------------------------------------------------
+# 함수명: run_agent_once
+# 역할:
+#   버튼을 눌렀을 때 Agent 흐름(데이터 읽기 → 필터/요약 → Prompt 생성 →
+#   LLM 호출 → 결과 저장)을 한 번 실행하고, 화면에 보여 줄 값들을 모아 돌려줍니다.
+#
+# 입력값:
+#   project_root: 프로젝트 루트 폴더 경로(Path)
+#
+# 출력값:
+#   화면 표시에 필요한 값들이 담긴 dict
+#   (설비 ID, 알람 코드, 로그 요약, Prompt, LLM 응답, 보고서 등)
+#
+# 초보자 설명:
+#   CLI 버전의 run_first_sample()과 같은 순서로 동작합니다.
+#   다른 점은 결과를 print가 아니라 dict로 돌려주어 화면에 표시한다는 것입니다.
+# ------------------------------------------------------------
 def run_agent_once(project_root):
     """
     Streamlit 버튼을 눌렀을 때 Agent 흐름을 한 번 실행합니다.
@@ -291,9 +354,13 @@ def main():
 
     show_used_file_expanders(project_root, file_paths)
 
+    # st.session_state는 화면이 다시 그려져도 값을 기억해 두는 "화면용 메모장"입니다.
+    # 버튼을 누르기 전에는 결과가 없으므로 None으로 초기화합니다.
     if "agent_result" not in st.session_state:
         st.session_state["agent_result"] = None
 
+    # st.button(...)은 버튼을 누른 그 순간에만 True가 됩니다.
+    # 즉, 아래 코드는 "Agent 실행하기" 버튼을 눌렀을 때만 동작합니다.
     if st.button("Agent 실행하기", type="primary"):
         try:
             with st.spinner("Agent가 Prompt를 만들고 LLM 응답을 생성하는 중입니다..."):
@@ -356,5 +423,9 @@ def main():
     )
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# Streamlit 앱은 보통 터미널에서 다음 명령으로 실행합니다.
+#   streamlit run src/day1/first_sample_run_streamlit_app.py
+# 초보자 관점에서는 "이 화면의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()

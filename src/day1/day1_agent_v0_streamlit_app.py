@@ -17,6 +17,43 @@
 - 실제 사내 데이터가 아니라 DisplayEdu Fab 교육용 가상 데이터만 사용합니다.
 """
 
+# ============================================================
+# 파일명: day1_agent_v0_streamlit_app.py
+# 목적:
+#   day1_agent_v0_template.py(Agent v0)의 흐름을 웹 화면(Streamlit)에서 보여 주는 실습 파일입니다.
+#   이 화면의 핵심은 "LLM에 보내기 전에 Prompt를 사람이 직접 확인·수정"할 수 있다는 점입니다.
+#
+# Agent란?(초보자 설명):
+#   상황을 보고 다음 행동을 스스로 정하며 일을 처리하는 프로그램 흐름입니다.
+#   여기서는 입력을 확인하고, 정보가 충분한지 판단해
+#   충분하면 로그·매뉴얼을 조사하고, 부족하면 추가 정보를 요청합니다.
+#
+# 이 화면이 CLI 버전과 다른 점:
+#   그래프를 끝까지 한 번에 돌리지 않고 "Prompt 생성 단계"에서 잠깐 멈춥니다.
+#   (1단계) 버튼으로 Prompt까지 만들고 →
+#   (2단계) 수강생이 Prompt를 고친 뒤 버튼으로 LLM을 호출합니다.
+#
+# 이 파일에서 배우는 것:
+#   1. State / Node / Conditional Edge로 Agent 판단 흐름을 화면에서 따라가기
+#   2. LLM 호출 직전 Prompt를 사람이 검토·수정하는 "사람 개입(Human-in-the-loop)" 구조
+#   3. 실행된 Node 순서와 Trace, 최종 보고서를 화면에서 확인하고 저장하기
+#
+# 전체 실행 흐름:
+#   1. 화면 안내와 사용 파일을 보여 주고, 실행 케이스(정상/정보 부족)를 고릅니다.
+#   2. (1단계 버튼) 그래프를 Prompt 생성 단계까지 실행합니다.
+#   3. 정보가 충분하면 Prompt를 화면에서 수정한 뒤 (2단계 버튼)으로 LLM을 호출합니다.
+#      정보가 부족하면 LLM 없이 "추가 정보 요청" 결과를 보여 줍니다.
+#   4. 최종 결과(Result)와 실행 기록(Trace)을 화면에 표시하고 파일로 저장합니다.
+#
+# 초보자를 위한 비유:
+#   신입 담당자(Agent)가 보고서를 쓰기 직전,
+#   "이대로 LLM에 물어봐도 될까요?" 하고 초안(Prompt)을 먼저 보여 주면
+#   사람이 검토·수정한 뒤 진행시키는 업무 방식과 같습니다.
+#
+# 실행 방법:
+#   streamlit run src/day1/day1_agent_v0_streamlit_app.py
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
@@ -25,9 +62,27 @@ import pandas as pd
 import pystache
 import streamlit as st
 import streamlit.components.v1 as components
+# LangGraph 도구: StateGraph(그래프 본체), START/END(시작·끝 표시)
 from langgraph.graph import END, START, StateGraph
 
 
+# ------------------------------------------------------------
+# 함수명: run_day1_agent_v0_streamlit
+# 역할:
+#   Day1 Agent v0의 LangGraph 흐름을 화면에 그리고,
+#   버튼 클릭에 따라 (1단계) Prompt 생성과 (2단계) LLM 호출을 나눠 실행합니다.
+#
+# 입력값:
+#   없음 (필요한 데이터는 함수 안에서 파일로 읽습니다.)
+#
+# 출력값:
+#   반환값은 없습니다.
+#   화면에 흐름/Prompt/응답/보고서를 표시하고, 결과를 파일로 저장합니다.
+#
+# 초보자 설명:
+#   CLI 버전과 Agent 실행 구조는 같지만,
+#   LLM에 보내기 전 Prompt를 사람이 확인·수정할 수 있도록 중간에 멈추는 점이 다릅니다.
+# ------------------------------------------------------------
 def run_day1_agent_v0_streamlit():
     """
     Day1 Agent v0 Streamlit 화면을 실행합니다.
@@ -249,6 +304,9 @@ START
             }
         )
         return state
+
+    # 아래 6-1 ~ 6-7 함수들이 각각 하나의 Node(처리 단계)입니다.
+    # 공통 규칙: 모든 Node는 state(기록지)를 받아 내용을 채운 뒤 다시 state를 돌려줍니다.
 
     # 6-1. 입력값을 확인하는 Node입니다.
     def load_input_node(state):
@@ -485,6 +543,10 @@ START
 
     # 7. LangGraph를 구성합니다.
     # Streamlit 버전에서는 LLM 호출 전 Prompt 수정이 가능하도록 build_prompt_node에서 종료합니다.
+    #   - add_node("이름", 함수): 처리 단계 등록 / add_edge(A, B): A 다음 항상 B
+    #   - add_conditional_edges(...): 조건에 따라 갈리는 갈림길 / compile(): 실행 형태로 완성
+    # 그래서 CLI 버전과 달리 generate_response_node가 그래프 안에 없습니다.
+    # (LLM 호출은 아래 2단계 버튼에서 사람이 Prompt를 확인한 뒤에 직접 수행합니다.)
     graph = StateGraph(dict)
 
     graph.add_node("load_input_node", load_input_node)
@@ -519,6 +581,8 @@ START
     if "llm_result" not in st.session_state:
         st.session_state["llm_result"] = None
 
+    # [1단계] 버튼: 그래프를 실행해 Prompt 생성까지만 진행합니다. (아직 LLM은 부르지 않음)
+    # app.invoke(state)는 START부터 Node들을 순서대로 실행하고 최종 state를 돌려줍니다.
     if st.button("1단계: Agent v0로 Prompt 생성하기", type="primary"):
         try:
             with st.spinner("Agent v0가 로그와 매뉴얼을 확인하고 Prompt를 생성하는 중입니다..."):
@@ -631,6 +695,8 @@ START
                 "수정한 Prompt로 LLM을 실행합니다. 이 단계에서만 LLM 서버로 Prompt가 전송됩니다."
             )
 
+            # [2단계] 버튼: 사람이 확인·수정한 edited_prompt로 실제 LLM을 호출합니다.
+            # 이 단계에서만 LLM 서버로 Prompt가 전송됩니다.
             if st.button("2단계: 수정한 Prompt로 LLM 실행하기"):
                 try:
                     from llm_client import generate_response
@@ -724,5 +790,9 @@ def main():
     run_day1_agent_v0_streamlit()
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# Streamlit 앱은 보통 터미널에서 다음 명령으로 실행합니다.
+#   streamlit run src/day1/day1_agent_v0_streamlit_app.py
+# 초보자 관점에서는 "이 화면의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()

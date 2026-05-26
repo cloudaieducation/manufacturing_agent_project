@@ -20,6 +20,37 @@
 - 이 화면은 Prompt 수정 실습이 아니라 LangGraph 실행 흐름과 Conditional Edge 이해를 위한 화면입니다.
 """
 
+# ============================================================
+# 파일명: mini_graph_streamlit_app.py
+# 목적:
+#   mini_graph_runner.py의 LangGraph 흐름을 웹 화면(Streamlit)에서 확인하는 실습 파일입니다.
+#   특히 "조건에 따라 거쳐 가는 Node가 달라지는" Conditional Edge를 눈으로 보는 데 집중합니다.
+#
+# 다시 보는 핵심 용어(초보자 설명):
+#   - State: 작업하며 채워 나가는 "작업 기록지"(dict)
+#   - Node: 흐름 중 하나의 처리 단계(예: 로그 조회 단계)
+#   - Edge: 한 단계 다음에 갈 단계를 잇는 연결선
+#   - Conditional Edge: 상황(정보 유무)에 따라 다음 단계가 갈라지는 갈림길
+#
+# 이 파일에서 배우는 것:
+#   1. "정상 케이스 / 정보 부족 케이스"를 골라 실행하며 분기를 비교하는 방법
+#   2. 실제로 실행된 Node 순서와 Trace(실행 기록)를 화면에서 확인하는 방법
+#   3. 같은 그래프라도 입력 State에 따라 결과 경로가 달라진다는 점
+#
+# 전체 실행 흐름:
+#   1. 프로젝트 루트를 찾고 사용 파일/실행 흐름을 화면에 보여 줍니다.
+#   2. 실행 케이스(정상/정보 부족)를 선택합니다.
+#   3. "Mini Graph 실행하기" 버튼을 누르면 run_mini_graph_case()가 그래프를 실행합니다.
+#   4. 분기 결과, 실행된 Node 순서, Trace, LLM 응답을 화면에 표시하고 저장합니다.
+#
+# 초보자를 위한 비유:
+#   공장의 "작업 순서도"를 화면에 띄워 놓고,
+#   입력 상황에 따라 어느 길로 제품이 흘러가는지 직접 눌러 보며 확인하는 화면입니다.
+#
+# 실행 방법:
+#   streamlit run src/day1/mini_graph_streamlit_app.py
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
@@ -27,9 +58,12 @@ import sys
 import pandas as pd
 import pystache
 import streamlit as st
+# LangGraph 도구: StateGraph(그래프 본체), START/END(시작·끝 표시)
 from langgraph.graph import END, START, StateGraph
 
 
+# 현재 파일 위치를 기준으로 data/src가 함께 있는 프로젝트 루트 폴더를 찾는 함수입니다.
+# (실습 폴더를 다른 위치로 옮겨도 파일을 잘 찾도록 돕습니다.)
 def find_project_root():
     """
     현재 파일 위치를 기준으로 프로젝트 루트 폴더를 찾습니다.
@@ -47,6 +81,22 @@ def find_project_root():
     return current_file.parents[2]
 
 
+# ------------------------------------------------------------
+# 함수명: prepare_mini_graph_inputs
+# 역할:
+#   그래프를 실행하기 전에 필요한 파일 경로를 준비하고,
+#   필수 파일이 있는지 확인한 뒤, 입력 데이터(JSON, CSV)를 읽어 둡니다.
+#
+# 입력값:
+#   project_root: 프로젝트 루트 폴더 경로(Path)
+#
+# 출력값:
+#   경로와 읽어 둔 데이터가 담긴 dict
+#
+# 초보자 설명:
+#   이 함수는 "준비 단계"만 담당하고 그래프를 실행하지는 않습니다.
+#   실제 실행은 버튼을 누른 뒤 run_mini_graph_case()에서 이루어집니다.
+# ------------------------------------------------------------
 def prepare_mini_graph_inputs(project_root):
     """
     Mini Graph 실행에 필요한 입력 파일과 템플릿 경로를 준비합니다.
@@ -93,6 +143,24 @@ def prepare_mini_graph_inputs(project_root):
     }
 
 
+# ------------------------------------------------------------
+# 함수명: run_mini_graph_case
+# 역할:
+#   선택한 케이스(정상 / 정보 부족) 하나에 대해 LangGraph를 구성하고 실행한 뒤,
+#   실행 기록(Trace)을 Markdown으로 만들어 저장합니다.
+#
+# 입력값:
+#   graph_data: prepare_mini_graph_inputs()가 준비한 값 모음(dict)
+#   case_type: "정상 케이스" 또는 "정보 부족 케이스"
+#
+# 출력값:
+#   최종 State, Trace 보고서 등 화면 표시에 쓸 값들이 담긴 dict
+#
+# 초보자 설명:
+#   이 함수 안에서 Node(처리 단계)들을 정의하고, 그것들을 연결해 그래프를 만든 뒤 실행합니다.
+#   case_type이 "정보 부족 케이스"이면 일부러 equipment_id를 비워서,
+#   조건부 분기가 "추가 정보 요청" 쪽으로 갈라지는 모습을 보여 줍니다.
+# ------------------------------------------------------------
 def run_mini_graph_case(graph_data, case_type):
     """
     선택한 케이스 하나를 LangGraph로 실행합니다.
@@ -129,6 +197,9 @@ def run_mini_graph_case(graph_data, case_type):
         state["equipment_id"] = ""
         state["user_query"] = "ALM-TEMP-402 교육용 알람이 반복 발생한 것 같습니다. 어떤 정보를 더 확인해야 하나요?"
 
+    # 아래 내부 함수들이 각각 하나의 Node(처리 단계)입니다.
+    # 모든 Node는 state(기록지)를 받아 내용을 채운 뒤 다시 state를 돌려줍니다.
+    # add_trace는 "이 단계에서 무슨 일을 했는지"를 기록지에 남기는 도우미 함수입니다.
     def add_trace(state, node_name, input_summary, output_summary, next_node):
         state["trace"].append(
             {
@@ -275,6 +346,11 @@ def run_mini_graph_case(graph_data, case_type):
         state["messages"].append(message)
         return add_trace(state, "generate_llm_response_node", "llm_prompt를 llm_client.generate_response에 전달", message, "END")
 
+    # Node들을 연결해 Graph(작업 순서도)를 만듭니다.
+    #   - add_node("이름", 함수): 처리 단계 하나를 등록
+    #   - add_edge(A, B): A 다음에 항상 B로 이동
+    #   - add_conditional_edges(...): 조건에 따라 갈 곳이 달라지는 갈림길
+    #   - compile(): 순서도를 실제 실행 가능한 형태로 완성
     graph = StateGraph(dict)
     graph.add_node("start_node", start_node)
     graph.add_node("parse_query_node", parse_query_node)
@@ -547,5 +623,9 @@ START
     )
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# Streamlit 앱은 보통 터미널에서 다음 명령으로 실행합니다.
+#   streamlit run src/day1/mini_graph_streamlit_app.py
+# 초보자 관점에서는 "이 화면의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()

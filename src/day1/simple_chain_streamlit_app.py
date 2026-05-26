@@ -18,6 +18,32 @@
 - 실제 사내 데이터가 아니라 DisplayEdu Fab 교육용 가상 데이터만 사용합니다.
 """
 
+# ============================================================
+# 파일명: simple_chain_streamlit_app.py
+# 목적:
+#   simple_chain_starter.py의 Chain 흐름을 웹 화면(Streamlit)으로 보여 주는 실습 파일입니다.
+#   이 화면의 특징은 "수강생이 LLM에게 보낼 Prompt를 직접 고쳐 볼 수 있다"는 점입니다.
+#
+# 이 파일에서 배우는 것:
+#   1. 기본 Prompt를 화면 입력칸(text_area)에 띄워 직접 수정하는 방법
+#   2. 수정한 Prompt로 LLM을 호출해 답변이 어떻게 달라지는지 비교하는 방법
+#   3. "데이터 준비"와 "LLM 호출"을 함수로 나누어, 버튼을 누를 때만 LLM을 호출하는 구조
+#
+# 전체 실행 흐름:
+#   1. 프로젝트 루트를 찾고 사용 파일 내용을 화면에 보여 줍니다.
+#   2. prepare_chain_inputs()로 기본 Prompt까지 미리 만들어 둡니다.
+#   3. 수강생이 화면에서 Prompt를 수정합니다.
+#   4. 버튼을 누르면 run_llm_with_prompt()가 수정된 Prompt로 LLM을 호출합니다.
+#   5. LLM 응답과 최종 Markdown 결과를 화면에 보여 주고 저장합니다.
+#
+# 초보자를 위한 비유:
+#   LLM에게 보내는 Prompt(지시문)를 직접 손보면 답이 어떻게 달라지는지
+#   실험해 보는 "지시문 연습장"과 같은 화면입니다.
+#
+# 실행 방법:
+#   streamlit run src/day1/simple_chain_streamlit_app.py
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
@@ -27,6 +53,8 @@ import pystache
 import streamlit as st
 
 
+# 현재 파일 위치를 기준으로 data/docs/src가 함께 있는 프로젝트 루트 폴더를 찾는 함수입니다.
+# (실습 폴더를 다른 위치로 옮겨도 파일을 잘 찾도록 돕습니다.)
 def find_project_root():
     """
     현재 파일 위치를 기준으로 프로젝트 루트 폴더를 찾습니다.
@@ -44,6 +72,24 @@ def find_project_root():
     return current_file.parents[2]
 
 
+# ------------------------------------------------------------
+# 함수명: prepare_chain_inputs
+# 역할:
+#   LLM을 호출하기 "직전"까지의 준비 작업을 모아서 합니다.
+#   (파일 읽기 → 매뉴얼 단순 검색 → 기본 Prompt 만들기)
+#
+# 입력값:
+#   project_root: 프로젝트 루트 폴더 경로(Path)
+#
+# 출력값:
+#   화면에 표시하거나 다음 단계에서 쓸 값들이 담긴 dict
+#   (입력 조건, 매뉴얼 검색 결과, 기본 Prompt 등)
+#
+# 초보자 설명:
+#   LLM 호출은 여기서 하지 않습니다.
+#   "수강생이 Prompt를 고친 뒤 버튼을 눌렀을 때"만 LLM을 호출하기 위해
+#   준비 단계와 호출 단계를 일부러 나눠 둔 것입니다.
+# ------------------------------------------------------------
 def prepare_chain_inputs(project_root):
     """
     LLM 호출 전까지의 Chain 입력 데이터를 준비합니다.
@@ -149,6 +195,23 @@ def prepare_chain_inputs(project_root):
     }
 
 
+# ------------------------------------------------------------
+# 함수명: run_llm_with_prompt
+# 역할:
+#   수강생이 수정한 Prompt로 실제 LLM을 호출하고,
+#   결과를 Markdown 보고서로 만들어 파일로 저장합니다.
+#
+# 입력값:
+#   chain_data: prepare_chain_inputs()가 준비해 둔 값 모음(dict)
+#   edited_prompt: 수강생이 화면에서 수정한 최종 Prompt 문자열
+#
+# 출력값:
+#   화면 표시에 쓸 값들이 담긴 dict (실제 보낸 Prompt, LLM 응답, 보고서 등)
+#
+# 초보자 설명:
+#   여기서 edited_prompt(수정한 지시문)가 그대로 LLM에게 전달됩니다.
+#   그래서 지시문을 바꾸면 답변도 달라지는 것을 직접 확인할 수 있습니다.
+# ------------------------------------------------------------
 def run_llm_with_prompt(chain_data, edited_prompt):
     """
     수강생이 수정한 Prompt로 LLM을 호출하고,
@@ -285,6 +348,9 @@ def main():
 
     st.subheader("3. LLM에 전달할 Prompt 수정")
 
+    # st.text_area는 여러 줄을 입력/수정할 수 있는 큰 입력칸입니다.
+    # value에 기본 Prompt를 넣어 두면, 수강생이 그 내용을 자유롭게 고칠 수 있습니다.
+    # 사용자가 고친 최종 내용이 edited_prompt 변수에 담깁니다.
     edited_prompt = st.text_area(
         "아래 Prompt를 수정한 뒤 LLM을 실행해 보세요.",
         value=chain_data["default_prompt"],
@@ -336,5 +402,9 @@ def main():
         st.info("아직 LLM을 실행하지 않았습니다. Prompt를 확인하거나 수정한 뒤 버튼을 눌러 주세요.")
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# Streamlit 앱은 보통 터미널에서 다음 명령으로 실행합니다.
+#   streamlit run src/day1/simple_chain_streamlit_app.py
+# 초보자 관점에서는 "이 화면의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()

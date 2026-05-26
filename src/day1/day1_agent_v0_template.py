@@ -17,15 +17,65 @@
 - 실제 사내 데이터가 아니라 DisplayEdu Fab 교육용 가상 데이터만 사용합니다.
 """
 
+# ============================================================
+# 파일명: day1_agent_v0_template.py
+# 목적:
+#   앞에서 따로 배운 Prompt, Chain, LangGraph, LLM 호출을 하나로 합쳐
+#   "가장 단순한 형태의 Agent(에이전트)"를 만들어 보는 1일차 마무리 실습입니다.
+#
+# Agent란?(초보자 설명):
+#   스스로 상황을 보고 "다음에 무엇을 할지" 정하면서 일을 처리하는 프로그램 흐름입니다.
+#   여기서는 입력을 확인하고 → 정보가 충분한지 판단하고 →
+#   충분하면 로그와 매뉴얼을 조사해 보고서를 만들고,
+#   부족하면 "정보를 더 달라"고 되묻습니다.
+#   비유: 알람 내용을 보고 조치 방향을 정리해 주는 공장 보조 직원과 같습니다.
+#
+# 이 파일에서 배우는 것:
+#   1. State / Node / Edge / Conditional Edge로 Agent의 판단 흐름을 표현하는 방법
+#   2. "조건부 분기"로 정상 처리와 추가 정보 요청을 나누는 방법
+#   3. 최종 결과(Result)와 실행 기록(Trace)을 각각 Markdown으로 남기는 방법
+#
+# 전체 실행 흐름:
+#   1. 입력 데이터(JSON, CSV, 매뉴얼)를 읽습니다.
+#   2. 초기 State(작업 기록지)를 만듭니다.
+#   3. 각 처리 단계를 Node(내부 함수)로 정의합니다.
+#   4. Node들을 연결해 Graph를 구성하고 실행합니다.
+#      (입력 확인 → 필수정보 확인 → [로그조회 → 매뉴얼검색 → Prompt생성 → LLM호출 → 보고서] / [추가정보 요청])
+#   5. 최종 보고서(Result)와 실행 기록(Trace)을 파일로 저장합니다.
+#
+# 초보자를 위한 비유:
+#   이 파일은 "알람 접수 → 판단 → 조사 → 보고서 작성"까지를
+#   혼자 처리하는 신입 담당자(Agent v0)의 첫 업무 매뉴얼과 같습니다.
+#   (매뉴얼 검색을 본격적인 RAG로 바꾸는 일은 2일차에서 진행합니다.)
+# ============================================================
+
 from pathlib import Path
 import json
 import sys
 
 import pandas as pd
 import pystache
+# LangGraph 도구: StateGraph(그래프 본체), START/END(시작·끝 표시)
 from langgraph.graph import END, START, StateGraph
 
 
+# ------------------------------------------------------------
+# 함수명: run_day1_agent_v0
+# 역할:
+#   Day1 Agent v0의 전체 판단·처리 흐름을 한 번 실행합니다.
+#
+# 입력값:
+#   없음 (필요한 데이터는 함수 안에서 파일로 읽습니다.)
+#
+# 출력값:
+#   반환값은 없습니다.
+#   진행 상황을 화면에 출력하고, 결과(Result)와 실행 기록(Trace)을
+#   각각 Markdown 파일로 저장합니다.
+#
+# 초보자 설명:
+#   이 함수 하나가 곧 "Agent v0의 한 번의 업무 처리"입니다.
+#   Node(처리 단계)들이 State(기록지)를 주고받으며 일이 진행됩니다.
+# ------------------------------------------------------------
 def run_day1_agent_v0():
     """
     Day1 Agent v0 단순 버전을 실행합니다.
@@ -113,6 +163,9 @@ def run_day1_agent_v0():
             }
         )
         return state
+
+    # 아래 7-1 ~ 7-9 함수들이 각각 하나의 Node(처리 단계)입니다.
+    # 공통 규칙: 모든 Node는 state(기록지)를 받아 내용을 채운 뒤 다시 state를 돌려줍니다.
 
     # 7-1. 입력값을 확인하는 Node입니다.
     def load_input_node(state):
@@ -309,6 +362,8 @@ def run_day1_agent_v0():
         print("generate_response_node 실행")
         print("LLM 응답 생성: llm_client.py를 통해 호출")
 
+        # 이 한 줄이 실제로 LLM에게 묻고 답을 받는 부분입니다.
+        # 앞 단계에서 만들어 둔 llm_prompt를 보내고, 돌아온 답변 글을 state에 저장합니다.
         from llm_client import generate_response
 
         state["llm_response"] = generate_response(state["llm_prompt"])
@@ -422,6 +477,10 @@ def run_day1_agent_v0():
     graph.add_edge(START, "load_input_node")
     graph.add_edge("load_input_node", "check_required_info_node")
 
+    # 핵심 갈림길(Conditional Edge):
+    # check_required_info_node 다음에 route_after_required_info_check가 갈 곳을 정하고,
+    # 아래 딕셔너리가 "그 반환값 → 실제 이동할 Node"를 이어 줍니다.
+    # 필수 정보가 있으면 조사 흐름으로, 없으면 추가 정보 요청으로 갈라집니다.
     graph.add_conditional_edges(
         "check_required_info_node",
         route_after_required_info_check,
@@ -500,5 +559,9 @@ def main():
     run_day1_agent_v0()
 
 
+# 이 아래 부분은 이 파일을 직접 실행했을 때만 동작합니다.
+# (예: 터미널에서 `python src/day1/day1_agent_v0_template.py` 를 입력했을 때)
+# 다른 파일에서 import해서 사용할 때는 실행되지 않습니다.
+# 초보자 관점에서는 "이 파일의 시작 버튼"이라고 이해하면 됩니다.
 if __name__ == "__main__":
     main()
