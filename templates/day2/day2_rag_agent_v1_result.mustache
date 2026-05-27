@@ -30,12 +30,14 @@ python src/day2/day2_rag_agent_v1.py
 {{^has_error}}
 ## 1. 실행 개요
 
-- Day2 RAG Agent v1은 제조 기술 문서를 참조하는 RAG Agent입니다.
-- 문서 검색은 Chroma Vector DB 기반으로 수행됩니다.
+- Day2 RAG Agent v1은 제조 기술 문서 참조형 RAG Agent입니다.
+- 이 파일은 검색 모듈(`rag_search`)과 Graph 실행 모듈(`langgraph_rag_graph_runner`)을
+  호출해, RAG Agent v1의 최종 State와 근거 기반 답변 결과를 정리하는 통합 실행 파일입니다.
 - Agent 처리 흐름은 실제 LangGraph StateGraph를 사용합니다.
-- CSV 검색이 아니며, `chunk_metadata.csv`를 읽지 않습니다.
 - 실제 사내 데이터가 아닌 교육용 샘플 문서를 사용합니다.
-- 이 파일은 Chroma 검색 로직이나 LangGraph Node를 직접 구현하지 않고, `run_langgraph_rag()` 실행 결과를 리포트로 정리합니다.
+- 결과를 볼 때는 답변 문장이 매끄러운지보다, 어떤 문서 근거(retrieved_docs)를 사용했고
+  그 흐름이 State와 Trace에 제대로 남았는지를 확인하는 것이 중요합니다.
+- 이 파일은 검색 로직이나 LangGraph Node를 직접 구현하지 않고, `run_langgraph_rag()` 실행 결과를 리포트로 정리합니다.
 
 ## 2. 사용자 질문
 
@@ -44,11 +46,11 @@ python src/day2/day2_rag_agent_v1.py
 ## 3. Agent 처리 흐름 요약
 
 1. 사용자 질문 분석
-2. 설비 ID와 알람 코드 추출
-3. Chroma Vector DB에서 관련 문서 Top-3 검색
-4. 검색 결과를 LangGraph State의 `retrieved_docs`에 저장
+2. 설비 ID와 알람 코드 추출 (검색·Tool 호출 조건)
+3. 관련 문서 Top-3 근거 후보 검색
+4. 검색 결과를 LangGraph State의 `retrieved_docs`에 저장 (답변·grounding 검증의 핵심 입력)
 5. 근거 기반 답변 초안 생성
-6. 근거 존재 여부 검증
+6. grounding 검증 (근거 부족 시 조건부 분기로 질의 재작성)
 7. 최종 답변 생성
 
 ## 4. 추출된 핵심 정보
@@ -62,6 +64,10 @@ python src/day2/day2_rag_agent_v1.py
 
 ## 5. 검색된 근거 문서 Top-3
 
+Top-3는 정답 3개가 아니라 답변 전 검토할 근거 후보 집합입니다.
+`score`는 참고값이며 단독 판단 기준이 아니므로, `doc_name`, `chunk_id`, `section_title`,
+`preview`를 함께 확인해 근거 적합성을 판단합니다.
+
 {{#has_retrieved_docs}}
 | rank | score | distance | doc_name | section_title | chunk_id | keywords | preview |
 |---:|---:|---:|---|---|---|---|---|
@@ -72,8 +78,9 @@ python src/day2/day2_rag_agent_v1.py
 {{^has_retrieved_docs}}
 검색된 근거 문서가 없습니다.
 
-> 안내: `retrieved_docs`가 비어 있으면 Chroma DB가 아직 생성되지 않았을 가능성이 있습니다.
-> 먼저 `python src/day2/chroma_index_builder.py`를 실행해 Chroma Vector DB가 생성되었는지 확인해 주세요.
+> 안내: `retrieved_docs`가 비어 있으면 근거 후보를 찾지 못한 것입니다.
+> Chroma Vector DB 저장은 선택/확장 실습이므로, 필요 시 `python src/day2/chroma_index_builder.py`로
+> Chroma DB를 생성하거나, 미리 저장된 검색 결과로 진행하는 Saved Result Review로 대체할 수 있습니다.
 {{/has_retrieved_docs}}
 
 ## 6. 최종 답변 초안
@@ -82,9 +89,10 @@ python src/day2/day2_rag_agent_v1.py
 
 ## 7. LangGraph State 요약
 
-- State는 LangGraph Node 사이에서 이동하는 작업 상태입니다.
-- `retrieved_docs`에는 Chroma Vector DB 검색 결과가 저장됩니다.
-- `trace`에는 각 Node 실행 이력이 저장됩니다.
+- State는 Node 사이에서 공유되는 업무 처리 문맥입니다.
+- `retrieved_docs`는 답변 생성과 grounding 검증의 핵심 입력입니다.
+- `grounding_status`는 답변이 검색 근거를 반영했는지 확인하는 상태입니다.
+- `trace`는 Node 실행 순서와 State 변화를 확인하는 실행 검토 자료이며, 4일차 실행 품질 평가의 기반이 됩니다.
 - Day2 RAG Agent v1은 이 State를 최종 리포트로 변환합니다.
 
 ## 8. Node 실행 Trace
@@ -103,18 +111,21 @@ Node 실행 Trace가 없습니다.
 ## 9. 2일차 공식 실습 항목 대응
 
 - [x] Markdown 문서 로드
-- [x] 문서 chunk 생성
+- [x] 검색 가능한 지식 단위(chunk) 생성
 - [x] metadata 생성
-- [x] Chroma Vector DB 저장
-- [x] Chroma 기반 Top-3 RAG 검색
-- [x] LangGraph State 관리
+- [x] RAG 검색 결과 확인
+- [x] Top-3 근거 후보 검토
+- [x] LangGraph State 관리 (Node 간 공유 업무 처리 문맥)
 - [x] Node 기반 처리 흐름
-- [x] 조건부 분기
+- [x] 조건부 분기 (근거 없는 답변 방지)
 - [x] 근거 문서 기반 답변 생성
+- [ ] 선택/확장: Chroma Vector DB 저장 및 검색
 
 ## 10. 3일차 연결 안내
 
-- 3일차에는 이 RAG 검색 기능을 `search_manual` Tool로 감싸서 사용할 수 있습니다.
-- 이후 PostgreSQL 제조 DB/Log Tool과 함께 MCP 방식으로 호출할 수 있습니다.
+- 이 `day2_rag_agent_v1_result.md`는 RAG 검색이 한 파일 안에 묶여 있던 시점의 기준 결과,
+  즉 3일차 `search_manual` Tool 분리 전 기준 결과입니다.
+- 3일차에는 오늘 만든 RAG 검색 기능이 `search_manual` MCP Tool로 분리되어 외부에서 호출됩니다.
+- 이후 PostgreSQL 제조 DB/Log Tool과 함께 MCP 방식으로 호출됩니다.
 - Day2 RAG Agent v1은 Day3 MCP Tool-Using Agent v2의 문서 검색 기반이 됩니다.
 {{/has_error}}

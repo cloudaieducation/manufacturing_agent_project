@@ -1,10 +1,14 @@
-﻿# Day2 LangGraph RAG 실행 Trace
+﻿# Day2 LangGraph RAG 실행 Trace (실행 검토·품질 평가 자료)
+
+이 Trace는 단순 실행 발자국 기록이 아니라, Node 실행 순서·State 변화·검색 근거·
+근거 검증 결과를 함께 확인하는 실행 검토 자료입니다.
+4일차 Trace 기반 실행 품질 평가의 기반이 되며, 3일차 MCP Tool 호출 Trace와
+구조적으로 연결됩니다(어떤 Node/Tool이 어떤 입력으로 무엇을 만들었는가).
 
 ## 1. 실행 개요
 
 - 실제 LangGraph StateGraph를 사용했습니다.
-- Chroma Vector DB 기반 RAG 검색을 사용했습니다.
-- CSV 검색이 아니며, `chunk_metadata.csv`를 읽지 않습니다.
+- 제조 기술 문서 참조형 RAG로 답변 근거를 검색했습니다.
 - {{llm_note}}
 
 ## 2. 사용자 질문
@@ -16,12 +20,15 @@
 - equipment_id: {{equipment_id}}
 - alarm_code: {{alarm_code}}
 - rewritten_query: {{rewritten_query}}
-- grounding_status: {{grounding_status}}
-- needs_rewrite: {{needs_rewrite}}
-- retry_count: {{retry_count}}
+- grounding_status: {{grounding_status}}  ← 답변이 검색 근거를 반영했는지 확인하는 상태(PASS / NEEDS_REWRITE 등)
+- needs_rewrite: {{needs_rewrite}}  ← 근거 부족 시 질의 재작성 경로로 보내는 조건부 분기 판단 기준
+- retry_count: {{retry_count}}  ← 재검색 시도 횟수(무한 재작성 방지용 상한 비교에 사용)
 - errors: {{errors_text}}
 
 ## 4. 검색된 근거 문서
+
+아래는 답변 전 검토할 근거 후보 집합입니다. `score`는 참고값이며,
+`doc_name`, `chunk_id`, `section_title`, `preview`를 함께 보고 근거 적합성을 판단합니다.
 
 {{#has_retrieved_docs}}
 {{#retrieved_docs}}
@@ -43,6 +50,9 @@
 {{/has_retrieved_docs}}
 
 ## 5. Node 실행 Trace
+
+각 행은 Node 한 단계의 입력·결과 요약입니다. Node 실행 순서와 State 변화를 따라가며
+근거 없는 답변을 막는 품질 관리 흐름이 제대로 작동했는지 검토하는 자료입니다.
 
 {{#has_trace_items}}
 {{#trace_items}}

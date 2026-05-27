@@ -2,10 +2,13 @@
 
 ## 1. State 역할 요약
 
-- State는 LangGraph Node 사이에서 전달되는 작업 상태입니다.
-- retrieved_docs는 Chroma Vector DB 검색 결과가 저장되는 자리입니다.
-- trace는 각 Node가 어떤 일을 했는지 기록하는 실행 이력입니다.
-- graph_state.py는 State 구조를 정의할 뿐, Chroma 검색이나 LangGraph 실행은 직접 수행하지 않습니다.
+- State는 개인 작업 노트가 아니라, Node 사이에서 공유되는 업무 처리 문맥입니다.
+  각 Node는 같은 State를 읽고 자신의 결과를 채워 다음 Node로 넘깁니다.
+- retrieved_docs는 RAG 검색 근거 후보가 담기는 자리이며, 답변 생성과
+  grounding 검증의 핵심 입력입니다.
+- trace는 Node 실행 순서와 State 변화를 확인하는 실행 검토 자료이자 품질 평가·디버깅 근거입니다.
+- graph_state.py는 State 구조를 정의할 뿐, 검색이나 LangGraph 실행은 직접 수행하지 않습니다.
+- 이 State 구조는 3일차 Multi-Agent Handoff State(에이전트 간 작업 인계 상태)로 확장될 수 있습니다.
 
 ## 2. 현재 State 요약
 
@@ -35,7 +38,7 @@
 {{/retrieved_docs}}
 {{/has_retrieved_docs}}
 {{^has_retrieved_docs}}
-- 검색된 문서 조각이 없습니다.
+- 검색된 근거 후보가 없습니다.
 {{/has_retrieved_docs}}
 
 ## 4. Trace 예시
@@ -60,10 +63,11 @@
 
 다음 단계에서는 `langgraph_rag_graph_runner.py`에서 실제 LangGraph StateGraph를 구성합니다.
 
-`retrieve_docs_node`가 `rag_search.py`의 `search_top_k()`를 호출해 Chroma 검색 결과를 State의 `retrieved_docs` 필드에 저장합니다.
+`retrieve_docs_node`가 `rag_search.py`의 `search_top_k()`를 호출해 검색 결과를
+State의 `retrieved_docs` 필드에 저장하면, 이 값이 답변 생성과 grounding 검증으로 이어집니다.
 
-실행 명령어:
+이 State 데모 실행 명령어:
 
 ```powershell
-python src/day2/graph_state_날짜_시간.py
+python src/day2/graph_state.py
 ```
