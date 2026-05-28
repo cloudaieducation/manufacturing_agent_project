@@ -1,0 +1,227 @@
+{
+  "user_query": "EQP-EV-03에서 ALM-TEMP-402 알람이 반복 발생했습니다. 최근 알람 이력, 공정 상태, 품질 영향, 정비 이력, 기술 문서 근거를 확인해서 원인 후보와 조치 방향을 정리해 주세요.",
+  "equipment_id": "EQP-EV-03",
+  "alarm_code": "ALM-TEMP-402",
+  "line_id": "LINE-07",
+  "db_results": {
+    "equipment_status": {
+      "equipment_id": "EQP-EV-03",
+      "line_id": "LINE-07",
+      "process_name": "Evaporation",
+      "equipment_type": "Evaporation Chamber",
+      "location": "Fab-A-3F",
+      "criticality": "HIGH",
+      "owner_team": "Process Engineering Team"
+    },
+    "recent_alarm_events": {
+      "equipment_id": "EQP-EV-03",
+      "alarm_code": "ALM-TEMP-402",
+      "event_count": 5,
+      "events": [
+        {
+          "alarm_id": 5,
+          "timestamp": "2026-05-15T10:45:00",
+          "line_id": "LINE-07",
+          "equipment_id": "EQP-EV-03",
+          "alarm_code": "ALM-TEMP-402",
+          "severity": "HIGH",
+          "message": "Temperature threshold exceeded.",
+          "lot_id": "LOT-20260515-005",
+          "operator_note": "Engineering review requested."
+        },
+        {
+          "alarm_id": 4,
+          "timestamp": "2026-05-15T10:25:00",
+          "line_id": "LINE-07",
+          "equipment_id": "EQP-EV-03",
+          "alarm_code": "ALM-TEMP-402",
+          "severity": "HIGH",
+          "message": "Temperature threshold exceeded.",
+          "lot_id": "LOT-20260515-004",
+          "operator_note": "Alarm repeated within 1 hour."
+        },
+        {
+          "alarm_id": 3,
+          "timestamp": "2026-05-15T10:05:00",
+          "line_id": "LINE-07",
+          "equipment_id": "EQP-EV-03",
+          "alarm_code": "ALM-TEMP-402",
+          "severity": "CRITICAL",
+          "message": "Temperature exceeded safe operation range.",
+          "lot_id": "LOT-20260515-003",
+          "operator_note": "Process paused for safety check."
+        },
+        {
+          "alarm_id": 2,
+          "timestamp": "2026-05-15T09:50:00",
+          "line_id": "LINE-07",
+          "equipment_id": "EQP-EV-03",
+          "alarm_code": "ALM-TEMP-402",
+          "severity": "HIGH",
+          "message": "Temperature threshold exceeded.",
+          "lot_id": "LOT-20260515-002",
+          "operator_note": "Repeated alarm after reset."
+        },
+        {
+          "alarm_id": 1,
+          "timestamp": "2026-05-15T09:35:00",
+          "line_id": "LINE-07",
+          "equipment_id": "EQP-EV-03",
+          "alarm_code": "ALM-TEMP-402",
+          "severity": "HIGH",
+          "message": "Temperature threshold exceeded.",
+          "lot_id": "LOT-20260515-001",
+          "operator_note": "Temperature rising faster than usual."
+        }
+      ]
+    },
+    "process_status": {
+      "equipment_id": "EQP-EV-03",
+      "status_count": 3,
+      "statuses": [
+        {
+          "status_id": 4,
+          "timestamp": "2026-05-15T10:30:00",
+          "equipment_id": "EQP-EV-03",
+          "temperature": "89.40",
+          "pressure": "1.28",
+          "vacuum_level": "0.005",
+          "speed": "1185.00",
+          "status": "ALARM"
+        },
+        {
+          "status_id": 3,
+          "timestamp": "2026-05-15T10:00:00",
+          "equipment_id": "EQP-EV-03",
+          "temperature": "91.80",
+          "pressure": "1.30",
+          "vacuum_level": "0.005",
+          "speed": "1180.00",
+          "status": "ALARM"
+        },
+        {
+          "status_id": 2,
+          "timestamp": "2026-05-15T09:30:00",
+          "equipment_id": "EQP-EV-03",
+          "temperature": "85.20",
+          "pressure": "1.25",
+          "vacuum_level": "0.004",
+          "speed": "1200.00",
+          "status": "WARNING"
+        }
+      ]
+    },
+    "maintenance_history": {
+      "equipment_id": "EQP-EV-03",
+      "maintenance_count": 2,
+      "maintenance_history": [
+        {
+          "maintenance_id": 2,
+          "maintenance_date": "2026-05-10",
+          "equipment_id": "EQP-EV-03",
+          "maintenance_type": "Inspection",
+          "part_replaced": "N/A",
+          "technician_note": "Vacuum line inspection completed.",
+          "downtime_min": 30
+        },
+        {
+          "maintenance_id": 1,
+          "maintenance_date": "2026-05-01",
+          "equipment_id": "EQP-EV-03",
+          "maintenance_type": "Preventive Maintenance",
+          "part_replaced": "Temperature Sensor",
+          "technician_note": "Temperature sensor calibration completed.",
+          "downtime_min": 45
+        }
+      ]
+    },
+    "quality_metrics": {
+      "line_id": "LINE-07",
+      "metric_count": 3,
+      "metrics": [
+        {
+          "metric_id": 3,
+          "timestamp": "2026-05-15T11:00:00",
+          "line_id": "LINE-07",
+          "defect_rate": "2.300",
+          "yield_rate": "96.800",
+          "inspection_result": "WARNING",
+          "abnormal_flag": true
+        },
+        {
+          "metric_id": 2,
+          "timestamp": "2026-05-15T10:00:00",
+          "line_id": "LINE-07",
+          "defect_rate": "1.750",
+          "yield_rate": "97.200",
+          "inspection_result": "WARNING",
+          "abnormal_flag": true
+        },
+        {
+          "metric_id": 1,
+          "timestamp": "2026-05-15T09:00:00",
+          "line_id": "LINE-07",
+          "defect_rate": "0.820",
+          "yield_rate": "98.500",
+          "inspection_result": "PASS",
+          "abnormal_flag": false
+        }
+      ]
+    }
+  },
+  "rag_results": {
+    "query": "ALM-TEMP-402 temperature abnormal EQP-EV-03에서 ALM-TEMP-402 알람이 반복 발생했습니다. 최근 알람 이력, 공정 상태, 품질 영향, 정비 이력, 기술 문서 근거를 확인해서 원인 후보와 조치 방향을 정리해 주세요.",
+    "search_mode": "rag",
+    "top_k": 3,
+    "result_count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 0.0042,
+        "distance": 239.6823,
+        "chunk_id": "CHUNK-0127",
+        "doc_name": "quality_standard.md",
+        "section_title": "12. RAG 검색 실습용 핵심 문단",
+        "alarm_code": "ALM-TEMP-402",
+        "equipment_id": "",
+        "keywords": "ALM-TEMP-402, 공정 상태, 검사 결과 변화, 불량률, 수율, 검사 결과, 품질 영향",
+        "text": "불량률 변화가 관찰되면 ALM-TEMP-402 발생 구간과 비교할 필요가 있습니다. 그러나 불량률 하나만으로 품질 영향을 확정하지 않고, 수율과 검사 결과 변화, 공정 상태 변화까지 함께 확인해야 합니다.",
+        "preview": "불량률 변화가 관찰되면 ALM-TEMP-402 발생 구간과 비교할 필요가 있습니다. 그러나 불량률 하나만으로 품질 영향을 확정하지 않고, 수율과 검사 결과 변화, 공정 상태 변화까지 함께 확인해야 합니다."
+      },
+      {
+        "rank": 2,
+        "score": 0.0041,
+        "distance": 241.8056,
+        "chunk_id": "CHUNK-0170",
+        "doc_name": "troubleshooting_guide.md",
+        "section_title": "8. 품질 영향 확인 관점",
+        "alarm_code": "ALM-TEMP-402",
+        "equipment_id": "",
+        "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 검사 결과",
+        "text": "ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성은 검사 결과와 관련될 수 있기 때문입니다.",
+        "preview": "ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성은 검사 결과와 관련될 수 있기 때문입니다."
+      },
+      {
+        "rank": 3,
+        "score": 0.0041,
+        "distance": 244.4033,
+        "chunk_id": "CHUNK-0137",
+        "doc_name": "quality_standard.md",
+        "section_title": "14. 최종 정리",
+        "alarm_code": "ALM-TEMP-402",
+        "equipment_id": "",
+        "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 추가 검토",
+        "text": "ALM-TEMP-402 반복 알람은 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성과 관련될 수 있습니다. 그러나 품질 지표 변화가 함께 나타나더라도 직접 원인으로 단정하지 않고 추가 검토가 필요하다고 표현해야 합니다.",
+        "preview": "ALM-TEMP-402 반복 알람은 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성과 관련될 수 있습니다. 그러나 품질 지표 변화가 함께 나타나더라도 직접 원인으로 단정하지 않고 추가 검토가 필요하다고 표현해야 합니다."
+      }
+    ]
+  },
+  "agent_steps": [
+    "CoordinatorAgent: 사용자 요청에서 equipment_id=EQP-EV-03, alarm_code=ALM-TEMP-402를 확인했습니다.",
+    "DBInvestigationAgent: 교육용 제조 DB Tool을 호출하여 설비 정보, 알람 이력, 공정 상태, 정비 이력, 품질 지표를 확인했습니다.",
+    "ManualRAGAgent: 교육용 기술 문서 검색 Tool을 호출하여 알람 코드와 사용자 요청 관련 근거를 검색했습니다.",
+    "IncidentSummaryAgent: DB 결과와 RAG 결과를 기반으로 교육용 장애 대응 요약을 생성했습니다."
+  ],
+  "final_summary": "# 교육용 장애 대응 요약\n\n## 요청 요약\n- 설비 ID: EQP-EV-03\n- 알람 코드: ALM-TEMP-402\n- 라인 ID: LINE-07\n- 공정/설비 유형: Evaporation / Evaporation Chamber\n- 실행 모드: fastmcp\n\n## DB 조회 요약\n- 최근 교육용 알람 이력 조회 건수: 5건\n- 최근 공정 상태 조회 건수: 3건\n- 최근 정비 이력 조회 건수: 2건\n- 최근 품질 지표 조회 건수: 3건\n\n## 기술 문서 검색 요약\n- 교육용 기술 문서 검색 결과: 3건\n\n## 원인 후보\n- 반복 온도 알람이므로 교육용 시나리오 기준으로 온도 제어 상태, 압력/진공 상태 변화, 최근 정비 이력, 공정 상태 변화를 함께 확인해야 합니다.\n- 하나의 지표만으로 원인을 확정하지 않고, 알람 이력과 공정 상태, 품질 지표를 함께 비교해야 합니다.\n\n## 1차 조치 방향\n- 동일 알람의 반복 발생 시간대와 공정 상태 변화를 먼저 비교합니다.\n- 최근 정비 이력 또는 조건 변경 여부를 확인합니다.\n- 교육용 기술 문서 검색 결과의 조치 기준을 참고해 점검 항목을 순서대로 확인합니다.\n\n## 추가 확인 항목\n- 알람 발생 직전의 온도, 압력, 진공 상태 변화\n- 같은 라인의 품질 지표 변화 여부\n- 최근 부품 교체, 점검, 조건 변경 여부\n- 동일 알람의 반복 주기와 발생 패턴\n\n## 주의\n- 본 실습은 실제 사내 데이터가 아닌 교육용 가상 제조 시나리오입니다.\n- 이 요약은 외부 LLM 호출 없이 규칙 기반으로 생성한 교육용 결과입니다.\n",
+  "mode": "fastmcp"
+}
