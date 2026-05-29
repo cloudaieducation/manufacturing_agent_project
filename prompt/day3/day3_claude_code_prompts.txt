@@ -1,0 +1,273 @@
+3일차 Claude Code 실습 프롬프트 모음
+
+과정명: Lv.4 AI Agent Architecture 설계 집중 과정
+주제: 제조 AI Agent 아키텍처 설계 관점의 Claude Code 활용
+
+============================================================
+실습 목적
+============================================================
+
+이 실습의 목적은 Claude Code로 코드를 자동 생성하는 것이 아닙니다.
+
+Claude Code를 사용하여 src/day3 폴더의 실습 파일들이 전체 Agent 아키텍처에서 어떤 역할을 하는지 빠르게 파악하고, Tool 분할, Tool Description, State 전달, 실행 기록 관점에서 설계 리뷰를 수행합니다.
+
+Claude Code의 답변은 최종 정답이 아니라 설계 리뷰 초안입니다.
+최종 판단은 사람이 해야 합니다.
+
+============================================================
+실습 전 주의사항
+============================================================
+
+1. 바로 코드를 수정하지 않습니다.
+2. 먼저 구조 리뷰와 설계 검토를 요청합니다.
+3. 실제 사내 데이터, API Key, 내부 시스템명은 입력하지 않습니다.
+4. mcp_call_trace.jsonl이 반드시 생성된다고 단정하지 않습니다.
+5. 현재 Day3 예제에서는 State, agent_steps, db_results, rag_results, 결과 JSON/Markdown을 실행 기록 관점으로 해석합니다.
+6. tool_registry_fallback.py는 모든 Tool을 완전히 대체하는 구조가 아니라 get_equipment_overview와 search_manual 중심의 단순 fallback 예제입니다.
+7. 제한 수정 실습에서는 실제 코드 수정이 아니라 “수정 계획 제안”까지만 요청합니다.
+
+
+============================================================
+실습 1. src/day3 전체 구조 리뷰
+============================================================
+
+[실습 목적]
+src/day3 폴더 전체가 3일차 Agent 아키텍처에서 어떤 역할을 하는지 파악합니다.
+코드를 수정하지 않고 구조 리뷰만 수행합니다.
+
+[주의사항]
+- “코드는 수정하지 말라”는 조건을 반드시 포함합니다.
+- mcp_call_trace.jsonl이 반드시 생성된다고 단정하지 않게 합니다.
+- fallback을 모든 Tool의 완전 대체 구조로 설명하지 않게 합니다.
+- State, agent_steps, db_results, rag_results, 결과 JSON/Markdown을 실행 기록 관점으로 설명하게 합니다.
+
+[Claude Code 입력 프롬프트]
+
+현재 프로젝트의 src/day3 폴더를 검토해 주세요.
+
+코드는 수정하지 말고 구조 리뷰만 수행해 주세요.
+
+다음 관점으로 정리해 주세요.
+
+1. src/day3 폴더의 주요 파일 목록
+2. 각 파일이 전체 Agent 아키텍처에서 담당하는 계층
+3. DB Tool, RAG Tool, MCP Server/Client, fallback, Multi-Agent, Streamlit 보조 화면, 통합 실행 파일 구분
+4. 각 파일이 입력으로 받는 주요 값
+5. 각 파일이 출력하거나 State에 남기는 주요 값
+6. 3일차 수업에서 어떤 순서로 설명하면 좋은지
+
+특히 아래 파일은 반드시 포함해 주세요.
+
+- postgres_db_tool.py
+- search_manual_tool.py
+- manufacturing_mcp_client.py
+- manufacturing_mcp_server.py
+- tool_registry_fallback.py
+- multi_agent_roles.py
+- day3_mcp_tool_agent_v2.py
+- mcp_tool_client_streamlit_app.py
+- day3_multi_agent_streamlit_app.py
+
+주의사항:
+- 코드는 수정하지 마세요.
+- 실제 사내 데이터, API Key, 내부 시스템명은 사용하지 마세요.
+- mcp_call_trace.jsonl이 반드시 생성된다고 단정하지 마세요.
+- 현재 Day3 예제에서는 State, agent_steps, db_results, rag_results, 결과 JSON/Markdown을 실행 기록 관점으로 해석한다고 설명해 주세요.
+
+============================================================
+실습 2. 파일 역할 매핑표 생성
+============================================================
+
+[실습 목적]
+src/day3의 주요 파일을 Agent 아키텍처 계층별로 정리합니다.
+파일명, 역할, 관련 Tool 또는 Agent, 현업 적용 시 수정 포인트를 한눈에 확인합니다.
+
+[주의사항]
+- tool_registry_fallback.py를 전체 대체 구조라고 설명하지 않게 합니다.
+- day3_mcp_tool_agent_v2.py는 통합 실행 launcher로 설명합니다.
+- Streamlit 파일은 핵심 학습 대상이 아니라 보조 화면으로 설명합니다.
+
+[Claude Code 입력 프롬프트]
+
+src/day3 폴더의 주요 파일을 아래 표 형식으로 정리해 주세요.
+
+코드는 수정하지 마세요.
+
+표의 열은 다음과 같이 구성해 주세요.
+
+| 파일명 | 아키텍처 계층 | 핵심 역할 | 관련 Tool 또는 Agent | 현업 적용 시 수정 포인트 |
+
+반드시 포함할 파일은 다음입니다.
+
+- postgres_db_tool.py
+- search_manual_tool.py
+- manufacturing_mcp_client.py
+- manufacturing_mcp_server.py
+- tool_registry_fallback.py
+- multi_agent_roles.py
+- day3_mcp_tool_agent_v2.py
+- mcp_tool_client_streamlit_app.py
+- day3_multi_agent_streamlit_app.py
+
+주의사항:
+- tool_registry_fallback.py는 모든 Tool을 완전히 대체한다고 설명하지 마세요.
+- mcp_call_trace.jsonl이 반드시 생성된다고 단정하지 마세요.
+- State, agent_steps, db_results, rag_results, 결과 JSON/Markdown을 실행 기록 관점으로 설명해 주세요.
+
+============================================================
+실습 3. Tool 분할 및 Tool Description 리뷰
+============================================================
+
+[실습 목적]
+실제 Day3 코드에 정의된 7개 Tool을 기준으로 Tool 분할 기준을 검토합니다.
+업무 단위, 데이터 소스 단위, 권한 단위, 위험도 단위로 Tool을 해석합니다.
+
+[주의사항]
+- 반드시 7개 Tool을 기준으로 설명하게 합니다.
+- get_equipment_overview는 큰 Tool의 장점과 한계를 설명하는 핵심 예시입니다.
+- search_manual은 DB Tool이 아니라 RAG Tool로 설명해야 합니다.
+- read-only Tool과 action Tool 분리의 필요성을 설명하게 합니다.
+
+[Claude Code 입력 프롬프트]
+
+src/day3의 Tool 구조를 검토해 주세요.
+
+코드는 수정하지 말고, 현재 코드에 정의된 Tool 목록과 역할을 정리해 주세요.
+
+다음 7개 Tool을 기준으로 설명해 주세요.
+
+- get_equipment_status
+- get_recent_alarm_events
+- get_process_status
+- get_quality_metrics
+- get_maintenance_history
+- get_equipment_overview
+- search_manual
+
+아래 관점으로 표를 만들어 주세요.
+
+| Tool 이름 | 업무 목적 | DB Tool/RAG Tool 구분 | read-only/action 구분 | 입력값 | 반환 데이터 성격 | 현업 적용 시 주의점 |
+
+추가로 다음 질문에 답해 주세요.
+
+1. get_equipment_overview는 왜 큰 Tool로 볼 수 있나요?
+2. search_manual은 왜 DB Tool이 아니라 RAG Tool인가요?
+3. Tool을 너무 크게 만들 때의 문제는 무엇인가요?
+4. Tool을 너무 작게 만들 때의 문제는 무엇인가요?
+5. 제조 현업에서 read-only Tool과 action Tool을 왜 분리해야 하나요?
+
+============================================================
+실습 4. Multi-Agent State 전달 구조 리뷰
+============================================================
+
+[실습 목적]
+multi_agent_roles.py를 중심으로 Agent별 책임과 State 전달 구조를 확인합니다.
+이를 LangGraph Node와 State 관점으로 해석합니다.
+
+[주의사항]
+- SafetyReviewAgent가 실제 핵심 구현에 없으면 구현되어 있다고 단정하지 않게 합니다.
+- mcp_call_trace.jsonl이 생성된다고 단정하지 않게 합니다.
+- State, agent_steps, db_results, rag_results를 실행 기록 관점으로 설명하게 합니다.
+- LangGraph 코드를 직접 작성하는 것이 아니라 LangGraph 관점으로 해석하게 합니다.
+
+[Claude Code 입력 프롬프트]
+
+src/day3/multi_agent_roles.py 파일을 검토해 주세요.
+
+코드는 수정하지 말고, Multi-Agent 역할과 State 전달 구조를 설명해 주세요.
+
+아래 항목을 반드시 포함해 주세요.
+
+1. CoordinatorAgent의 역할
+2. DBInvestigationAgent의 역할
+3. ManualRAGAgent의 역할
+4. IncidentSummaryAgent의 역할
+5. 각 Agent가 State에서 읽는 값
+6. 각 Agent가 State에 추가하거나 수정하는 값
+7. agent_steps가 어떤 실행 기록 역할을 하는지
+8. db_results와 rag_results를 분리하는 이유
+9. LangGraph 관점에서 각 Agent를 어떤 Node로 해석할 수 있는지
+
+출력은 아래 표를 포함해 주세요.
+
+| Agent | LangGraph 관점 Node | 읽는 State | 쓰는 State | 호출하는 Tool | 설계상 의미 |
+
+주의:
+- SafetyReviewAgent가 실제 핵심 구현에 없다면 구현되어 있다고 단정하지 말고, 4일차 Guardrail 확장 구조로 설명해 주세요.
+- mcp_call_trace.jsonl이 생성된다고 단정하지 마세요.
+- State, agent_steps, db_results, rag_results를 실행 기록 관점으로 설명해 주세요.
+
+============================================================
+실습 5. 제한 수정 요청 프롬프트 작성 및 검토
+============================================================
+
+[실습 목적]
+Claude Code에게 실제 코드를 바로 수정시키지 않고, 변경 범위를 제한한 “수정 계획”만 요청하는 방법을 익힙니다.
+AI-assisted development에서 사람이 변경 범위와 검증 기준을 통제하는 방법을 확인합니다.
+
+[주의사항]
+- 실제 코드 작성이나 수정은 하지 않게 합니다.
+- 기존 파일명, 함수명, 클래스명, 입력·출력 구조를 유지하게 합니다.
+- 전체 재작성이 아니라 최소 변경안만 제안하게 합니다.
+- 실행 확인 명령과 되돌리기 방법을 함께 요청합니다.
+- Claude Code의 제안은 최종 정답이 아니라 사람이 검토할 설계 초안입니다.
+
+[Claude Code 입력 프롬프트]
+
+src/day3 코드에 대해 제한 수정안을 제안해 주세요.
+
+단, 아직 코드를 작성하거나 수정하지 마세요.
+먼저 수정 계획만 제안해 주세요.
+
+수정 목적:
+실행 결과를 수강생이 이해하기 쉽도록 agent_steps 또는 화면 출력 설명을 조금 더 보기 좋게 보강하고 싶습니다.
+
+반드시 지킬 조건:
+1. 기존 파일명은 바꾸지 마세요.
+2. 기존 함수명과 클래스명은 바꾸지 마세요.
+3. 기존 입력·출력 구조는 바꾸지 마세요.
+4. 전체 코드를 다시 작성하지 마세요.
+5. 최소 변경안만 제안하세요.
+6. 변경 위치와 이유를 먼저 설명하세요.
+7. 수정 후 실행 명령과 확인 방법을 함께 제안하세요.
+8. 승인 전에는 코드를 작성하지 마세요.
+
+검토 대상 파일:
+- multi_agent_roles.py
+- day3_multi_agent_streamlit_app.py
+- mcp_tool_client_streamlit_app.py
+
+출력 형식:
+1. 수정 후보 위치
+2. 수정 이유
+3. 예상 영향 범위
+4. 실행 확인 명령
+5. 되돌리기 방법
+
+============================================================
+Claude Code 답변 검토 체크리스트
+============================================================
+
+각 프롬프트 실행 후 Claude Code의 답변을 아래 기준으로 확인합니다.
+
+1. 코드 수정을 바로 수행하지 않았는가?
+2. 기존 파일명, 함수명, 클래스명을 유지한다고 했는가?
+3. DB Tool과 RAG Tool의 역할을 구분했는가?
+4. fallback을 전체 Tool의 완전 대체 구조로 설명하지 않았는가?
+5. mcp_call_trace.jsonl이 반드시 생성된다고 단정하지 않았는가?
+6. State, agent_steps, db_results, rag_results를 실행 기록 관점으로 설명했는가?
+7. 현업 적용 시 권한, 반환 데이터 범위, 감사 로그 기준을 언급했는가?
+8. 실행 명령과 확인 방법을 함께 제시했는가?
+
+============================================================
+실습 마무리 정리
+============================================================
+
+오늘 Claude Code 실습의 핵심은 코드를 대신 작성시키는 것이 아닙니다.
+
+Claude Code는 구조를 빠르게 읽고 설계 리뷰 초안을 만드는 도구입니다.
+최종 판단은 사람이 해야 합니다.
+
+특히 제조 현업에서는 권한, 반환 데이터 범위, 감사 로그, Guardrail 기준이 중요하기 때문에 AI가 제안한 코드를 바로 반영하지 않고, 변경 범위와 실행 결과를 반드시 사람이 확인해야 합니다.
+
+오늘 확인한 src/day3 구조는 4일차 평가와 Guardrail, 5일차 사내 PoC 전환 전략의 기반이 됩니다.
