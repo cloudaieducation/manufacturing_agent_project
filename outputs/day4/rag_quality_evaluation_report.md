@@ -1,0 +1,589 @@
+# Day4 RAG Quality Evaluation Report
+
+## 1. Summary
+
+- Mode: chroma
+- Chroma Persist Dir: vector_db\chroma_db
+- Collection: manufacturing_rag_docs
+- Top-K: 10
+- Total cases: 20
+- PASS: 16
+- WARN: 4
+- FAIL: 0
+- Chroma Used: 20
+- Mock Used: 0
+- Fallback Count: 0
+
+## 2. Fallback Reasons
+
+- Fallback was not used.
+
+## 3. Case Results
+
+### RAG-EVAL-001
+
+- Query: ALM-TEMP-402 반복 발생 시 확인해야 할 조치 방향은?
+- Difficulty: basic
+- Expected Evidence Type: troubleshooting_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 3/4 (ratio 0.75)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 누락 키워드: 확인 필요
+- Improvement Hint: 반복 발생 표현과 alarm_code metadata를 검색 질의에 포함하고, 트러블슈팅 가이드의 조치 방향 문단이 검색되도록 해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-1 | chroma | 1 | 47.8060 | 22 | keyword:ALM-TEMP-402, keyword:반복, keyword:조치 방향, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"action": "조치 방향", "equipment_id": "", "process_name": "", "doc_name": "troubleshooting_guide.md", "equipment_type": "", "section_title": "10. 조치 방향 작성 기준", "chunk_id": "CHUNK-0178", "keywords": "ALM-TEMP-402, 반복 알람, 조치 방향", "quality_metric": "", "alarm_code": "ALM-TEMP-402", "symptom": "반복 알람"} | ALM-TEMP-402 반복 알람에 대한 조치 방향은 실제 장비 제어 지시가 아니라 확인과 검토 중심으로 작성해야 합니다. 이 문서는 교육용 샘플 문서이므로 실제 현장 작업을 안내하지 않습니다. |
+| chroma-0 | chroma | 0 | 47.0145 | 19 | keyword:ALM-TEMP-402, keyword:반복, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"chunk_id": "CHUNK-0166", "process_name": "증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인", "equipment_type": "설비", "section_title": "7. 공정 상태 확인 관점", "action": "", "doc_name": "troubleshooting_guide.md", "alarm_code": "ALM-TEMP-402", "symptom": "반복 알람", "keywords": "ALM-TEMP-402, 설비, 증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인, 반복 알람", "equipment_id": "", "quality_metric": ""} | 공정 상태 확인은 ALM-TEMP-402 반복 알람을 해석할 때 중요한 기준입니다. 디스플레이 패널 제조 라인의 증착 공정에서는 설비 상태와 공정 흐름이 함께 영향을 주고받을 수 있기 때문입니다. |
+| chroma-7 | chroma | 7 | 55.8576 | 19 | keyword:ALM-TEMP-402, keyword:반복, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"equipment_id": "", "symptom": "온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동", "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 검사 결과", "quality_metric": "품질 지표, 검사 결과", "doc_name": "troubleshooting_guide.md", "equipment_type": "", "section_title": "8. 품질 영향 확인 관점", "chunk_id": "CHUNK-0170", "action": "", "alarm_code": "ALM-TEMP-402", "process_name": ""} | ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성은 검사 결과와 관련될 수 있기 때문입니다. |
+
+### RAG-EVAL-002
+
+- Query: EQP-EV-03에서 ALM-TEMP-402 온도 상승 반복 알람이 발생하면 우선 확인해야 할 항목은?
+- Difficulty: basic
+- Expected Evidence Type: alarm_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 4/5 (ratio 0.8)
+- Metadata Match: 1/2 (ratio 0.5)
+- Missing Reason: 누락 키워드: 센서 값 변동 / 누락 metadata: equipment_id=EQP-EV-03
+- Improvement Hint: 설비 ID와 알람 코드를 함께 검색하고, 알람 매뉴얼의 1차 확인 항목 문단이 검색되도록 해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-0 | chroma | 0 | 42.2051 | 23 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, keyword:온도 상승, keyword:냉각 상태, metadata:alarm_code, exact_alarm_code, exact_equipment_id | {"quality_metric": "", "action": "", "section_title": "4. EQP-EV-03 설비 상황 예시", "alarm_code": "ALM-TEMP-402", "equipment_id": "", "equipment_type": "", "chunk_id": "CHUNK-0153", "doc_name": "troubleshooting_guide.md", "keywords": "ALM-TEMP-402, 온도 상승, 냉각 상태", "process_name": "", "symptom": "온도 상승, 냉각 상태"} | EQP-EV-03에서 ALM-TEMP-402 알람이 반복 발생하는 상황을 가정합니다. 이때 주요 증상은 온도 상승 흐름이 반복적으로 관찰되고, 일부 구간에서 냉각 상태가 안정적으로 유지되지 않는 것처럼 보이는 상황입니다. |
+| chroma-9 | chroma | 9 | 50.0816 | 17 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, metadata:alarm_code, exact_alarm_code, exact_equipment_id | {"alarm_code": "ALM-TEMP-402", "quality_metric": "품질 지표, 불량률, 수율, 검사 결과", "keywords": "ALM-TEMP-402, 품질 지표, 불량률, 수율, 검사 결과, 확인 필요", "equipment_id": "", "section_title": "12. RAG 검색 실습용 핵심 문단", "equipment_type": "", "process_name": "", "symptom": "", "action": "확인 필요", "chunk_id": "CHUNK-0189", "doc_name": "troubleshooting_guide.md"} | EQP-EV-03의 ALM-TEMP-402 발생 구간에서는 불량률, 수율, 검사 결과 같은 품질 지표를 확인할 필요가 있습니다. 품질 지표 변화가 확인되더라도 알람이 직접 원인이라고 단정하지 않고, 관련 가능성과 추가 확인 필요로 표현해야 합니다. |
+| chroma-1 | chroma | 1 | 42.6034 | 10 | keyword:ALM-TEMP-402, metadata:alarm_code, exact_alarm_code | {"process_name": "", "chunk_id": "CHUNK-0172", "equipment_type": "", "action": "", "section_title": "8. 품질 영향 확인 관점", "equipment_id": "", "quality_metric": "불량률, 품질 영향", "doc_name": "troubleshooting_guide.md", "keywords": "ALM-TEMP-402, 불량률, 품질 영향", "symptom": "", "alarm_code": "ALM-TEMP-402"} | 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지 않아야 합니다. |
+
+### RAG-EVAL-003
+
+- Query: ALM-TEMP-402는 어떤 의미의 알람인가?
+- Difficulty: basic
+- Expected Evidence Type: alarm_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 4/4 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 알람 매뉴얼의 알람 의미/설명 문단이 alarm_code 기준으로 검색되도록 해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-9 | chroma | 9 | 103.4309 | 23 | keyword:ALM-TEMP-402, keyword:온도, keyword:챔버, keyword:온도 편차, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"action": "", "symptom": "", "equipment_type": "", "quality_metric": "품질 영향", "keywords": "ALM-TEMP-402, 증착 공정, 품질 영향", "section_title": "8. ALM-TEMP-402 품질 영향 가능성", "doc_name": "alarm_manual.md", "chunk_id": "CHUNK-0051", "equipment_id": "", "alarm_code": "ALM-TEMP-402", "process_name": "증착 공정"} | `ALM-TEMP-402`는 교육용 시나리오에서 챔버 온도 편차와 관련된 알람입니다.   박막 증착 공정에서 온도 편차가 반복적으로 발생하면, 교육용 관점에서는 박막 균일도와 품질 영향 가능성을 함께 검토할 수 있습니다. |
+| chroma-0 | chroma | 0 | 70.0600 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"equipment_id": "", "equipment_type": "", "alarm_code": "ALM-TEMP-402", "quality_metric": "", "chunk_id": "CHUNK-0013", "action": "", "section_title": "4. ALM-TEMP-402 발생 가능 상황", "keywords": "ALM-TEMP-402", "symptom": "", "doc_name": "alarm_manual.md", "process_name": ""} | `ALM-TEMP-402`는 교육용 시나리오에서 다음과 같은 상황을 설명하기 위해 사용됩니다. |
+| chroma-1 | chroma | 1 | 74.5000 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"keywords": "ALM-TEMP-402", "process_name": "", "action": "", "equipment_type": "", "alarm_code": "ALM-TEMP-402", "chunk_id": "CHUNK-0023", "doc_name": "alarm_manual.md", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "equipment_id": "", "symptom": "", "quality_metric": ""} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+
+### RAG-EVAL-004
+
+- Query: ALM-TEMP-402가 품질 지표 변화와 관련 가능성이 있는지 근거 문서를 찾아줘.
+- Difficulty: intermediate
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/6 (ratio 0.8333)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 누락 키워드: 품질 영향
+- Improvement Hint: 알람 코드와 품질 기준 문서를 연결해 품질 영향 가능성 문단이 함께 검색되도록 Top-K와 검색 질의를 조정해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-8 | chroma | 8 | 17.7700 | 25 | keyword:ALM-TEMP-402, keyword:품질 지표, keyword:품질 영향, keyword:근거, keyword:확정, preferred_doc:quality_standard.md, exact_alarm_code, section_quality | {"section_title": "4. ALM-TEMP-402와 품질 영향 확인 관점", "action": "", "chunk_id": "CHUNK-0095", "symptom": "", "doc_name": "quality_standard.md", "quality_metric": "품질 지표", "process_name": "", "alarm_code": "", "equipment_id": "", "keywords": "품질 지표", "equipment_type": ""} | ALM-TEMP-402와 품질 지표를 연결해 답변할 때 AI Agent는 문서 근거를 기반으로 설명해야 합니다. 검색된 근거가 부족한 경우에는 “현재 문서 근거만으로는 확정하기 어렵습니다”라고 답변하는 것이 적절합니다. |
+| chroma-6 | chroma | 6 | 13.3235 | 16 | keyword:ALM-TEMP-402, keyword:수율, preferred_doc:quality_standard.md, exact_alarm_code, section_quality | {"symptom": "", "section_title": "7. 수율 확인 관점", "keywords": "수율", "equipment_type": "", "chunk_id": "CHUNK-0105", "quality_metric": "수율", "equipment_id": "", "alarm_code": "", "action": "", "doc_name": "quality_standard.md", "process_name": ""} | ALM-TEMP-402가 반복 발생한 시점과 수율 변화가 관찰된 시점이 겹칠 수 있습니다. 그러나 시간대가 유사하다는 이유만으로 알람이 수율 변화의 직접 원인이라고 판단하면 안 됩니다. |
+| chroma-0 | chroma | 0 | 0.0000 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"equipment_id": "", "equipment_type": "", "quality_metric": "", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "keywords": "ALM-TEMP-402", "chunk_id": "CHUNK-0023", "process_name": "", "symptom": "", "doc_name": "alarm_manual.md", "action": "", "alarm_code": "ALM-TEMP-402"} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+| chroma-1 | chroma | 1 | 0.4471 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"action": "", "section_title": "4. ALM-TEMP-402 발생 가능 상황", "symptom": "", "quality_metric": "", "doc_name": "alarm_manual.md", "equipment_type": "", "equipment_id": "", "keywords": "ALM-TEMP-402", "alarm_code": "ALM-TEMP-402", "chunk_id": "CHUNK-0013", "process_name": ""} | `ALM-TEMP-402`는 교육용 시나리오에서 다음과 같은 상황을 설명하기 위해 사용됩니다. |
+| chroma-2 | chroma | 2 | 5.6194 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"keywords": "ALM-TEMP-402", "section_title": "9. Agent가 답변할 때 주의할 점", "quality_metric": "", "alarm_code": "ALM-TEMP-402", "action": "", "symptom": "", "equipment_id": "", "equipment_type": "", "chunk_id": "CHUNK-0055", "doc_name": "alarm_manual.md", "process_name": ""} | AI Agent가 `ALM-TEMP-402`에 대해 답변할 때는 다음 원칙을 따라야 합니다. |
+
+### RAG-EVAL-005
+
+- Query: 없는 알람 코드 ALM-9999에 대한 조치 문서를 찾아줘.
+- Difficulty: edge
+- Expected Evidence Type: none
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: WARN
+- Keyword Match: 0/1 (ratio 0.0)
+- Metadata Match: 0/1 (ratio 0.0)
+- Missing Reason: 누락 키워드: ALM-9999 / 누락 metadata: alarm_code=ALM-9999 / 없는 항목 또는 근거 부족 케이스에서 유사 문서가 검색되었습니다. 이 문서를 확정 근거로 사용하면 안 됩니다.
+- Improvement Hint: 검색 결과가 없거나 유사 문서만 검색되면 직접 근거 부족으로 판단해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-5 | chroma | 5 | 41.5765 | 6 | preferred_doc:troubleshooting_guide.md, section_troubleshooting | {"doc_name": "troubleshooting_guide.md", "process_name": "", "action": "원인 후보, 정비 이력", "equipment_type": "", "keywords": "원인 후보, 정비 이력", "quality_metric": "", "symptom": "", "section_title": "9. 정비 이력 확인 관점", "equipment_id": "", "alarm_code": "", "chunk_id": "CHUNK-0176"} | 최근 정비 이후 ALM-TEMP-402가 반복되었다고 해서 정비 활동이 원인이라고 단정하면 안 됩니다. 정비 이력은 원인을 확정하기 위한 정보가 아니라 원인 후보를 좁히기 위한 참고 정보입니다. |
+| chroma-9 | chroma | 9 | 48.1671 | 4 | preferred_doc:troubleshooting_guide.md | {"chunk_id": "CHUNK-0152", "keywords": "설비, 증착 공정, 제조 라인, 디스플레이 패널 제조 라인", "process_name": "증착 공정, 제조 라인, 디스플레이 패널 제조 라인", "equipment_id": "", "alarm_code": "", "action": "", "doc_name": "troubleshooting_guide.md", "quality_metric": "", "symptom": "", "equipment_type": "설비", "section_title": "4. EQP-EV-03 설비 상황 예시"} | EQP-EV-03은 디스플레이 패널 제조 라인의 증착 공정에서 사용되는 교육용 샘플 설비 ID입니다. 이 설비는 RAG 실습에서 알람 코드와 설비 ID를 기준으로 관련 문단을 검색하기 위한 기준 정보로 사용됩니다. |
+| chroma-1 | chroma | 1 | 22.4169 | 2 | section_troubleshooting | {"keywords": "ALM-TEMP-402", "symptom": "", "equipment_type": "", "doc_name": "alarm_manual.md", "alarm_code": "ALM-TEMP-402", "process_name": "", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "action": "", "chunk_id": "CHUNK-0023", "quality_metric": "", "equipment_id": ""} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+
+### RAG-EVAL-006
+
+- Query: EQP-EV-03에서 ALM-TEMP-402가 반복 발생했을 때 공정 상태와 품질 지표를 함께 확인해야 하는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: WARN
+- Keyword Match: 4/6 (ratio 0.6667)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 누락 키워드: 불량률, 수율
+- Improvement Hint: 공정 상태 확인과 품질 지표 확인을 함께 다루도록 두 문서의 관련 문단이 모두 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-0 | chroma | 0 | 51.3105 | 20 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, keyword:공정 상태, keyword:품질 지표, preferred_doc:quality_standard.md, exact_alarm_code | {"section_title": "12. RAG 검색 실습용 핵심 문단", "symptom": "", "process_name": "증착 공정, 검사 공정, 공정 상태", "alarm_code": "", "quality_metric": "품질 지표, 검사 공정", "doc_name": "quality_standard.md", "chunk_id": "CHUNK-0125", "keywords": "설비, 증착 공정, 검사 공정, 공정 상태, 품질 지표", "action": "", "equipment_id": "", "equipment_type": "설비"} | EQP-EV-03은 증착 공정에서 사용되는 교육용 샘플 설비 ID입니다. EQP-EV-03에서 ALM-TEMP-402가 반복 발생한 경우, 알람 발생 전후의 공정 상태와 검사 공정의 품질 지표를 함께 확인할 필요가 있습니다. |
+| chroma-1 | chroma | 1 | 55.8566 | 16 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"keywords": "반복 알람, 정비 이력, 설정 변경", "doc_name": "troubleshooting_guide.md", "process_name": "", "alarm_code": "", "equipment_type": "", "section_title": "9. 정비 이력 확인 관점", "chunk_id": "CHUNK-0174", "action": "정비 이력, 설정 변경", "symptom": "반복 알람", "equipment_id": "", "quality_metric": ""} | 정비 이력은 반복 알람 분석에서 중요한 참고 정보입니다. EQP-EV-03에서 ALM-TEMP-402가 반복 발생했다면 최근 정비 이력과 설정 변경 여부를 확인할 필요가 있습니다. |
+| chroma-3 | chroma | 3 | 58.7070 | 16 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"section_title": "6. 1차 확인 항목", "action": "확인 필요", "quality_metric": "", "chunk_id": "CHUNK-0161", "equipment_type": "설비", "alarm_code": "", "doc_name": "troubleshooting_guide.md", "process_name": "", "equipment_id": "", "keywords": "설비, 확인 필요", "symptom": ""} | EQP-EV-03에서 ALM-TEMP-402가 반복 발생한 경우, 먼저 설비 ID와 알람 코드가 정확히 일치하는지 확인 필요합니다. RAG 실습에서는 EQP-EV-03과 ALM-TEMP-402라는 키워드를 기준으로 관련 문단을 검색할 수 있습니다. |
+| chroma-5 | chroma | 5 | 61.3545 | 16 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code, section_troubleshooting | {"equipment_type": "", "doc_name": "alarm_manual.md", "symptom": "", "keywords": "ALM-TEMP-402", "equipment_id": "", "alarm_code": "ALM-TEMP-402", "action": "", "quality_metric": "", "process_name": "", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "chunk_id": "CHUNK-0023"} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+| chroma-2 | chroma | 2 | 56.9341 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"equipment_type": "", "section_title": "9. Agent가 답변할 때 주의할 점", "equipment_id": "", "keywords": "ALM-TEMP-402", "action": "", "alarm_code": "ALM-TEMP-402", "doc_name": "alarm_manual.md", "process_name": "", "symptom": "", "chunk_id": "CHUNK-0055", "quality_metric": ""} | AI Agent가 `ALM-TEMP-402`에 대해 답변할 때는 다음 원칙을 따라야 합니다. |
+
+### RAG-EVAL-007
+
+- Query: EQP-EV-03에서 ALM-TEMP-402가 반복 발생할 때 정비 이력과 품질 지표를 함께 확인해야 하는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: maintenance_and_troubleshooting_guide
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/6 (ratio 0.8333)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 누락 키워드: 추가 확인
+- Improvement Hint: 정비 이력 확인과 품질 지표 확인이 함께 검색되도록 반복 알람 표현과 두 문서의 관련 문단을 연결해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-1 | chroma | 1 | 55.8566 | 22 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, keyword:정비 이력, keyword:반복 알람, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"equipment_id": "", "symptom": "반복 알람", "section_title": "9. 정비 이력 확인 관점", "alarm_code": "", "quality_metric": "", "equipment_type": "", "process_name": "", "chunk_id": "CHUNK-0174", "keywords": "반복 알람, 정비 이력, 설정 변경", "doc_name": "troubleshooting_guide.md", "action": "정비 이력, 설정 변경"} | 정비 이력은 반복 알람 분석에서 중요한 참고 정보입니다. EQP-EV-03에서 ALM-TEMP-402가 반복 발생했다면 최근 정비 이력과 설정 변경 여부를 확인할 필요가 있습니다. |
+| chroma-0 | chroma | 0 | 51.3105 | 17 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, keyword:품질 지표, preferred_doc:quality_standard.md, exact_alarm_code | {"action": "", "alarm_code": "", "quality_metric": "품질 지표, 검사 공정", "section_title": "12. RAG 검색 실습용 핵심 문단", "doc_name": "quality_standard.md", "process_name": "증착 공정, 검사 공정, 공정 상태", "chunk_id": "CHUNK-0125", "keywords": "설비, 증착 공정, 검사 공정, 공정 상태, 품질 지표", "symptom": "", "equipment_type": "설비", "equipment_id": ""} | EQP-EV-03은 증착 공정에서 사용되는 교육용 샘플 설비 ID입니다. EQP-EV-03에서 ALM-TEMP-402가 반복 발생한 경우, 알람 발생 전후의 공정 상태와 검사 공정의 품질 지표를 함께 확인할 필요가 있습니다. |
+| chroma-3 | chroma | 3 | 58.7070 | 16 | keyword:EQP-EV-03, keyword:ALM-TEMP-402, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"action": "확인 필요", "process_name": "", "alarm_code": "", "equipment_id": "", "section_title": "6. 1차 확인 항목", "symptom": "", "doc_name": "troubleshooting_guide.md", "quality_metric": "", "equipment_type": "설비", "keywords": "설비, 확인 필요", "chunk_id": "CHUNK-0161"} | EQP-EV-03에서 ALM-TEMP-402가 반복 발생한 경우, 먼저 설비 ID와 알람 코드가 정확히 일치하는지 확인 필요합니다. RAG 실습에서는 EQP-EV-03과 ALM-TEMP-402라는 키워드를 기준으로 관련 문단을 검색할 수 있습니다. |
+| chroma-5 | chroma | 5 | 61.3545 | 16 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code, section_troubleshooting | {"chunk_id": "CHUNK-0023", "alarm_code": "ALM-TEMP-402", "equipment_type": "", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "equipment_id": "", "symptom": "", "quality_metric": "", "process_name": "", "doc_name": "alarm_manual.md", "keywords": "ALM-TEMP-402", "action": ""} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+| chroma-2 | chroma | 2 | 56.9341 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"chunk_id": "CHUNK-0055", "process_name": "", "doc_name": "alarm_manual.md", "equipment_id": "", "keywords": "ALM-TEMP-402", "symptom": "", "action": "", "quality_metric": "", "alarm_code": "ALM-TEMP-402", "section_title": "9. Agent가 답변할 때 주의할 점", "equipment_type": ""} | AI Agent가 `ALM-TEMP-402`에 대해 답변할 때는 다음 원칙을 따라야 합니다. |
+
+### RAG-EVAL-008
+
+- Query: ALM-TEMP-402 반복 알람 전후로 불량률, 수율, 검사 결과를 어떻게 함께 확인해야 하나?
+- Difficulty: advanced
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 6/6 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 품질 기준 문서의 불량률, 수율, 검사 결과, 추가 확인 문단이 함께 검색되도록 품질 지표 관련 검색을 강화해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-9 | chroma | 9 | 45.7829 | 25 | keyword:ALM-TEMP-402, keyword:불량률, keyword:수율, keyword:검사 결과, keyword:품질 지표, keyword:추가 확인, metadata:alarm_code, exact_alarm_code | {"quality_metric": "품질 지표, 불량률, 수율, 검사 결과", "alarm_code": "ALM-TEMP-402", "process_name": "", "chunk_id": "CHUNK-0189", "keywords": "ALM-TEMP-402, 품질 지표, 불량률, 수율, 검사 결과, 확인 필요", "action": "확인 필요", "symptom": "", "doc_name": "troubleshooting_guide.md", "equipment_id": "", "section_title": "12. RAG 검색 실습용 핵심 문단", "equipment_type": ""} | EQP-EV-03의 ALM-TEMP-402 발생 구간에서는 불량률, 수율, 검사 결과 같은 품질 지표를 확인할 필요가 있습니다. 품질 지표 변화가 확인되더라도 알람이 직접 원인이라고 단정하지 않고, 관련 가능성과 추가 확인 필요로 표현해야 합니다. |
+| chroma-1 | chroma | 1 | 36.4338 | 23 | keyword:ALM-TEMP-402, keyword:불량률, keyword:수율, keyword:검사 결과, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code | {"alarm_code": "ALM-TEMP-402", "action": "", "doc_name": "quality_standard.md", "equipment_id": "", "keywords": "ALM-TEMP-402, 공정 상태, 검사 결과 변화, 불량률, 수율, 검사 결과, 품질 영향", "process_name": "공정 상태", "quality_metric": "불량률, 수율, 검사 결과, 품질 영향", "equipment_type": "", "symptom": "검사 결과 변화", "chunk_id": "CHUNK-0127", "section_title": "12. RAG 검색 실습용 핵심 문단"} | 불량률 변화가 관찰되면 ALM-TEMP-402 발생 구간과 비교할 필요가 있습니다. 그러나 불량률 하나만으로 품질 영향을 확정하지 않고, 수율과 검사 결과 변화, 공정 상태 변화까지 함께 확인해야 합니다. |
+| chroma-4 | chroma | 4 | 41.7312 | 22 | keyword:ALM-TEMP-402, keyword:불량률, keyword:수율, keyword:검사 결과, keyword:품질 지표, metadata:alarm_code, exact_alarm_code | {"quality_metric": "품질 지표, 불량률, 수율, 검사 결과", "process_name": "", "action": "확인 필요", "equipment_id": "", "chunk_id": "CHUNK-0164", "symptom": "", "keywords": "ALM-TEMP-402, 품질 지표, 불량률, 수율, 검사 결과, 확인 필요", "equipment_type": "", "section_title": "6. 1차 확인 항목", "doc_name": "troubleshooting_guide.md", "alarm_code": "ALM-TEMP-402"} | 네 번째 확인 항목은 품질 지표입니다. ALM-TEMP-402 반복 발생 전후로 불량률, 수율, 검사 결과가 달라졌는지 확인 필요합니다. 단, 품질 지표 변화가 확인되더라도 알람이 직접 원인이라고 표현하지 않아야 합니다. |
+| chroma-7 | chroma | 7 | 44.5679 | 22 | keyword:ALM-TEMP-402, keyword:불량률, keyword:수율, keyword:검사 결과, keyword:품질 지표, metadata:alarm_code, exact_alarm_code | {"chunk_id": "CHUNK-0155", "symptom": "반복 알람", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률, 수율, 검사 결과, 확인 필요", "process_name": "", "doc_name": "troubleshooting_guide.md", "section_title": "4. EQP-EV-03 설비 상황 예시", "action": "확인 필요", "quality_metric": "품질 지표, 불량률, 수율, 검사 결과", "equipment_id": "", "alarm_code": "ALM-TEMP-402", "equipment_type": ""} | EQP-EV-03의 ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 불량률, 수율, 검사 결과가 평소와 다른 흐름을 보였는지 확인 필요하지만, 품질 변화의 직접 원인을 알람 하나로 단정해서는 안 됩니다. |
+| chroma-6 | chroma | 6 | 43.8075 | 19 | keyword:ALM-TEMP-402, keyword:불량률, keyword:수율, keyword:검사 결과, metadata:alarm_code, exact_alarm_code | {"equipment_type": "", "chunk_id": "CHUNK-0184", "action": "추가 검토", "equipment_id": "", "process_name": "", "alarm_code": "ALM-TEMP-402", "doc_name": "troubleshooting_guide.md", "quality_metric": "불량률, 수율, 검사 결과, 품질 영향", "keywords": "ALM-TEMP-402, 검사 결과 변화, 불량률, 수율, 검사 결과, 품질 영향, 추가 검토", "section_title": "11. AI Agent 답변 시 주의사항", "symptom": "검사 결과 변화"} | AI Agent는 품질 영향에 대해 조심스럽게 답변해야 합니다. ALM-TEMP-402 반복 발생과 불량률, 수율, 검사 결과 변화가 함께 나타날 수 있지만, 직접 인과관계는 추가 검토가 필요하다고 설명해야 합니다. |
+
+### RAG-EVAL-009
+
+- Query: EQP-CVD-02에서 ALM-PRESS-105가 발생했을 때 압력 계통에서 확인해야 할 문서를 찾아줘.
+- Difficulty: edge
+- Expected Evidence Type: out_of_scope
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 0/2 (ratio 0.0)
+- Metadata Match: 0/2 (ratio 0.0)
+- Missing Reason: 누락 키워드: EQP-CVD-02, ALM-PRESS-105 / 누락 metadata: equipment_id=EQP-CVD-02, alarm_code=ALM-PRESS-105 / 현재 3개 문서 범위 밖 케이스이며, 기대 설비/알람에 대한 직접 근거가 검색되지 않았습니다. / 유사 문서가 검색되었더라도 직접 근거로 사용하면 안 됩니다. / 범위 밖(out_of_scope) 케이스는 유사 문서가 검색되어도 직접 근거가 없으면 실패로 보지 않습니다.
+- Improvement Hint: 현재 3개 문서 범위 밖의 설비/알람이므로 유사 문서를 확정 근거로 사용하면 안 된다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-0 | chroma | 0 | 13.9469 | 0 | - | {"quality_metric": "", "equipment_id": "", "chunk_id": "CHUNK-0055", "equipment_type": "", "keywords": "ALM-TEMP-402", "alarm_code": "ALM-TEMP-402", "action": "", "section_title": "9. Agent가 답변할 때 주의할 점", "doc_name": "alarm_manual.md", "symptom": "", "process_name": ""} | AI Agent가 `ALM-TEMP-402`에 대해 답변할 때는 다음 원칙을 따라야 합니다. |
+| chroma-1 | chroma | 1 | 15.4981 | 0 | - | {"section_title": "7.2 현장 메모 확인", "chunk_id": "CHUNK-0044", "keywords": "확인 필요", "process_name": "", "equipment_id": "", "alarm_code": "", "action": "확인 필요", "quality_metric": "", "equipment_type": "", "doc_name": "alarm_manual.md", "symptom": ""} | - 반복 - 재발 - 확인 필요 - 검토 필요 - 추가 관찰 - 동일 챔버 |
+| chroma-2 | chroma | 2 | 15.5169 | 0 | - | {"keywords": "반복 알람, 정비 이력, 설정 변경", "quality_metric": "", "symptom": "반복 알람", "action": "정비 이력, 설정 변경", "equipment_type": "", "equipment_id": "", "doc_name": "troubleshooting_guide.md", "chunk_id": "CHUNK-0174", "process_name": "", "alarm_code": "", "section_title": "9. 정비 이력 확인 관점"} | 정비 이력은 반복 알람 분석에서 중요한 참고 정보입니다. EQP-EV-03에서 ALM-TEMP-402가 반복 발생했다면 최근 정비 이력과 설정 변경 여부를 확인할 필요가 있습니다. |
+
+### RAG-EVAL-010
+
+- Query: ALM-TEMP-402 답변에서 원인을 확정하지 않고 근거를 함께 제시해야 하는 이유는?
+- Difficulty: edge
+- Expected Evidence Type: answer_caution_policy
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: WARN
+- Keyword Match: 3/5 (ratio 0.6)
+- Metadata Match: 0/0 (ratio 1.0)
+- Missing Reason: 누락 키워드: 확정, 답변
+- Improvement Hint: 검색 결과가 부족하거나 유사 문서만 있는 경우 원인을 단정하지 않고 근거를 함께 제시해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-2 | chroma | 2 | 42.1012 | 12 | keyword:ALM-TEMP-402, keyword:원인, preferred_doc:troubleshooting_guide.md, section_troubleshooting | {"section_title": "8. 품질 영향 확인 관점", "quality_metric": "불량률, 품질 영향", "process_name": "", "doc_name": "troubleshooting_guide.md", "keywords": "ALM-TEMP-402, 불량률, 품질 영향", "alarm_code": "ALM-TEMP-402", "action": "", "equipment_type": "", "equipment_id": "", "symptom": "", "chunk_id": "CHUNK-0172"} | 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지 않아야 합니다. |
+| chroma-3 | chroma | 3 | 44.2694 | 12 | keyword:ALM-TEMP-402, keyword:원인, preferred_doc:quality_standard.md, section_troubleshooting | {"symptom": "반복 알람", "action": "", "alarm_code": "ALM-TEMP-402", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률", "section_title": "2. 품질 지표 확인 기본 원칙", "quality_metric": "품질 지표, 불량률", "process_name": "", "chunk_id": "CHUNK-0085", "equipment_id": "", "doc_name": "quality_standard.md", "equipment_type": ""} | 품질 지표를 확인할 때는 단일 지표만으로 원인을 판단하지 않아야 합니다. 예를 들어 불량률 변화가 관찰되더라도 그 원인이 ALM-TEMP-402 반복 알람 때문이라고 바로 단정할 수 없습니다. |
+| chroma-5 | chroma | 5 | 48.5780 | 12 | keyword:ALM-TEMP-402, keyword:근거, preferred_doc:quality_standard.md, section_troubleshooting | {"action": "", "chunk_id": "CHUNK-0108", "doc_name": "quality_standard.md", "alarm_code": "ALM-TEMP-402", "section_title": "8. 검사 결과 확인 관점", "process_name": "검사 공정", "symptom": "반복 알람", "quality_metric": "품질 지표, 검사 결과, 품질 영향, 검사 공정", "equipment_type": "", "keywords": "ALM-TEMP-402, 검사 공정, 반복 알람, 품질 지표, 검사 결과, 품질 영향", "equipment_id": ""} | 검사 결과는 품질 지표를 해석할 때 중요한 근거입니다. ALM-TEMP-402 반복 알람이 발생한 뒤 검사 공정의 결과가 평소 흐름과 다르게 나타났는지 확인하면 품질 영향 가능성을 검토할 수 있습니다. |
+
+### RAG-EVAL-011
+
+- Query: ALM-TEMP-402가 발생했을 때 Agent가 우선 확인할 수 있는 항목은?
+- Difficulty: basic
+- Expected Evidence Type: alarm_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 4/4 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: ALM-TEMP-402의 1차 확인 항목 문단이 alarm_manual에서 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-1 | chroma | 1 | 47.0209 | 23 | keyword:ALM-TEMP-402, keyword:우선 확인, keyword:항목, keyword:Agent, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"alarm_code": "ALM-TEMP-402", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "symptom": "", "chunk_id": "CHUNK-0023", "process_name": "", "equipment_type": "", "keywords": "ALM-TEMP-402", "doc_name": "alarm_manual.md", "quality_metric": "", "action": "", "equipment_id": ""} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+| chroma-2 | chroma | 2 | 52.1813 | 17 | keyword:ALM-TEMP-402, keyword:Agent, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"equipment_type": "", "doc_name": "alarm_manual.md", "chunk_id": "CHUNK-0055", "action": "", "equipment_id": "", "alarm_code": "ALM-TEMP-402", "section_title": "9. Agent가 답변할 때 주의할 점", "symptom": "", "keywords": "ALM-TEMP-402", "process_name": "", "quality_metric": ""} | AI Agent가 `ALM-TEMP-402`에 대해 답변할 때는 다음 원칙을 따라야 합니다. |
+| chroma-3 | chroma | 3 | 54.8141 | 17 | keyword:ALM-TEMP-402, keyword:항목, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"equipment_type": "", "doc_name": "alarm_manual.md", "alarm_code": "ALM-TEMP-402", "keywords": "ALM-TEMP-402, 원인 후보", "action": "원인 후보", "process_name": "", "equipment_id": "", "quality_metric": "", "chunk_id": "CHUNK-0028", "section_title": "6. ALM-TEMP-402 원인 후보", "symptom": ""} | `ALM-TEMP-402`의 원인은 이 문서만으로 단정할 수 없습니다.   다만 교육용 시나리오에서는 다음 항목을 원인 후보로 정리할 수 있습니다. |
+
+### RAG-EVAL-012
+
+- Query: ALM-TEMP-402 반복 알람과 불량률 변화가 함께 보일 때 직접 원인으로 단정하지 말아야 하는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/5 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 불량률 변화와 ALM-TEMP-402 반복 알람을 연결하되 직접 원인으로 단정하지 않는 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-2 | chroma | 2 | 37.2725 | 27 | keyword:ALM-TEMP-402, keyword:불량률, keyword:직접 원인, keyword:단정, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_quality, section_troubleshooting | {"equipment_type": "", "process_name": "", "alarm_code": "ALM-TEMP-402", "keywords": "ALM-TEMP-402, 불량률, 품질 영향", "action": "", "doc_name": "troubleshooting_guide.md", "section_title": "8. 품질 영향 확인 관점", "chunk_id": "CHUNK-0172", "quality_metric": "불량률, 품질 영향", "equipment_id": "", "symptom": ""} | 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지 않아야 합니다. |
+| chroma-3 | chroma | 3 | 38.3528 | 27 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:불량률, keyword:단정, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"section_title": "2. 품질 지표 확인 기본 원칙", "doc_name": "quality_standard.md", "symptom": "반복 알람", "chunk_id": "CHUNK-0085", "alarm_code": "ALM-TEMP-402", "quality_metric": "품질 지표, 불량률", "equipment_id": "", "equipment_type": "", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률", "process_name": "", "action": ""} | 품질 지표를 확인할 때는 단일 지표만으로 원인을 판단하지 않아야 합니다. 예를 들어 불량률 변화가 관찰되더라도 그 원인이 ALM-TEMP-402 반복 알람 때문이라고 바로 단정할 수 없습니다. |
+| chroma-6 | chroma | 6 | 41.9666 | 24 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:불량률, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"alarm_code": "ALM-TEMP-402", "equipment_type": "", "action": "", "chunk_id": "CHUNK-0100", "quality_metric": "품질 지표, 불량률, 품질 영향", "process_name": "", "doc_name": "quality_standard.md", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률, 품질 영향", "equipment_id": "", "symptom": "반복 알람", "section_title": "6. 불량률 확인 관점"} | 불량률은 제조 품질 상태를 이해하는 대표적인 품질 지표 중 하나입니다. ALM-TEMP-402 반복 알람이 발생한 전후 구간에서 불량률 변화가 있었는지 확인하면 품질 영향 가능성을 검토하는 데 도움이 됩니다. |
+| chroma-8 | chroma | 8 | 44.1017 | 23 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:직접 원인, keyword:단정, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code | {"section_title": "14. 최종 정리", "quality_metric": "품질 지표", "equipment_type": "", "alarm_code": "ALM-TEMP-402", "process_name": "", "symptom": "온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동", "equipment_id": "", "chunk_id": "CHUNK-0137", "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 추가 검토", "doc_name": "quality_standard.md", "action": "추가 검토"} | ALM-TEMP-402 반복 알람은 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성과 관련될 수 있습니다. 그러나 품질 지표 변화가 함께 나타나더라도 직접 원인으로 단정하지 않고 추가 검토가 필요하다고 표현해야 합니다. |
+| chroma-5 | chroma | 5 | 41.7393 | 21 | keyword:ALM-TEMP-402, keyword:반복 알람, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"action": "", "keywords": "ALM-TEMP-402, 검사 공정, 반복 알람, 품질 지표, 검사 결과, 품질 영향", "quality_metric": "품질 지표, 검사 결과, 품질 영향, 검사 공정", "symptom": "반복 알람", "process_name": "검사 공정", "section_title": "8. 검사 결과 확인 관점", "equipment_id": "", "doc_name": "quality_standard.md", "alarm_code": "ALM-TEMP-402", "equipment_type": "", "chunk_id": "CHUNK-0108"} | 검사 결과는 품질 지표를 해석할 때 중요한 근거입니다. ALM-TEMP-402 반복 알람이 발생한 뒤 검사 공정의 결과가 평소 흐름과 다르게 나타났는지 확인하면 품질 영향 가능성을 검토할 수 있습니다. |
+
+### RAG-EVAL-013
+
+- Query: ALM-TEMP-402는 챔버 온도 편차와 어떤 관련이 있나요?
+- Difficulty: basic
+- Expected Evidence Type: alarm_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: WARN
+- Keyword Match: 2/4 (ratio 0.5)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 누락 키워드: 온도 편차, 관련
+- Improvement Hint: ALM-TEMP-402와 챔버 온도 편차가 함께 포함된 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-5 | chroma | 5 | 71.6825 | 17 | keyword:ALM-TEMP-402, keyword:챔버, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"doc_name": "alarm_manual.md", "action": "", "quality_metric": "", "keywords": "ALM-TEMP-402, 증착 공정", "section_title": "3.2 알람 의미", "process_name": "증착 공정", "symptom": "", "equipment_id": "", "chunk_id": "CHUNK-0009", "equipment_type": "", "alarm_code": "ALM-TEMP-402"} | `ALM-TEMP-402`는 교육용 가상 시나리오에서   박막 증착 공정 중 특정 챔버의 온도 값이 교육용 기준 범위에서 벗어난 상황을 나타내는 알람입니다. |
+| chroma-6 | chroma | 6 | 71.9507 | 17 | keyword:ALM-TEMP-402, keyword:챔버, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"symptom": "", "chunk_id": "CHUNK-0016", "quality_metric": "", "process_name": "", "alarm_code": "ALM-TEMP-402", "action": "", "doc_name": "alarm_manual.md", "section_title": "4.2 같은 챔버에서 반복 발생", "equipment_type": "", "equipment_id": "", "keywords": "ALM-TEMP-402"} | 같은 챔버에서 `ALM-TEMP-402`가 여러 번 발생했다면   단순 일회성 알람이 아니라 반복 발생 패턴으로 볼 수 있습니다. |
+| chroma-0 | chroma | 0 | 48.9745 | 14 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:alarm_manual.md, exact_alarm_code | {"symptom": "", "action": "", "equipment_type": "", "chunk_id": "CHUNK-0013", "keywords": "ALM-TEMP-402", "doc_name": "alarm_manual.md", "alarm_code": "ALM-TEMP-402", "section_title": "4. ALM-TEMP-402 발생 가능 상황", "equipment_id": "", "quality_metric": "", "process_name": ""} | `ALM-TEMP-402`는 교육용 시나리오에서 다음과 같은 상황을 설명하기 위해 사용됩니다. |
+
+### RAG-EVAL-014
+
+- Query: ALM-TEMP-402가 반복될 때 최근 정비 이력을 확인해야 하는 이유는?
+- Difficulty: basic
+- Expected Evidence Type: maintenance_and_troubleshooting_guide
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 4/4 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 반복 알람과 정비 이력 확인 관점이 함께 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-9 | chroma | 9 | 66.5607 | 22 | keyword:ALM-TEMP-402, keyword:반복, keyword:정비 이력, keyword:확인, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"keywords": "원인 후보, 정비 이력", "equipment_id": "", "doc_name": "troubleshooting_guide.md", "action": "원인 후보, 정비 이력", "section_title": "9. 정비 이력 확인 관점", "quality_metric": "", "alarm_code": "", "process_name": "", "chunk_id": "CHUNK-0176", "equipment_type": "", "symptom": ""} | 최근 정비 이후 ALM-TEMP-402가 반복되었다고 해서 정비 활동이 원인이라고 단정하면 안 됩니다. 정비 이력은 원인을 확정하기 위한 정보가 아니라 원인 후보를 좁히기 위한 참고 정보입니다. |
+| chroma-1 | chroma | 1 | 47.0209 | 15 | keyword:ALM-TEMP-402, keyword:확인, metadata:alarm_code, exact_alarm_code, section_troubleshooting | {"symptom": "", "chunk_id": "CHUNK-0023", "equipment_id": "", "doc_name": "alarm_manual.md", "section_title": "5. ALM-TEMP-402 1차 확인 항목", "equipment_type": "", "keywords": "ALM-TEMP-402", "action": "", "process_name": "", "quality_metric": "", "alarm_code": "ALM-TEMP-402"} | `ALM-TEMP-402`가 발생했을 때 Agent는 다음 항목을 우선 확인할 수 있습니다. |
+| chroma-5 | chroma | 5 | 60.2375 | 15 | keyword:ALM-TEMP-402, keyword:반복, keyword:확인, exact_alarm_code, section_troubleshooting | {"chunk_id": "CHUNK-0105", "keywords": "수율", "doc_name": "quality_standard.md", "action": "", "equipment_type": "", "process_name": "", "alarm_code": "", "section_title": "7. 수율 확인 관점", "quality_metric": "수율", "equipment_id": "", "symptom": ""} | ALM-TEMP-402가 반복 발생한 시점과 수율 변화가 관찰된 시점이 겹칠 수 있습니다. 그러나 시간대가 유사하다는 이유만으로 알람이 수율 변화의 직접 원인이라고 판단하면 안 됩니다. |
+
+### RAG-EVAL-015
+
+- Query: ALM-TEMP-402 반복 발생 전후로 공정 상태와 검사 결과를 함께 확인해야 하는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/5 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 공정 상태 확인 관점과 검사 결과 확인 관점이 함께 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-5 | chroma | 5 | 43.8264 | 27 | keyword:ALM-TEMP-402, keyword:반복, keyword:검사 결과, keyword:확인, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"keywords": "ALM-TEMP-402, 검사 공정, 반복 알람, 품질 지표, 검사 결과, 품질 영향", "section_title": "8. 검사 결과 확인 관점", "equipment_id": "", "symptom": "반복 알람", "alarm_code": "ALM-TEMP-402", "doc_name": "quality_standard.md", "action": "", "process_name": "검사 공정", "chunk_id": "CHUNK-0108", "equipment_type": "", "quality_metric": "품질 지표, 검사 결과, 품질 영향, 검사 공정"} | 검사 결과는 품질 지표를 해석할 때 중요한 근거입니다. ALM-TEMP-402 반복 알람이 발생한 뒤 검사 공정의 결과가 평소 흐름과 다르게 나타났는지 확인하면 품질 영향 가능성을 검토할 수 있습니다. |
+| chroma-9 | chroma | 9 | 46.6856 | 27 | keyword:ALM-TEMP-402, keyword:반복, keyword:검사 결과, keyword:확인, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_quality, section_troubleshooting | {"symptom": "온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동", "process_name": "", "chunk_id": "CHUNK-0170", "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 검사 결과", "alarm_code": "ALM-TEMP-402", "equipment_type": "", "section_title": "8. 품질 영향 확인 관점", "doc_name": "troubleshooting_guide.md", "action": "", "quality_metric": "품질 지표, 검사 결과", "equipment_id": ""} | ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성은 검사 결과와 관련될 수 있기 때문입니다. |
+| chroma-1 | chroma | 1 | 36.3614 | 25 | keyword:ALM-TEMP-402, keyword:반복, keyword:공정 상태, keyword:확인, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"section_title": "7. 공정 상태 확인 관점", "doc_name": "troubleshooting_guide.md", "quality_metric": "", "process_name": "증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인", "alarm_code": "ALM-TEMP-402", "chunk_id": "CHUNK-0166", "action": "", "equipment_id": "", "equipment_type": "설비", "keywords": "ALM-TEMP-402, 설비, 증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인, 반복 알람", "symptom": "반복 알람"} | 공정 상태 확인은 ALM-TEMP-402 반복 알람을 해석할 때 중요한 기준입니다. 디스플레이 패널 제조 라인의 증착 공정에서는 설비 상태와 공정 흐름이 함께 영향을 주고받을 수 있기 때문입니다. |
+| chroma-3 | chroma | 3 | 40.0481 | 24 | keyword:ALM-TEMP-402, keyword:반복, keyword:확인, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"equipment_type": "", "action": "", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률", "chunk_id": "CHUNK-0085", "symptom": "반복 알람", "quality_metric": "품질 지표, 불량률", "alarm_code": "ALM-TEMP-402", "doc_name": "quality_standard.md", "section_title": "2. 품질 지표 확인 기본 원칙", "equipment_id": "", "process_name": ""} | 품질 지표를 확인할 때는 단일 지표만으로 원인을 판단하지 않아야 합니다. 예를 들어 불량률 변화가 관찰되더라도 그 원인이 ALM-TEMP-402 반복 알람 때문이라고 바로 단정할 수 없습니다. |
+| chroma-6 | chroma | 6 | 44.1589 | 24 | keyword:ALM-TEMP-402, keyword:반복, keyword:확인, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality, section_troubleshooting | {"process_name": "", "chunk_id": "CHUNK-0100", "alarm_code": "ALM-TEMP-402", "quality_metric": "품질 지표, 불량률, 품질 영향", "action": "", "section_title": "6. 불량률 확인 관점", "equipment_id": "", "equipment_type": "", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률, 품질 영향", "symptom": "반복 알람", "doc_name": "quality_standard.md"} | 불량률은 제조 품질 상태를 이해하는 대표적인 품질 지표 중 하나입니다. ALM-TEMP-402 반복 알람이 발생한 전후 구간에서 불량률 변화가 있었는지 확인하면 품질 영향 가능성을 검토하는 데 도움이 됩니다. |
+
+### RAG-EVAL-016
+
+- Query: ALM-TEMP-402 발생 구간과 수율 변화가 겹칠 때 어떻게 해석해야 하나?
+- Difficulty: intermediate
+- Expected Evidence Type: quality_standard_document
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/5 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 수율 변화와 알람 발생 시점이 겹치더라도 직접 원인으로 판단하지 않는 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-3 | chroma | 3 | 44.2694 | 22 | keyword:ALM-TEMP-402, keyword:변화, keyword:판단, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality | {"chunk_id": "CHUNK-0085", "equipment_type": "", "alarm_code": "ALM-TEMP-402", "symptom": "반복 알람", "equipment_id": "", "section_title": "2. 품질 지표 확인 기본 원칙", "process_name": "", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률", "quality_metric": "품질 지표, 불량률", "doc_name": "quality_standard.md", "action": ""} | 품질 지표를 확인할 때는 단일 지표만으로 원인을 판단하지 않아야 합니다. 예를 들어 불량률 변화가 관찰되더라도 그 원인이 ALM-TEMP-402 반복 알람 때문이라고 바로 단정할 수 없습니다. |
+| chroma-4 | chroma | 4 | 45.6812 | 20 | keyword:ALM-TEMP-402, keyword:수율, keyword:변화, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code | {"keywords": "ALM-TEMP-402, 공정 상태, 검사 결과 변화, 불량률, 수율, 검사 결과, 품질 영향", "process_name": "공정 상태", "alarm_code": "ALM-TEMP-402", "action": "", "doc_name": "quality_standard.md", "quality_metric": "불량률, 수율, 검사 결과, 품질 영향", "equipment_id": "", "section_title": "12. RAG 검색 실습용 핵심 문단", "chunk_id": "CHUNK-0127", "symptom": "검사 결과 변화", "equipment_type": ""} | 불량률 변화가 관찰되면 ALM-TEMP-402 발생 구간과 비교할 필요가 있습니다. 그러나 불량률 하나만으로 품질 영향을 확정하지 않고, 수율과 검사 결과 변화, 공정 상태 변화까지 함께 확인해야 합니다. |
+| chroma-6 | chroma | 6 | 48.9493 | 19 | keyword:ALM-TEMP-402, keyword:변화, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality | {"alarm_code": "ALM-TEMP-402", "keywords": "ALM-TEMP-402, 반복 알람, 품질 지표, 불량률, 품질 영향", "doc_name": "quality_standard.md", "equipment_type": "", "section_title": "6. 불량률 확인 관점", "symptom": "반복 알람", "process_name": "", "equipment_id": "", "quality_metric": "품질 지표, 불량률, 품질 영향", "chunk_id": "CHUNK-0100", "action": ""} | 불량률은 제조 품질 상태를 이해하는 대표적인 품질 지표 중 하나입니다. ALM-TEMP-402 반복 알람이 발생한 전후 구간에서 불량률 변화가 있었는지 확인하면 품질 영향 가능성을 검토하는 데 도움이 됩니다. |
+| chroma-2 | chroma | 2 | 42.1012 | 18 | keyword:ALM-TEMP-402, keyword:변화, keyword:직접 원인, metadata:alarm_code, exact_alarm_code, section_quality | {"keywords": "ALM-TEMP-402, 불량률, 품질 영향", "equipment_type": "", "symptom": "", "alarm_code": "ALM-TEMP-402", "process_name": "", "action": "", "section_title": "8. 품질 영향 확인 관점", "equipment_id": "", "quality_metric": "불량률, 품질 영향", "doc_name": "troubleshooting_guide.md", "chunk_id": "CHUNK-0172"} | 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지 않아야 합니다. |
+| chroma-5 | chroma | 5 | 48.5780 | 16 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:quality_standard.md, exact_alarm_code, section_quality | {"equipment_type": "", "symptom": "반복 알람", "action": "", "chunk_id": "CHUNK-0108", "section_title": "8. 검사 결과 확인 관점", "alarm_code": "ALM-TEMP-402", "doc_name": "quality_standard.md", "process_name": "검사 공정", "equipment_id": "", "keywords": "ALM-TEMP-402, 검사 공정, 반복 알람, 품질 지표, 검사 결과, 품질 영향", "quality_metric": "품질 지표, 검사 결과, 품질 영향, 검사 공정"} | 검사 결과는 품질 지표를 해석할 때 중요한 근거입니다. ALM-TEMP-402 반복 알람이 발생한 뒤 검사 공정의 결과가 평소 흐름과 다르게 나타났는지 확인하면 품질 영향 가능성을 검토할 수 있습니다. |
+
+### RAG-EVAL-017
+
+- Query: ALM-TEMP-402 조치 방향을 답변할 때 실제 장비 제어 지시처럼 쓰면 안 되는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: answer_caution_policy
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 5/5 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 조치 방향은 실제 작업 지시가 아니라 확인과 검토 중심이라는 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-0 | chroma | 0 | 34.6330 | 28 | keyword:ALM-TEMP-402, keyword:조치 방향, keyword:실제 장비, keyword:제어 지시, keyword:교육용, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"quality_metric": "", "action": "조치 방향", "alarm_code": "ALM-TEMP-402", "process_name": "", "doc_name": "troubleshooting_guide.md", "keywords": "ALM-TEMP-402, 반복 알람, 조치 방향", "symptom": "반복 알람", "chunk_id": "CHUNK-0178", "equipment_type": "", "equipment_id": "", "section_title": "10. 조치 방향 작성 기준"} | ALM-TEMP-402 반복 알람에 대한 조치 방향은 실제 장비 제어 지시가 아니라 확인과 검토 중심으로 작성해야 합니다. 이 문서는 교육용 샘플 문서이므로 실제 현장 작업을 안내하지 않습니다. |
+| chroma-1 | chroma | 1 | 35.1130 | 16 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"action": "", "quality_metric": "", "equipment_id": "", "process_name": "증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인", "doc_name": "troubleshooting_guide.md", "symptom": "반복 알람", "chunk_id": "CHUNK-0166", "equipment_type": "설비", "keywords": "ALM-TEMP-402, 설비, 증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인, 반복 알람", "section_title": "7. 공정 상태 확인 관점", "alarm_code": "ALM-TEMP-402"} | 공정 상태 확인은 ALM-TEMP-402 반복 알람을 해석할 때 중요한 기준입니다. 디스플레이 패널 제조 라인의 증착 공정에서는 설비 상태와 공정 흐름이 함께 영향을 주고받을 수 있기 때문입니다. |
+| chroma-2 | chroma | 2 | 37.5436 | 16 | keyword:ALM-TEMP-402, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code, section_troubleshooting | {"chunk_id": "CHUNK-0172", "symptom": "", "action": "", "doc_name": "troubleshooting_guide.md", "keywords": "ALM-TEMP-402, 불량률, 품질 영향", "equipment_id": "", "quality_metric": "불량률, 품질 영향", "process_name": "", "section_title": "8. 품질 영향 확인 관점", "alarm_code": "ALM-TEMP-402", "equipment_type": ""} | 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지 않아야 합니다. |
+
+### RAG-EVAL-018
+
+- Query: ALM-TEMP-402 반복 알람에서 냉각 상태와 센서 값 변동 가능성을 함께 확인해야 하는 이유는?
+- Difficulty: intermediate
+- Expected Evidence Type: troubleshooting_manual
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 5
+- Final Evidence Limit: 5
+- Evidence Quality: PASS
+- Keyword Match: 5/5 (ratio 1.0)
+- Metadata Match: 1/1 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 냉각 상태 불안정과 센서 값 변동 가능성을 원인 후보로 다루는 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-9 | chroma | 9 | 45.6367 | 26 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:냉각 상태, keyword:센서 값 변동, keyword:가능성, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code | {"equipment_type": "", "alarm_code": "ALM-TEMP-402", "symptom": "온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동", "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 검사 결과", "process_name": "", "action": "", "equipment_id": "", "chunk_id": "CHUNK-0170", "doc_name": "troubleshooting_guide.md", "quality_metric": "품질 지표, 검사 결과", "section_title": "8. 품질 영향 확인 관점"} | ALM-TEMP-402 반복 알람은 품질 지표와 함께 확인해야 합니다. 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성은 검사 결과와 관련될 수 있기 때문입니다. |
+| chroma-8 | chroma | 8 | 44.8626 | 20 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:냉각 상태, keyword:센서 값 변동, keyword:가능성, metadata:alarm_code, exact_alarm_code, generic_section_penalty | {"quality_metric": "품질 지표", "section_title": "14. 최종 정리", "equipment_id": "", "equipment_type": "", "symptom": "온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동", "action": "추가 검토", "process_name": "", "alarm_code": "ALM-TEMP-402", "keywords": "ALM-TEMP-402, 온도 상승, 반복 알람, 냉각 상태, 공정 부하, 센서 값 변동, 품질 지표, 추가 검토", "doc_name": "quality_standard.md", "chunk_id": "CHUNK-0137"} | ALM-TEMP-402 반복 알람은 온도 상승, 냉각 상태 불안정, 공정 부하 증가, 센서 값 변동 가능성과 관련될 수 있습니다. 그러나 품질 지표 변화가 함께 나타나더라도 직접 원인으로 단정하지 않고 추가 검토가 필요하다고 표현해야 합니다. |
+| chroma-0 | chroma | 0 | 34.6330 | 17 | keyword:ALM-TEMP-402, keyword:반복 알람, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code | {"section_title": "10. 조치 방향 작성 기준", "keywords": "ALM-TEMP-402, 반복 알람, 조치 방향", "alarm_code": "ALM-TEMP-402", "process_name": "", "equipment_type": "", "symptom": "반복 알람", "quality_metric": "", "equipment_id": "", "chunk_id": "CHUNK-0178", "action": "조치 방향", "doc_name": "troubleshooting_guide.md"} | ALM-TEMP-402 반복 알람에 대한 조치 방향은 실제 장비 제어 지시가 아니라 확인과 검토 중심으로 작성해야 합니다. 이 문서는 교육용 샘플 문서이므로 실제 현장 작업을 안내하지 않습니다. |
+| chroma-1 | chroma | 1 | 35.1130 | 17 | keyword:ALM-TEMP-402, keyword:반복 알람, metadata:alarm_code, preferred_doc:troubleshooting_guide.md, exact_alarm_code | {"action": "", "doc_name": "troubleshooting_guide.md", "symptom": "반복 알람", "section_title": "7. 공정 상태 확인 관점", "keywords": "ALM-TEMP-402, 설비, 증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인, 반복 알람", "equipment_id": "", "quality_metric": "", "equipment_type": "설비", "chunk_id": "CHUNK-0166", "process_name": "증착 공정, 공정 상태, 제조 라인, 디스플레이 패널 제조 라인", "alarm_code": "ALM-TEMP-402"} | 공정 상태 확인은 ALM-TEMP-402 반복 알람을 해석할 때 중요한 기준입니다. 디스플레이 패널 제조 라인의 증착 공정에서는 설비 상태와 공정 흐름이 함께 영향을 주고받을 수 있기 때문입니다. |
+| chroma-5 | chroma | 5 | 42.3682 | 16 | keyword:ALM-TEMP-402, keyword:반복 알람, keyword:가능성, metadata:alarm_code, exact_alarm_code | {"alarm_code": "ALM-TEMP-402", "quality_metric": "품질 지표, 검사 결과, 품질 영향, 검사 공정", "doc_name": "quality_standard.md", "symptom": "반복 알람", "equipment_type": "", "equipment_id": "", "section_title": "8. 검사 결과 확인 관점", "chunk_id": "CHUNK-0108", "action": "", "process_name": "검사 공정", "keywords": "ALM-TEMP-402, 검사 공정, 반복 알람, 품질 지표, 검사 결과, 품질 영향"} | 검사 결과는 품질 지표를 해석할 때 중요한 근거입니다. ALM-TEMP-402 반복 알람이 발생한 뒤 검사 공정의 결과가 평소 흐름과 다르게 나타났는지 확인하면 품질 영향 가능성을 검토할 수 있습니다. |
+
+### RAG-EVAL-019
+
+- Query: ETCH 공정에서 불량률이 올라갔을 때 관련 품질 기준 문서를 찾아줘.
+- Difficulty: edge
+- Expected Evidence Type: out_of_scope
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 0/1 (ratio 0.0)
+- Metadata Match: 0/0 (ratio 1.0)
+- Missing Reason: 누락 키워드: ETCH / 현재 3개 문서 범위 밖 케이스이며, 기대 설비/알람에 대한 직접 근거가 검색되지 않았습니다. / 유사 문서가 검색되었더라도 직접 근거로 사용하면 안 됩니다. / 범위 밖(out_of_scope) 케이스는 유사 문서가 검색되어도 직접 근거가 없으면 실패로 보지 않습니다.
+- Improvement Hint: 현재 문서 범위 밖의 공정이므로 유사 문서를 확정 근거로 사용하지 않아야 한다. 불량률이라는 일반 품질 용어가 검색되더라도 ETCH 직접 근거가 없으면 범위 밖으로 판단해야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-0 | chroma | 0 | 0.0000 | 0 | - | {"quality_metric": "", "keywords": "설비", "action": "", "equipment_type": "설비", "symptom": "", "alarm_code": "", "process_name": "", "doc_name": "alarm_manual.md", "equipment_id": "", "chunk_id": "CHUNK-0036", "section_title": "6.3 챔버 주변 상태 변화 가능성 확인 필요"} | 이 경우에도 실제 공정 조건이나 실제 설비 세팅값은 언급하지 않습니다. |
+| chroma-1 | chroma | 1 | 0.0000 | 0 | - | {"equipment_id": "", "keywords": "", "chunk_id": "CHUNK-0061", "doc_name": "alarm_manual.md", "process_name": "", "symptom": "", "quality_metric": "", "equipment_type": "", "section_title": "9.2 근거를 함께 제시하기", "alarm_code": "", "action": ""} | Agent는 답변할 때 로그 근거와 매뉴얼 근거를 함께 제시해야 합니다. |
+| chroma-2 | chroma | 2 | 0.0000 | 0 | - | {"process_name": "", "action": "", "chunk_id": "CHUNK-0077", "section_title": "12. 문서 검색용 키워드 모음", "doc_name": "alarm_manual.md", "equipment_type": "", "quality_metric": "", "symptom": "", "equipment_id": "", "alarm_code": "", "keywords": ""} | RAG 검색 실습에서 사용할 수 있는 주요 키워드는 다음과 같습니다. |
+
+### RAG-EVAL-020
+
+- Query: 문서 근거가 부족할 때 현재 문서 근거만으로는 확정하지 말아야 하는 이유는?
+- Difficulty: edge
+- Expected Evidence Type: answer_caution_policy
+- Retrieval Source: chroma
+- Fallback Used: False
+- Fallback Reason: None
+- Retrieved Chunk Count: 10
+- Rerank Applied: True
+- Reranked Chunk Count: 10
+- Final Evidence Count: 3
+- Final Evidence Limit: 3
+- Evidence Quality: PASS
+- Keyword Match: 3/3 (ratio 1.0)
+- Metadata Match: 0/0 (ratio 1.0)
+- Missing Reason: 없음
+- Improvement Hint: 검색 근거가 부족하면 확정하지 않고 제한적으로 답변해야 한다는 문단이 검색되어야 한다.
+
+#### Retrieved Chunks Preview
+
+| Chunk ID | Source | Original Rank | Distance | Rerank Score | Rerank Reasons | Metadata | Text Preview |
+|---|---|---:|---:|---:|---|---|---|
+| chroma-1 | chroma | 1 | 80.3539 | 10 | keyword:근거, keyword:답변, preferred_doc:alarm_manual.md | {"doc_name": "alarm_manual.md", "equipment_id": "", "symptom": "", "quality_metric": "", "alarm_code": "", "process_name": "", "keywords": "", "chunk_id": "CHUNK-0061", "equipment_type": "", "section_title": "9.2 근거를 함께 제시하기", "action": ""} | Agent는 답변할 때 로그 근거와 매뉴얼 근거를 함께 제시해야 합니다. |
+| chroma-4 | chroma | 4 | 81.9028 | 7 | keyword:답변, preferred_doc:alarm_manual.md | {"quality_metric": "", "action": "", "chunk_id": "CHUNK-0070", "symptom": "", "keywords": "", "process_name": "", "doc_name": "alarm_manual.md", "equipment_id": "", "alarm_code": "", "section_title": "11. Agent 답변 예시", "equipment_type": ""} | 아래 예시는 교육용 문서 검색과 RAG 실습에서 사용할 수 있는 답변 형식입니다. |
+| chroma-8 | chroma | 8 | 84.0307 | 7 | keyword:확정, preferred_doc:alarm_manual.md | {"doc_name": "alarm_manual.md", "equipment_id": "", "symptom": "", "action": "", "chunk_id": "CHUNK-0056", "keywords": "", "section_title": "9.1 단정하지 않기", "process_name": "", "alarm_code": "", "quality_metric": "", "equipment_type": ""} | 알람 로그와 매뉴얼만으로 실제 원인을 확정하면 안 됩니다. |
+
+## 4. Teaching Notes
+
+- RAG 평가는 search_manual Tool 선택 여부만 보는 것이 아니다.
+- 실제 검색된 Chunk가 질문에 맞는지 확인해야 한다.
+- Metadata가 부족하면 검색 품질이 흔들릴 수 있다.
+- Chroma 검색 실패 시 fallback 전략도 운영 설계의 일부다.
+- Chroma 검색 성공 후 검색 결과가 없는 경우는 실제 검색 실패로 평가해야 한다.
+- 검색 실패 원인을 Chunk, Metadata, Query Rewrite, Top-K, Reranker 관점으로 나누어 봐야 한다.
+- 이 평가기는 top_k를 넉넉히 검색한 뒤 rule-based reranker로 재정렬하고, 케이스 유형에 따라 final evidence(top 3 또는 top 5)만 채점한다.
+- 단, 이 reranker는 평가용 진단 도구이며, 운영 search_manual Tool은 expected_keywords 같은 정답 라벨 대신 query analysis/entity/metadata filter를 사용해야 한다.
+- out_of_scope 케이스는 유사 문서가 검색되어도 직접 근거가 없으면 PASS로 보고, 유사 문서를 확정 근거로 쓰지 않는지를 평가한다.

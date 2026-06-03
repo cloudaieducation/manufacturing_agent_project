@@ -1,0 +1,138 @@
+{
+  "generated_at": "2026-05-31T07:14:55",
+  "overall_status": "HOLD",
+  "summary": {
+    "tool_plan_status": "HOLD",
+    "guardrail_status": "WARNING",
+    "rag_quality_status": "HOLD",
+    "text_to_sql_safety_status": "WARNING",
+    "text_to_sql_trace_status": "PASS",
+    "prompt_scorecard_status": "WARNING"
+  },
+  "area_results": [
+    {
+      "area": "Tool Plan Validation",
+      "key": "tool_plan_status",
+      "status": "HOLD",
+      "comment": "Tool Plan 검증 FAIL 케이스가 13건 있어 보완이 필요합니다.",
+      "metrics": {
+        "fail_count": 13,
+        "warning_count": 3,
+        "missing_tool_count": 11,
+        "missing_argument_count": 13
+      },
+      "issues": [
+        "Tool Plan 검증 FAIL 케이스가 13건 있어 보완이 필요합니다."
+      ]
+    },
+    {
+      "area": "Guardrail",
+      "key": "guardrail_status",
+      "status": "WARNING",
+      "comment": "Guardrail 결과에 일부 불일치(과잉 거부 등)가 있어 기준 점검이 필요합니다.",
+      "metrics": {
+        "mismatch_count": 3,
+        "fail_count": 0,
+        "blocked_count": 6,
+        "allowed_count": 26
+      },
+      "issues": [
+        "Guardrail 결과에 일부 불일치(과잉 거부 등)가 있어 기준 점검이 필요합니다."
+      ]
+    },
+    {
+      "area": "RAG Quality",
+      "key": "rag_quality_status",
+      "status": "HOLD",
+      "comment": "RAG 평가 FAIL 케이스가 6건 있어 근거 신뢰도 보완이 필요합니다.",
+      "metrics": {
+        "fail_count": 6,
+        "warning_count": 3,
+        "pass_count": 1,
+        "fallback_count": 0
+      },
+      "issues": [
+        "RAG 평가 FAIL 케이스가 6건 있어 근거 신뢰도 보완이 필요합니다."
+      ]
+    },
+    {
+      "area": "Text-to-SQL Safety",
+      "key": "text_to_sql_safety_status",
+      "status": "WARNING",
+      "comment": "Text-to-SQL 경고(WARNING) 케이스가 3건 있어 조건 보완이 권장됩니다.",
+      "metrics": {
+        "mismatch_count": 0,
+        "pass_count": 2,
+        "warning_count": 3,
+        "block_count": 11,
+        "sql_injection_case_count": 6
+      },
+      "issues": [
+        "Text-to-SQL 경고(WARNING) 케이스가 3건 있어 조건 보완이 권장됩니다."
+      ]
+    },
+    {
+      "area": "Text-to-SQL Trace",
+      "key": "text_to_sql_trace_status",
+      "status": "PASS",
+      "comment": "Trace 레코드 72건이 모두 필수 필드를 갖추고 있습니다.",
+      "metrics": {
+        "record_count": 72,
+        "error_count": 0
+      },
+      "issues": []
+    },
+    {
+      "area": "Prompt Evaluation",
+      "key": "prompt_scorecard_status",
+      "status": "WARNING",
+      "comment": "Prompt Evaluation Scorecard가 없어 5일차 전 Prompt 평가 결과 보완이 권장됩니다.",
+      "metrics": {
+        "exists": false
+      },
+      "issues": [
+        "Prompt Scorecard 없음"
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "severity": "HOLD",
+      "area": "Tool Plan Validation",
+      "message": "Tool Plan 검증 FAIL 케이스가 13건 있어 보완이 필요합니다."
+    },
+    {
+      "severity": "WARNING",
+      "area": "Guardrail",
+      "message": "Guardrail 결과에 일부 불일치(과잉 거부 등)가 있어 기준 점검이 필요합니다."
+    },
+    {
+      "severity": "HOLD",
+      "area": "RAG Quality",
+      "message": "RAG 평가 FAIL 케이스가 6건 있어 근거 신뢰도 보완이 필요합니다."
+    },
+    {
+      "severity": "WARNING",
+      "area": "Text-to-SQL Safety",
+      "message": "Text-to-SQL 경고(WARNING) 케이스가 3건 있어 조건 보완이 권장됩니다."
+    },
+    {
+      "severity": "WARNING",
+      "area": "Prompt Evaluation",
+      "message": "Prompt Scorecard 없음"
+    }
+  ],
+  "day5_backlog": [
+    "check_text_to_sql_safety를 MCP Tool로 등록",
+    "PASS일 때만 DB Tool 실행하도록 Agent 분기 추가",
+    "WARNING일 때 사용자에게 조건 보완 요청",
+    "BLOCK일 때 Safe Refusal 응답",
+    "Text-to-SQL Trace를 Final Trace Review에 포함",
+    "RAG WARN/FAIL 케이스를 Final Report에서 근거 부족으로 표시",
+    "Guardrail BLOCK 케이스를 Edge Case 시나리오에 포함",
+    "Tool Plan mismatch가 있으면 Tool Contract와 Tool 설명 보강",
+    "RAG 평가가 HOLD/WARNING이므로 Final Report에 근거 신뢰도를 표시",
+    "Prompt Scorecard가 없으므로 5일차 전 Prompt Evaluation 결과를 보완",
+    "Quality Gate가 PASS가 아니므로 5일차 첫 시간에 보완 항목을 먼저 설명"
+  ]
+}

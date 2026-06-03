@@ -1,0 +1,1479 @@
+{
+  "generated_at": "2026-05-31T17:16:06",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_5.json",
+  "output_tag": "action_5_nvidia_norm",
+  "results": [
+    {
+      "case_id": "TC-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 특정 알람 반복 발생을 언급하여, 운영 데이터 확인을 위해 최근 알람 이력을 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting causes verification items thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점에서 원인 후보, 근거, 추가 확인 항목을 요청하여, 알람 코드와 공정 맥락을 포함한 기술 문서를 검색합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 특정 알람 반복 발생을 언급하여, 운영 데이터 확인을 위해 최근 알람 이력을 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting causes verification items thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점에서 원인 후보, 근거, 추가 확인 항목을 요청하여, 알람 코드와 공정 맥락을 포함한 기술 문서를 검색합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 27.958,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_equipment_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_equipment_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_equipment_status"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_equipment_status."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_quality_metrics",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_quality_metrics",
+          "before": {},
+          "after": {
+            "tool_name": "get_quality_metrics"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_quality_metrics."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_maintenance_history",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_maintenance_history",
+          "before": {},
+          "after": {
+            "tool_name": "get_maintenance_history"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_maintenance_history."
+        },
+        {
+          "rule_id": "ARG-get_equipment_status-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_equipment_status",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from query entity."
+        },
+        {
+          "rule_id": "ARG-get_maintenance_history-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_maintenance_history",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 특정 알람 반복 발생을 언급하여, 운영 데이터 확인을 위해 최근 알람 이력을 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting causes verification items thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점에서 원인 후보, 근거, 추가 확인 항목을 요청하여, 알람 코드와 공정 맥락을 포함한 기술 문서를 검색합니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 특정 알람 반복 발생을 언급하여, 운영 데이터 확인을 위해 최근 알람 이력을 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting causes verification items thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점에서 원인 후보, 근거, 추가 확인 항목을 요청하여, 알람 코드와 공정 맥락을 포함한 기술 문서를 검색합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-ACTION-002",
+      "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표도 함께 확인하고 싶습니다.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 발생 시 1차 체크리스트 챔버 온도 진공도 증착률 박막 두께 균일도 파티클",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 확인할 체크리스트와 특정 품질 지표에 대한 조치 절차 문서를 요청했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 발생 시 1차 체크리스트 챔버 온도 진공도 증착률 박막 두께 균일도 파티클",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 확인할 체크리스트와 특정 품질 지표에 대한 조치 절차 문서를 요청했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 24.065,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-checklist_generation-get_recent_alarm_events",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_recent_alarm_events",
+          "before": {},
+          "after": {
+            "tool_name": "get_recent_alarm_events"
+          },
+          "reason": "Action intent 'checklist_generation' inferred from user_query requires get_recent_alarm_events."
+        },
+        {
+          "rule_id": "POLICY-checklist_generation-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'checklist_generation' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-checklist_generation-get_quality_metrics",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_quality_metrics",
+          "before": {},
+          "after": {
+            "tool_name": "get_quality_metrics"
+          },
+          "reason": "Action intent 'checklist_generation' inferred from user_query requires get_quality_metrics."
+        },
+        {
+          "rule_id": "ARG-get_recent_alarm_events-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_recent_alarm_events",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 발생 시 1차 체크리스트 챔버 온도 진공도 증착률 박막 두께 균일도 파티클",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 확인할 체크리스트와 특정 품질 지표에 대한 조치 절차 문서를 요청했습니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 발생 시 1차 체크리스트 챔버 온도 진공도 증착률 박막 두께 균일도 파티클",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 확인할 체크리스트와 특정 품질 지표에 대한 조치 절차 문서를 요청했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'checklist_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-ACTION-003",
+      "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 알람 반복 발생을 언급했으므로, 해당 설비의 최근 알람 이력을 확인하여 반복 여부와 패턴을 검증합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm repeated occurrence troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "알람에 대한 표준 조치 절차와 담당 팀(설비/공정/품질/정비)별 대응 역할을 문서에서 확인하여 공유 대상 팀을 판단합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 알람 반복 발생을 언급했으므로, 해당 설비의 최근 알람 이력을 확인하여 반복 여부와 패턴을 검증합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm repeated occurrence troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "알람에 대한 표준 조치 절차와 담당 팀(설비/공정/품질/정비)별 대응 역할을 문서에서 확인하여 공유 대상 팀을 판단합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 45.148,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-team_routing-get_equipment_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_equipment_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_equipment_status"
+          },
+          "reason": "Action intent 'team_routing' inferred from user_query requires get_equipment_status."
+        },
+        {
+          "rule_id": "POLICY-team_routing-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'team_routing' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-team_routing-get_quality_metrics",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_quality_metrics",
+          "before": {},
+          "after": {
+            "tool_name": "get_quality_metrics"
+          },
+          "reason": "Action intent 'team_routing' inferred from user_query requires get_quality_metrics."
+        },
+        {
+          "rule_id": "POLICY-team_routing-get_maintenance_history",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_maintenance_history",
+          "before": {},
+          "after": {
+            "tool_name": "get_maintenance_history"
+          },
+          "reason": "Action intent 'team_routing' inferred from user_query requires get_maintenance_history."
+        },
+        {
+          "rule_id": "ARG-get_equipment_status-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_equipment_status",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from query entity."
+        },
+        {
+          "rule_id": "ARG-get_maintenance_history-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_maintenance_history",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 알람 반복 발생을 언급했으므로, 해당 설비의 최근 알람 이력을 확인하여 반복 여부와 패턴을 검증합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm repeated occurrence troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "알람에 대한 표준 조치 절차와 담당 팀(설비/공정/품질/정비)별 대응 역할을 문서에서 확인하여 공유 대상 팀을 판단합니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 알람 반복 발생을 언급했으므로, 해당 설비의 최근 알람 이력을 확인하여 반복 여부와 패턴을 검증합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm repeated occurrence troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "알람에 대한 표준 조치 절차와 담당 팀(설비/공정/품질/정비)별 대응 역할을 문서에서 확인하여 공유 대상 팀을 판단합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'team_routing' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-ACTION-004",
+      "user_query": "ALM-TEMP-402가 다시 발생하는지 감시하려면 어떤 조건을 설정해야 하나요? 최근 24시간 반복 알람, 챔버 온도 편차, 진공도 변동, defect_rate, particle_count, 박막 두께 균일도 관점에서 감시 조건을 제안해 주세요.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 alarm monitoring conditions and parameters",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for monitoring conditions for ALM-TEMP-402 alarm based on specific parameters. The manual search will provide documented troubleshooting and monitoring guidelines."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 alarm monitoring conditions and parameters",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for monitoring conditions for ALM-TEMP-402 alarm based on specific parameters. The manual search will provide documented troubleshooting and monitoring guidelines."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 24.498,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-monitoring_rule_generation-get_recent_alarm_events",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_recent_alarm_events",
+          "before": {},
+          "after": {
+            "tool_name": "get_recent_alarm_events"
+          },
+          "reason": "Action intent 'monitoring_rule_generation' inferred from user_query requires get_recent_alarm_events."
+        },
+        {
+          "rule_id": "POLICY-monitoring_rule_generation-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'monitoring_rule_generation' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-monitoring_rule_generation-get_quality_metrics",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_quality_metrics",
+          "before": {},
+          "after": {
+            "tool_name": "get_quality_metrics"
+          },
+          "reason": "Action intent 'monitoring_rule_generation' inferred from user_query requires get_quality_metrics."
+        },
+        {
+          "rule_id": "ARG-get_recent_alarm_events-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_recent_alarm_events",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 alarm monitoring conditions and parameters",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for monitoring conditions for ALM-TEMP-402 alarm based on specific parameters. The manual search will provide documented troubleshooting and monitoring guidelines."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 alarm monitoring conditions and parameters",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for monitoring conditions for ALM-TEMP-402 alarm based on specific parameters. The manual search will provide documented troubleshooting and monitoring guidelines."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'monitoring_rule_generation' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-ACTION-007",
+      "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires search_manual as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires search_manual as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 24.19,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-work_instruction_draft-get_equipment_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_equipment_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_equipment_status"
+          },
+          "reason": "Action intent 'work_instruction_draft' inferred from user_query requires get_equipment_status."
+        },
+        {
+          "rule_id": "POLICY-work_instruction_draft-get_recent_alarm_events",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_recent_alarm_events",
+          "before": {},
+          "after": {
+            "tool_name": "get_recent_alarm_events"
+          },
+          "reason": "Action intent 'work_instruction_draft' inferred from user_query requires get_recent_alarm_events."
+        },
+        {
+          "rule_id": "POLICY-work_instruction_draft-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'work_instruction_draft' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-work_instruction_draft-get_maintenance_history",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_maintenance_history",
+          "before": {},
+          "after": {
+            "tool_name": "get_maintenance_history"
+          },
+          "reason": "Action intent 'work_instruction_draft' inferred from user_query requires get_maintenance_history."
+        },
+        {
+          "rule_id": "POLICY-work_instruction_draft-search_manual",
+          "rule_type": "action_tool_policy",
+          "tool_name": "search_manual",
+          "before": {},
+          "after": {
+            "tool_name": "search_manual"
+          },
+          "reason": "Action intent 'work_instruction_draft' inferred from user_query requires search_manual."
+        },
+        {
+          "rule_id": "ARG-get_equipment_status-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_equipment_status",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-get_recent_alarm_events-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_recent_alarm_events",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_maintenance_history-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_maintenance_history",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-search_manual-query",
+          "rule_type": "argument_normalization",
+          "tool_name": "search_manual",
+          "before": {
+            "query": null
+          },
+          "after": {
+            "query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요."
+          },
+          "reason": "Tool Contract requires/normalizes 'query'. Filled from query entity."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": []
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_recent_alarm_events as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "Action intent 'work_instruction_draft' requires search_manual as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    }
+  ]
+}

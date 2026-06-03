@@ -1,0 +1,65 @@
+[안내] --mode http: http://127.0.0.1:8003/mcp 에 접속합니다. 서버를 먼저 띄워야 합니다 → python -m day5.mcp_server03.mcp_server --transport streamable-http --port 8003
+
+[1] Tool 목록 확인 (http transport)
+- get_equipment_status
+- get_recent_alarm_events
+- get_process_status
+- get_quality_metrics
+- get_maintenance_history
+- get_equipment_overview
+- search_manual
+
+[2] RAG 검색: search_manual
+status: executed
+validation_status: PASS
+retrieval_source: chroma
+fallback_used: False
+documents: 10
+  - title: 7. 공정 상태 확인 관점 / snippet: 공정 상태 확인은 ALM-TEMP-402 반복 알람을 해석할 때 중요한 기준입니다. 디스플레이 패널 제조 라인의 증착 공정에서는 설비 상태와 공정 흐름이 함께 영...
+  - title: 10. 조치 방향 작성 기준 / snippet: ALM-TEMP-402 반복 알람에 대한 조치 방향은 실제 장비 제어 지시가 아니라 확인과 검토 중심으로 작성해야 합니다. 이 문서는 교육용 샘플 문서이므로 실제...
+  - title: 8. 품질 영향 확인 관점 / snippet: 품질 영향 확인에서 중요한 점은 직접 원인으로 단정하지 않는 것입니다. 불량률 변화가 보이더라도 “ALM-TEMP-402 때문에 불량이 발생했습니다”라고 표현하지...
+  - ...외 7건
+query: ALM-TEMP-402 조치 방향
+matched_alarm_code: ALM-TEMP-402
+
+[3] DB 조회: 설비 개요: get_equipment_overview
+status: executed
+validation_status: PASS
+data_source: db
+fallback_used: False
+equipment_id: EQP-EV-03
+equipment_type: Evaporation Chamber
+line_id: LINE-07
+
+[4] DB 조회: 최근 알람: get_recent_alarm_events
+status: executed
+validation_status: PASS
+data_source: db
+fallback_used: False
+events: 5
+  - alarm_code=ALM-TEMP-402, occurred_at=2026-05-15T10:45:00, severity=HIGH
+  - alarm_code=ALM-TEMP-402, occurred_at=2026-05-15T10:25:00, severity=HIGH
+  - alarm_code=ALM-TEMP-402, occurred_at=2026-05-15T10:05:00, severity=CRITICAL
+  - ...외 2건
+equipment_id: EQP-EV-03
+alarm_code: ALM-TEMP-402
+event_count: 5
+limit: 20
+
+[5] DB 조회: 품질 지표: get_quality_metrics
+status: executed
+validation_status: PASS
+data_source: db
+fallback_used: False
+metric_name: yield_rate
+equipment_id: EQP-EV-03
+line_id: LINE-07
+value: 96.800
+unit: ratio
+period: recent
+
+[6] SQL Tool 거부: execute_sql
+status: rejected
+reason: forbidden tool
+
+[참고] mcp_client03 --mode http 는 미리 떠 있는 long-lived HTTP 서버(streamable-http)에 접속합니다. 이 모드에서는 search_manual(RAG)도 수초 내 정상 응답합니다.

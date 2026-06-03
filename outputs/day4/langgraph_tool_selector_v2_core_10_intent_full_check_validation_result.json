@@ -1,0 +1,1330 @@
+{
+  "generated_at": "2026-05-31T19:20:14",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_core_10.json",
+  "output_tag": "core_10_intent_full_check",
+  "normalization_mode": "full",
+  "summary": {
+    "total_cases": 10,
+    "pass_count": 10,
+    "warning_count": 0,
+    "fail_count": 0,
+    "json_parse_error_count": 0,
+    "missing_tool_count": 0,
+    "extra_tool_count": 0,
+    "missing_argument_count": 0,
+    "wrong_argument_name_count": 0,
+    "missing_condition_count": 0,
+    "weak_reason_count": 0,
+    "tool_contract_mismatch_count": 0,
+    "llm_used_count": 10,
+    "fallback_count": 0,
+    "repair_attempt_count": 2,
+    "repair_success_count": 2,
+    "needs_review_count": 0,
+    "normalization_mode": "full",
+    "normalization_applied_count": 2,
+    "action_policy_rule_count": 0,
+    "argument_normalization_rule_count": 2,
+    "argument_removed_rule_count": 0,
+    "dedup_rule_count": 0
+  },
+  "results": [
+    {
+      "case_id": "TC-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했는지 확인해줘",
+      "expected_tools": [
+        "get_recent_alarm_events"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the recent alarm history to determine if a specific alarm has occurred repeatedly."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the recent alarm history to determine if a specific alarm has occurred repeatedly."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 2.909,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the recent alarm history to determine if a specific alarm has occurred repeatedly."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the recent alarm history to determine if a specific alarm has occurred repeatedly."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-002",
+      "user_query": "EQP-EV-03의 최근 품질 영향도 확인해줘. 불량률이나 수율 변화가 있었는지 보고 싶어",
+      "expected_tools": [
+        "get_quality_metrics"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, including defect rate or yield changes, for a specific equipment."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, including defect rate or yield changes, for a specific equipment."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 1.75,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, including defect rate or yield changes, for a specific equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, including defect rate or yield changes, for a specific equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-003",
+      "user_query": "ALM-TEMP-402 조치 절차를 매뉴얼에서 찾아줘",
+      "expected_tools": [
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for a specific alarm code."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for a specific alarm code."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 1.833,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for a specific alarm code."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for a specific alarm code."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-004",
+      "user_query": "EQP-EV-03 알람 원인, 최근 품질 영향, 조치 절차를 종합해줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs recent alarm history to understand the alarm cause."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact related to the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user requests a troubleshooting procedure document."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs recent alarm history to understand the alarm cause."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact related to the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user requests a troubleshooting procedure document."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 2.999,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs recent alarm history to understand the alarm cause."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact related to the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user requests a troubleshooting procedure document."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs recent alarm history to understand the alarm cause."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact related to the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user requests a troubleshooting procedure document."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-006",
+      "user_query": "EQP-EV-03의 최근 정비 이력과 부품 교체 여부를 확인해줘",
+      "expected_tools": [
+        "get_maintenance_history"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance history and component replacement information."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance history and component replacement information."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 1.723,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance history and component replacement information."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance history and component replacement information."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-007",
+      "user_query": "EQP-EV-03의 최근 온도, 압력, 진공 상태를 확인해줘",
+      "expected_tools": [
+        "get_process_status"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for multiple recent quality metrics related to temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "process_name": "증착 공정"
+            },
+            "condition": "always",
+            "reason": "The user requests the recent status of temperature, pressure, and vacuum for a specific equipment, which aligns with process status."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "process_name": "증착 공정"
+            },
+            "condition": "always",
+            "reason": "The user requests the recent status of temperature, pressure, and vacuum for a specific equipment, which aligns with process status."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 3.47,
+      "normalization_mode": "full",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for multiple recent quality metrics related to temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for multiple recent quality metrics related to temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "The user requests the recent status of temperature, pressure, and vacuum for a specific equipment, which aligns with process status."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "process_name": "증착 공정"
+            },
+            "condition": "always",
+            "reason": "The user requests the recent status of temperature, pressure, and vacuum for a specific equipment, which aligns with process status."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-008",
+      "user_query": "EQP-EV-03의 설비 위치와 담당 공정 정보를 알려줘",
+      "expected_tools": [
+        "get_equipment_status"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": []
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To retrieve the location and process information of equipment EQP-EV-03."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To retrieve the location and process information of equipment EQP-EV-03."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 2.668,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": []
+      },
+      "normalized_initial_tool_plan": {
+        "plan": []
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To retrieve the location and process information of equipment EQP-EV-03."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To retrieve the location and process information of equipment EQP-EV-03."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-010",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status of a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs operational alarm history for a specific alarm on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the process status related to the specific equipment."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for quality metrics to assess the impact on quality."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance and component replacement history."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for the specific alarm."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status of a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs operational alarm history for a specific alarm on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the process status related to the specific equipment."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for quality metrics to assess the impact on quality."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance and component replacement history."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for the specific alarm."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 4.566,
+      "normalization_mode": "full",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status of a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs operational alarm history for a specific alarm on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the process status related to the specific equipment."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for quality metrics to assess the impact on quality."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance and component replacement history."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for the specific alarm."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status of a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs operational alarm history for a specific alarm on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the process status related to the specific equipment."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for quality metrics to assess the impact on quality."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user asks for recent maintenance and component replacement history."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for a troubleshooting procedure document for the specific alarm."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-014",
+      "user_query": "EQP-EV-03의 온도 알람이 정비 이후에도 반복되는지 알람 이력과 정비 이력을 같이 확인해줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_maintenance_history"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the alarm history to see if the temperature alarm is repeating."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user also asks for maintenance history to correlate with alarm occurrences."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the alarm history to see if the temperature alarm is repeating."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user also asks for maintenance history to correlate with alarm occurrences."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 2.403,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the alarm history to see if the temperature alarm is repeating."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": null,
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user also asks for maintenance history to correlate with alarm occurrences."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user needs to check the alarm history to see if the temperature alarm is repeating."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "The user also asks for maintenance history to correlate with alarm occurrences."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-016",
+      "user_query": "EQP-EV-03에서 최근 알람이 있었고 수율도 떨어진 것 같아. 알람 이력과 품질 지표를 같이 봐줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_quality_metrics"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent alarm history for a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user also asks for recent quality metrics, including yield, for the same equipment."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent alarm history for a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user also asks for recent quality metrics, including yield, for the same equipment."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 2.187,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent alarm history for a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user also asks for recent quality metrics, including yield, for the same equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent alarm history for a specific equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user also asks for recent quality metrics, including yield, for the same equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    }
+  ]
+}

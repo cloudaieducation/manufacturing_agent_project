@@ -1,140 +1,139 @@
-Ã·ºÎµÈ langgraph_tool_selector_v2_runner.py¿¡ ´ëÇØ ±³À°¿ë TDD Å×½ºÆ®¸¦ ÇÙ½É¸¸ ¸¸µé¾îÁà.
+ì²¨ë¶€ëœ langgraph_tool_selector_v2_runner.pyì— ëŒ€í•´ êµìœ¡ìš© TDD í…ŒìŠ¤íŠ¸ë¥¼ í•µì‹¬ë§Œ ë§Œë“¤ì–´ì¤˜.
 
-¸ñÇ¥:
+ëª©í‘œ:
 
-* ÀüÃ¼ ÇÔ¼ö¸¦ ÃÎÃÎÈ÷ Å×½ºÆ®ÇÏÁö ¸»°í, ±³À°¿¡¼­ ¼³¸íÇÏ±â ÁÁÀº ÇÙ½É¸¸ Å×½ºÆ®ÇÑ´Ù.
-* ½ÇÇà ¿É¼ÇÀ» ¹Ù²ã °¡¸ç ¼º´ÉÀÌ ³·Àº ¼³Á¤¿¡¼­ ³ôÀº ¼³Á¤À¸·Î °³¼±µÇ´Â Èå¸§À» º¸¿©ÁØ´Ù.
-* ´Ü, ³·Àº ¼º´É ±âÁØ¿¡¼­µµ --normalization-mode noneÀº »ç¿ëÇÏÁö ¾Ê´Â´Ù.
-* ±âÁ¸ production ÄÚµå´Â °¡´ÉÇÑ ¼öÁ¤ÇÏÁö ¾Ê´Â´Ù.
-* pytest ±â¹İÀ¸·Î Å×½ºÆ®ÇÑ´Ù.
-* ½ÇÁ¦ LLM È£ÃâÀº ÇÏÁö ¾Êµµ·Ï monkeypatch/mock Ã³¸®ÇÑ´Ù.
-* ½ÇÁ¦ output ÆÄÀÏ ÀúÀåÀº ÇÏÁö ¾Ê´Â´Ù.
-* ÁÖ¼®Àº ÃæºĞÈ÷ ´ŞµÇ, ¡°ÃÊº¸¡±, ¡°ÃÊº¸ÀÚ¡±¶ó´Â Ç¥ÇöÀº ¾²Áö ¾Ê´Â´Ù.
+* ì „ì²´ í•¨ìˆ˜ë¥¼ ì´˜ì´˜íˆ í…ŒìŠ¤íŠ¸í•˜ì§€ ë§ê³ , êµìœ¡ì—ì„œ ì„¤ëª…í•˜ê¸° ì¢‹ì€ í•µì‹¬ë§Œ í…ŒìŠ¤íŠ¸í•œë‹¤.
+* ì‹¤í–‰ ì˜µì…˜ì„ ë°”ê¿” ê°€ë©° ì„±ëŠ¥ì´ ë‚®ì€ ì„¤ì •ì—ì„œ ë†’ì€ ì„¤ì •ìœ¼ë¡œ ê°œì„ ë˜ëŠ” íë¦„ì„ ë³´ì—¬ì¤€ë‹¤.
+* ë‹¨, ë‚®ì€ ì„±ëŠ¥ ê¸°ì¤€ì—ì„œë„ --normalization-mode noneì€ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤.
+* ê¸°ì¡´ production ì½”ë“œëŠ” ê°€ëŠ¥í•œ ìˆ˜ì •í•˜ì§€ ì•ŠëŠ”ë‹¤.
+* pytest ê¸°ë°˜ìœ¼ë¡œ í…ŒìŠ¤íŠ¸í•œë‹¤.
+* ì‹¤ì œ LLM í˜¸ì¶œì€ í•˜ì§€ ì•Šë„ë¡ monkeypatch/mock ì²˜ë¦¬í•œë‹¤.
+* ì‹¤ì œ output íŒŒì¼ ì €ì¥ì€ í•˜ì§€ ì•ŠëŠ”ë‹¤.
 
-´ë»ó ÆÄÀÏ:
+ëŒ€ìƒ íŒŒì¼:
 
 * src/day4/langgraph_tool_selector_v2_runner.py
 
-Å×½ºÆ® ÆÄÀÏ »ı¼º À§Ä¡:
+í…ŒìŠ¤íŠ¸ íŒŒì¼ ìƒì„± ìœ„ì¹˜:
 
 * tests/day4/test_langgraph_tool_selector_v2_runner_education.py
 
-±³À°¿ë ÇÙ½É Å×½ºÆ® ¹üÀ§:
+êµìœ¡ìš© í•µì‹¬ í…ŒìŠ¤íŠ¸ ë²”ìœ„:
 
-1. ¿É¼Ç ÅÂ±× »ı¼º Å×½ºÆ®: derive_output_tag()
+1. ì˜µì…˜ íƒœê·¸ ìƒì„± í…ŒìŠ¤íŠ¸: derive_output_tag()
 
-¸ñÀû:
+ëª©ì :
 
-* ¾î¶² Å×½ºÆ® µ¥ÀÌÅÍ ÆÄÀÏÀ» ½ÇÇàÇß´ÂÁö output tag°¡ ¾î¶»°Ô ºÙ´ÂÁö ¼³¸íÇÏ±â À§ÇÔ
+* ì–´ë–¤ í…ŒìŠ¤íŠ¸ ë°ì´í„° íŒŒì¼ì„ ì‹¤í–‰í–ˆëŠ”ì§€ output tagê°€ ì–´ë–»ê²Œ ë¶™ëŠ”ì§€ ì„¤ëª…í•˜ê¸° ìœ„í•¨
 
-Å×½ºÆ®ÇÒ °Í:
+í…ŒìŠ¤íŠ¸í•  ê²ƒ:
 
-* data/tool_selection_test_cases_core_10.json ¡æ core_10
-* data/tool_selection_test_cases_guardrail_10.json ¡æ guardrail_10
-* data/tool_selection_test_cases_action_5.json ¡æ action_5
+* data/tool_selection_test_cases_core_10.json â†’ core_10
+* data/tool_selection_test_cases_guardrail_10.json â†’ guardrail_10
+* data/tool_selection_test_cases_action_5.json â†’ action_5
 
-Á¦¿Ü:
+ì œì™¸:
 
-* data/tool_selection_test_cases.json ¡æ all Å×½ºÆ®´Â Á¦¿Ü
+* data/tool_selection_test_cases.json â†’ all í…ŒìŠ¤íŠ¸ëŠ” ì œì™¸
 
-2. ÄÉÀÌ½º ¼±ÅÃ Å×½ºÆ®: select_cases()
+2. ì¼€ì´ìŠ¤ ì„ íƒ í…ŒìŠ¤íŠ¸: select_cases()
 
-¸ñÀû:
+ëª©ì :
 
-* --limit, --case-id ¿É¼ÇÀÌ Å×½ºÆ® ¹üÀ§¸¦ ¾î¶»°Ô ÁÙÀÌ´ÂÁö ¼³¸íÇÏ±â À§ÇÔ
+* --limit, --case-id ì˜µì…˜ì´ í…ŒìŠ¤íŠ¸ ë²”ìœ„ë¥¼ ì–´ë–»ê²Œ ì¤„ì´ëŠ”ì§€ ì„¤ëª…í•˜ê¸° ìœ„í•¨
 
-Å×½ºÆ®ÇÒ °Í:
+í…ŒìŠ¤íŠ¸í•  ê²ƒ:
 
-* --limit 2ÀÌ¸é ¾Õ¿¡¼­ 2°³¸¸ ¼±ÅÃµÇ´ÂÁö È®ÀÎ
-* --case-id TS-002ÀÌ¸é ÇØ´ç ÄÉÀÌ½º¸¸ ¼±ÅÃµÇ´ÂÁö È®ÀÎ
-* --case-id°¡ --limitº¸´Ù ¿ì¼±µÇ´ÂÁö È®ÀÎ
+* --limit 2ì´ë©´ ì•ì—ì„œ 2ê°œë§Œ ì„ íƒë˜ëŠ”ì§€ í™•ì¸
+* --case-id TS-002ì´ë©´ í•´ë‹¹ ì¼€ì´ìŠ¤ë§Œ ì„ íƒë˜ëŠ”ì§€ í™•ì¸
+* --case-idê°€ --limitë³´ë‹¤ ìš°ì„ ë˜ëŠ”ì§€ í™•ì¸
 
-3. Repair ÆÇ´Ü Å×½ºÆ®: needs_repair()
+3. Repair íŒë‹¨ í…ŒìŠ¤íŠ¸: needs_repair()
 
-¸ñÀû:
+ëª©ì :
 
-* PASS´Â ¹Ù·Î Á¾·áÇÏ°í, WARNING/FAILÀº Repair ´ë»óÀ¸·Î °¡´Â Èå¸§À» ¼³¸íÇÏ±â À§ÇÔ
+* PASSëŠ” ë°”ë¡œ ì¢…ë£Œí•˜ê³ , WARNING/FAILì€ Repair ëŒ€ìƒìœ¼ë¡œ ê°€ëŠ” íë¦„ì„ ì„¤ëª…í•˜ê¸° ìœ„í•¨
 
-Å×½ºÆ®ÇÒ °Í:
+í…ŒìŠ¤íŠ¸í•  ê²ƒ:
 
-* PASS ¡æ False
-* WARNING ¡æ True
-* FAIL ¡æ True
+* PASS â†’ False
+* WARNING â†’ True
+* FAIL â†’ True
 
-4. ÃÖÁ¾ °á°ú ¼±ÅÃ Å×½ºÆ®: finalize()
+4. ìµœì¢… ê²°ê³¼ ì„ íƒ í…ŒìŠ¤íŠ¸: finalize()
 
-¸ñÀû:
+ëª©ì :
 
-* Repair Àü °á°ú¿Í Repair ÈÄ °á°ú Áß ´õ ÁÁÀº °á°ú¸¦ ¼±ÅÃÇÏ´Â ¹æ½ÄÀ» ¼³¸íÇÏ±â À§ÇÔ
+* Repair ì „ ê²°ê³¼ì™€ Repair í›„ ê²°ê³¼ ì¤‘ ë” ì¢‹ì€ ê²°ê³¼ë¥¼ ì„ íƒí•˜ëŠ” ë°©ì‹ì„ ì„¤ëª…í•˜ê¸° ìœ„í•¨
 
-Å×½ºÆ®ÇÒ °Í:
+í…ŒìŠ¤íŠ¸í•  ê²ƒ:
 
-* initialÀÌ FAILÀÌ°í repaired°¡ PASSÀÌ¸é ÃÖÁ¾ PASS
-* initialÀÌ WARNINGÀÌ°í repaired°¡ PASSÀÌ¸é ÃÖÁ¾ PASS
-* repairedµµ FAILÀÌ¸é ÃÖÁ¾ NEEDS_REVIEW
-* repaired°¡ initialº¸´Ù ³ª»Ú¸é initial °á°ú À¯Áö
+* initialì´ FAILì´ê³  repairedê°€ PASSì´ë©´ ìµœì¢… PASS
+* initialì´ WARNINGì´ê³  repairedê°€ PASSì´ë©´ ìµœì¢… PASS
+* repairedë„ FAILì´ë©´ ìµœì¢… NEEDS_REVIEW
+* repairedê°€ initialë³´ë‹¤ ë‚˜ì˜ë©´ initial ê²°ê³¼ ìœ ì§€
 
-5. ½ÇÇà ¿É¼Çº° ¼º´É ºñ±³ ½Ã³ª¸®¿À Å×½ºÆ®
+5. ì‹¤í–‰ ì˜µì…˜ë³„ ì„±ëŠ¥ ë¹„êµ ì‹œë‚˜ë¦¬ì˜¤ í…ŒìŠ¤íŠ¸
 
-¸ñÀû:
+ëª©ì :
 
-* ±³À°¿¡¼­ ¡°³·Àº ¼º´É ¼³Á¤ ¡æ ³ôÀº ¼º´É ¼³Á¤¡± ¼ø¼­·Î º¸¿©ÁÖ±â À§ÇÔ
-* ½ÇÁ¦ LLMÀ» È£ÃâÇÏÁö ¾Ê°í, ¿É¼Çº° °á°ú¸¦ fake state·Î ¸¸µé¾î ºñ±³ÇÑ´Ù.
+* êµìœ¡ì—ì„œ â€œë‚®ì€ ì„±ëŠ¥ ì„¤ì • â†’ ë†’ì€ ì„±ëŠ¥ ì„¤ì •â€ ìˆœì„œë¡œ ë³´ì—¬ì£¼ê¸° ìœ„í•¨
+* ì‹¤ì œ LLMì„ í˜¸ì¶œí•˜ì§€ ì•Šê³ , ì˜µì…˜ë³„ ê²°ê³¼ë¥¼ fake stateë¡œ ë§Œë“¤ì–´ ë¹„êµí•œë‹¤.
 
-ºñ±³ ¼ø¼­:
+ë¹„êµ ìˆœì„œ:
 
-1´Ü°è ³·Àº ¼º´É:
+1ë‹¨ê³„ ë‚®ì€ ì„±ëŠ¥:
 
 * --normalization-mode argument-only
 * --fallback-mode strict
-* ¿¹»ó ¼³¸í: argument º¸Á¤Àº Àû¿ëµÇÁö¸¸, LLM ½ÇÆĞ ½Ã rule fallbackÀ» ¾²Áö ¾Ê±â ¶§¹®¿¡ FAIL/NEEDS_REVIEW°¡ ³²À» ¼ö ÀÖÀ½
+* ì˜ˆìƒ ì„¤ëª…: argument ë³´ì •ì€ ì ìš©ë˜ì§€ë§Œ, LLM ì‹¤íŒ¨ ì‹œ rule fallbackì„ ì“°ì§€ ì•Šê¸° ë•Œë¬¸ì— FAIL/NEEDS_REVIEWê°€ ë‚¨ì„ ìˆ˜ ìˆìŒ
 
-2´Ü°è ³ôÀº ¼º´É:
+2ë‹¨ê³„ ë†’ì€ ì„±ëŠ¥:
 
 * --normalization-mode full
 * --fallback-mode strict
-* ¿¹»ó ¼³¸í: argument º¸Á¤»Ó ¾Æ´Ï¶ó action tool Á¤Ã¥ º¸Á¤±îÁö Àû¿ëµÇ¾î ÀÏºÎ ¿À·ù°¡ ÁÙ¾îµé ¼ö ÀÖÀ½
+* ì˜ˆìƒ ì„¤ëª…: argument ë³´ì •ë¿ ì•„ë‹ˆë¼ action tool ì •ì±… ë³´ì •ê¹Œì§€ ì ìš©ë˜ì–´ ì¼ë¶€ ì˜¤ë¥˜ê°€ ì¤„ì–´ë“¤ ìˆ˜ ìˆìŒ
 
-3´Ü°è ÃÖ°í ¼º´É:
+3ë‹¨ê³„ ìµœê³  ì„±ëŠ¥:
 
 * --normalization-mode full
 * --fallback-mode rule
-* ¿¹»ó ¼³¸í: full normalization¿¡ ´õÇØ LLM ½ÇÆĞ ½Ã rule fallback±îÁö »ç¿ëÇÏ¹Ç·Î °¡Àå ¾ÈÁ¤ÀûÀÎ °á°ú¸¦ ±â´ëÇÒ ¼ö ÀÖÀ½
+* ì˜ˆìƒ ì„¤ëª…: full normalizationì— ë”í•´ LLM ì‹¤íŒ¨ ì‹œ rule fallbackê¹Œì§€ ì‚¬ìš©í•˜ë¯€ë¡œ ê°€ì¥ ì•ˆì •ì ì¸ ê²°ê³¼ë¥¼ ê¸°ëŒ€í•  ìˆ˜ ìˆìŒ
 
-Å×½ºÆ® ¹æ½Ä:
+í…ŒìŠ¤íŠ¸ ë°©ì‹:
 
-* ½ÇÁ¦ main() ÀüÃ¼¸¦ ½ÇÇàÇÏÁö ¾Ê´Â´Ù.
-* build_initial_state(), finalize(), build_summary() ¶Ç´Â ÇÊ¿äÇÑ ÃÖ¼Ò ÇÔ¼ö¸¸ »ç¿ëÇÑ´Ù.
-* ¿É¼Çº° fake state ¸ñ·ÏÀ» ¸¸µé¾î summaryÀÇ pass_count, warning_count, fail_count, needs_review_count°¡ ¼º´É °³¼± ¼ø¼­¸¦ ¼³¸íÇÒ ¼ö ÀÖ´ÂÁö È®ÀÎÇÑ´Ù.
-* ¡°Á¤È®ÇÑ ½ÇÁ¦ ¼º´É ÃøÁ¤¡±ÀÌ ¾Æ´Ï¶ó ¡°±³À°¿ë ½ÇÇà ¿É¼Ç ºñ±³ ±¸Á¶¡±¸¦ °ËÁõÇÏ´Â Å×½ºÆ®ÀÓÀ» ÁÖ¼®¿¡ ¸í½ÃÇÑ´Ù.
+* ì‹¤ì œ main() ì „ì²´ë¥¼ ì‹¤í–‰í•˜ì§€ ì•ŠëŠ”ë‹¤.
+* build_initial_state(), finalize(), build_summary() ë˜ëŠ” í•„ìš”í•œ ìµœì†Œ í•¨ìˆ˜ë§Œ ì‚¬ìš©í•œë‹¤.
+* ì˜µì…˜ë³„ fake state ëª©ë¡ì„ ë§Œë“¤ì–´ summaryì˜ pass_count, warning_count, fail_count, needs_review_countê°€ ì„±ëŠ¥ ê°œì„  ìˆœì„œë¥¼ ì„¤ëª…í•  ìˆ˜ ìˆëŠ”ì§€ í™•ì¸í•œë‹¤.
+* â€œì •í™•í•œ ì‹¤ì œ ì„±ëŠ¥ ì¸¡ì •â€ì´ ì•„ë‹ˆë¼ â€œêµìœ¡ìš© ì‹¤í–‰ ì˜µì…˜ ë¹„êµ êµ¬ì¡°â€ë¥¼ ê²€ì¦í•˜ëŠ” í…ŒìŠ¤íŠ¸ì„ì„ ì£¼ì„ì— ëª…ì‹œí•œë‹¤.
 
-6. ½ÇÁ¦ ½ÇÇà ¸í·ÉÀ» Å×½ºÆ® ÆÄÀÏ ÁÖ¼® ¶Ç´Â README ÇüÅÂ·Î ³²±ä´Ù.
+6. ì‹¤ì œ ì‹¤í–‰ ëª…ë ¹ì„ í…ŒìŠ¤íŠ¸ íŒŒì¼ ì£¼ì„ ë˜ëŠ” README í˜•íƒœë¡œ ë‚¨ê¸´ë‹¤.
 
-±³À°¿¡¼­ º¸¿©ÁÙ ½ÇÇà ¼ø¼­:
+êµìœ¡ì—ì„œ ë³´ì—¬ì¤„ ì‹¤í–‰ ìˆœì„œ:
 
-1´Ü°è: ³·Àº ±âÁØÀ¸·Î ½ÇÇà
+1ë‹¨ê³„: ë‚®ì€ ê¸°ì¤€ìœ¼ë¡œ ì‹¤í–‰
 uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode argument-only --fallback-mode strict --output-tag core_10_low
 
-2´Ü°è: full normalization¸¸ Àû¿ë
+2ë‹¨ê³„: full normalizationë§Œ ì ìš©
 uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode full --fallback-mode strict --output-tag core_10_mid
 
-3´Ü°è: full normalization + rule fallback Àû¿ë
+3ë‹¨ê³„: full normalization + rule fallback ì ìš©
 uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode full --fallback-mode rule --output-tag core_10_high
 
-Guardrail Å×½ºÆ®:
+Guardrail í…ŒìŠ¤íŠ¸:
 uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_guardrail_10.json --normalization-mode full --fallback-mode rule --output-tag guardrail_10_high
 
-Action Å×½ºÆ®:
+Action í…ŒìŠ¤íŠ¸:
 uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_action_5.json --normalization-mode full --fallback-mode rule --output-tag action_5_high
 
-pytest ½ÇÇà ¸í·É:
+pytest ì‹¤í–‰ ëª…ë ¹:
 uv run pytest tests/day4/test_langgraph_tool_selector_v2_runner_education.py -v
 
-ÃÖÁ¾ º¸°í Çü½Ä:
+ìµœì¢… ë³´ê³  í˜•ì‹:
 
-1. »ı¼ºÇÑ Å×½ºÆ® ÆÄÀÏ
-2. ±³À°¿ëÀ¸·Î ³²±ä ÇÙ½É Å×½ºÆ® Ç×¸ñ
-3. ³·Àº ¼º´É ¡æ ³ôÀº ¼º´É ½ÇÇà ¿É¼Ç ¼ø¼­
-4. ½ÇÁ¦ LLM È£ÃâÀ» ¸·±â À§ÇØ mock Ã³¸®ÇÑ ºÎºĞ
-5. pytest ½ÇÇà ¸í·É
-6. ÃÖÁ¾ °á°ú
+1. ìƒì„±í•œ í…ŒìŠ¤íŠ¸ íŒŒì¼
+2. êµìœ¡ìš©ìœ¼ë¡œ ë‚¨ê¸´ í•µì‹¬ í…ŒìŠ¤íŠ¸ í•­ëª©
+3. ë‚®ì€ ì„±ëŠ¥ â†’ ë†’ì€ ì„±ëŠ¥ ì‹¤í–‰ ì˜µì…˜ ìˆœì„œ
+4. ì‹¤ì œ LLM í˜¸ì¶œì„ ë§‰ê¸° ìœ„í•´ mock ì²˜ë¦¬í•œ ë¶€ë¶„
+5. pytest ì‹¤í–‰ ëª…ë ¹
+6. ìµœì¢… ê²°ê³¼

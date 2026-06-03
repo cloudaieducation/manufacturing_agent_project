@@ -1,0 +1,1527 @@
+{
+  "generated_at": "2026-05-31T18:09:38",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_5.json",
+  "output_tag": "action_5_nvidia_ablation_argonly",
+  "summary": {
+    "total_cases": 5,
+    "pass_count": 2,
+    "warning_count": 0,
+    "fail_count": 0,
+    "json_parse_error_count": 0,
+    "missing_tool_count": 5,
+    "extra_tool_count": 0,
+    "missing_argument_count": 0,
+    "wrong_argument_name_count": 0,
+    "missing_condition_count": 0,
+    "weak_reason_count": 3,
+    "tool_contract_mismatch_count": 0,
+    "llm_used_count": 4,
+    "fallback_count": 3,
+    "repair_attempt_count": 5,
+    "repair_success_count": 2,
+    "needs_review_count": 3,
+    "normalization_mode": "argument-only",
+    "normalization_applied_count": 4,
+    "action_policy_rule_count": 0,
+    "argument_normalization_rule_count": 6,
+    "argument_removed_rule_count": 0,
+    "dedup_rule_count": 0
+  },
+  "results": [
+    {
+      "case_id": "TC-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 반복 발생을 언급하여 최근 알람 이력을 확인하기 위해 필요"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점의 원인 후보와 근거를 요청하여 알람 코드에 대한 트러블슈팅 문서 검색이 필요"
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 발생 확인을 위해 최근 알람 이력을 조회"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인을 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 확인을 위해"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "박막 증착",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 상태 확인을 위해"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인을 위해"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 트러블슈팅",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "알람 코드에 대한 트러블슈팅 문서 검색을 위해"
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 발생 확인을 위해 최근 알람 이력을 조회"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인을 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 확인을 위해"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "박막 증착",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 상태 확인을 위해"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인을 위해"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 트러블슈팅",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "알람 코드에 대한 트러블슈팅 문서 검색을 위해"
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 73.603,
+      "normalization_mode": "argument-only",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 반복 발생을 언급하여 최근 알람 이력을 확인하기 위해 필요"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점의 원인 후보와 근거를 요청하여 알람 코드에 대한 트러블슈팅 문서 검색이 필요"
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 반복 발생을 언급하여 최근 알람 이력을 확인하기 위해 필요"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 박막 증착 공정 관점의 원인 후보와 근거를 요청하여 알람 코드에 대한 트러블슈팅 문서 검색이 필요"
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 발생 확인을 위해 최근 알람 이력을 조회"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인을 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 확인을 위해"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "박막 증착"
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 상태 확인을 위해"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인을 위해"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 트러블슈팅",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "알람 코드에 대한 트러블슈팅 문서 검색을 위해"
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 발생 확인을 위해 최근 알람 이력을 조회"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인을 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 확인을 위해"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "박막 증착",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 상태 확인을 위해"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인을 위해"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 트러블슈팅",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "알람 코드에 대한 트러블슈팅 문서 검색을 위해"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-ACTION-002",
+      "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표도 함께 확인하고 싶습니다.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 1차 체크리스트",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 1차 체크리스트와 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표 확인 방법을 요청하여 관련 문서를 검색한다."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_recent_alarm_events'이(가) plan에 없습니다.",
+          "tool_name": "get_recent_alarm_events"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'search_manual'이(가) plan에 없습니다.",
+          "tool_name": "search_manual"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": true,
+      "elapsed_seconds": 105.594,
+      "normalization_mode": "argument-only",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 1차 체크리스트",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 1차 체크리스트와 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표 확인 방법을 요청하여 관련 문서를 검색한다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 1차 체크리스트",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 1차 체크리스트와 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표 확인 방법을 요청하여 관련 문서를 검색한다."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {},
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-ACTION-003",
+      "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "알람 이력 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차 알람"
+            },
+            "condition": "always",
+            "reason": "알람 조치 절차 및 원인 검색"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인"
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "알람 이력 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차 알람"
+            },
+            "condition": "always",
+            "reason": "알람 조치 절차 및 원인 검색"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인"
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "weak_reason",
+          "message": "step 2: reason이 너무 짧습니다 (10자 미만).",
+          "tool_name": "get_recent_alarm_events"
+        },
+        {
+          "type": "weak_reason",
+          "message": "step 4: reason이 너무 짧습니다 (10자 미만).",
+          "tool_name": "get_maintenance_history"
+        },
+        {
+          "type": "weak_reason",
+          "message": "step 5: reason이 너무 짧습니다 (10자 미만).",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_process_status'이(가) plan에 없습니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "fallback_rule",
+      "llm_used": false,
+      "fallback_used": true,
+      "elapsed_seconds": 124.808,
+      "normalization_mode": "argument-only",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "알람 이력 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차 알람"
+            },
+            "condition": "always",
+            "reason": "알람 조치 절차 및 원인 검색"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인"
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "알람 이력 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차 알람"
+            },
+            "condition": "always",
+            "reason": "알람 조치 절차 및 원인 검색"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표 확인"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-ACTION-004",
+      "user_query": "ALM-TEMP-402가 다시 발생하는지 감시하려면 어떤 조건을 설정해야 하나요? 최근 24시간 반복 알람, 챔버 온도 편차, 진공도 변동, defect_rate, particle_count, 박막 두께 균일도 관점에서 감시 조건을 제안해 주세요.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm monitoring conditions temperature deviation vacuum variation defect rate particle count film thickness uniformity",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "User requests monitoring conditions for repeated ALM-TEMP-402 alarm across specified metrics, which requires searching technical manuals for troubleshooting procedures."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_quality_metrics'이(가) plan에 없습니다.",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'search_manual'이(가) plan에 없습니다.",
+          "tool_name": "search_manual"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": true,
+      "elapsed_seconds": 120.889,
+      "normalization_mode": "argument-only",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_recent_alarm_events-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_recent_alarm_events",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm monitoring conditions temperature deviation vacuum variation defect rate particle count film thickness uniformity",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "User requests monitoring conditions for repeated ALM-TEMP-402 alarm across specified metrics, which requires searching technical manuals for troubleshooting procedures."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm monitoring conditions temperature deviation vacuum variation defect rate particle count film thickness uniformity",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "User requests monitoring conditions for repeated ALM-TEMP-402 alarm across specified metrics, which requires searching technical manuals for troubleshooting procedures."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-ACTION-007",
+      "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 ALM-TEMP-402 반복 알람 이력을 확인해야 점검 작업 지시 초안을 작성할 수 있으므로 운영 데이터를 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "교육용 1차 점검 작업 지시 초안 작성을 위해 ALM-TEMP-402 반복 알람에 대한 점검 항목 및 절차 문서를 검색합니다."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "점검 작업 지시 초안 작성을 위해 설비의 현재 상태를 확인합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람의 반복 발생 이력을 조회합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "해당 설비의 정비 이력을 확인하여 점검 항목 참고 자료를 확보합니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "process_name 또는 line_id가 명시적으로 제공되지 않아 공정/라인 정보 없이 조회",
+            "reason": "설비가 속한 공정 또는 라인의 상태를 확인하려 하나, 사용자 질문에서 특정 공정/라인이 명시되지 않았습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 알람에 대한 교육용 점검 항목 및 절차를 기술 문서에서 검색합니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "점검 작업 지시 초안 작성을 위해 설비의 현재 상태를 확인합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람의 반복 발생 이력을 조회합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "해당 설비의 정비 이력을 확인하여 점검 항목 참고 자료를 확보합니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "process_name 또는 line_id가 명시적으로 제공되지 않아 공정/라인 정보 없이 조회",
+            "reason": "설비가 속한 공정 또는 라인의 상태를 확인하려 하나, 사용자 질문에서 특정 공정/라인이 명시되지 않았습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 알람에 대한 교육용 점검 항목 및 절차를 기술 문서에서 검색합니다."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 23.069,
+      "normalization_mode": "argument-only",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 ALM-TEMP-402 반복 알람 이력을 확인해야 점검 작업 지시 초안을 작성할 수 있으므로 운영 데이터를 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "교육용 1차 점검 작업 지시 초안 작성을 위해 ALM-TEMP-402 반복 알람에 대한 점검 항목 및 절차 문서를 검색합니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 ALM-TEMP-402 반복 알람 이력을 확인해야 점검 작업 지시 초안을 작성할 수 있으므로 운영 데이터를 조회합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "교육용 1차 점검 작업 지시 초안 작성을 위해 ALM-TEMP-402 반복 알람에 대한 점검 항목 및 절차 문서를 검색합니다."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "점검 작업 지시 초안 작성을 위해 설비의 현재 상태를 확인합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람의 반복 발생 이력을 조회합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "해당 설비의 정비 이력을 확인하여 점검 항목 참고 자료를 확보합니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "process_name 또는 line_id가 명시적으로 제공되지 않아 공정/라인 정보 없이 조회",
+            "reason": "설비가 속한 공정 또는 라인의 상태를 확인하려 하나, 사용자 질문에서 특정 공정/라인이 명시되지 않았습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 알람에 대한 교육용 점검 항목 및 절차를 기술 문서에서 검색합니다."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "점검 작업 지시 초안 작성을 위해 설비의 현재 상태를 확인합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람의 반복 발생 이력을 조회합니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "해당 설비의 정비 이력을 확인하여 점검 항목 참고 자료를 확보합니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "line_id": null,
+              "equipment_id": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "process_name 또는 line_id가 명시적으로 제공되지 않아 공정/라인 정보 없이 조회",
+            "reason": "설비가 속한 공정 또는 라인의 상태를 확인하려 하나, 사용자 질문에서 특정 공정/라인이 명시되지 않았습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm educational inspection checklist",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 반복 알람에 대한 교육용 점검 항목 및 절차를 기술 문서에서 검색합니다."
+          }
+        ]
+      }
+    }
+  ]
+}

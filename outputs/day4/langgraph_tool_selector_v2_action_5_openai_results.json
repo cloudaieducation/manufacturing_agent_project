@@ -1,0 +1,755 @@
+{
+  "generated_at": "2026-05-31T16:08:15",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_5.json",
+  "output_tag": "action_5_openai",
+  "results": [
+    {
+      "case_id": "TC-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm causes and troubleshooting in thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "The user asks for potential causes and troubleshooting guidance from a documentary perspective."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the equipment where the alarm is occurring."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To retrieve recent alarm events for the specific alarm code on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "thin film deposition"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the thin film deposition process."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "process_name": "thin film deposition"
+            },
+            "condition": "always",
+            "reason": "To gather quality metrics related to the thin film deposition process."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To review the maintenance history of the equipment for potential causes."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm causes and troubleshooting in thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To find potential causes and troubleshooting guidance from a documentary perspective."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the equipment where the alarm is occurring."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To retrieve recent alarm events for the specific alarm code on the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "thin film deposition"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the thin film deposition process."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "process_name": "thin film deposition"
+            },
+            "condition": "always",
+            "reason": "To gather quality metrics related to the thin film deposition process."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To review the maintenance history of the equipment for potential causes."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm causes and troubleshooting in thin film deposition process",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To find potential causes and troubleshooting guidance from a documentary perspective."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 4: 'get_quality_metrics'은 metric_name, equipment_id, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "wrong_argument_name",
+          "message": "step 4: 'get_quality_metrics'에 정의되지 않은 argument 'process_name'.",
+          "tool_name": "get_quality_metrics",
+          "argument": "process_name"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 7.068
+    },
+    {
+      "case_id": "TC-ACTION-002",
+      "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표도 함께 확인하고 싶습니다.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial checklist for field engineers"
+            },
+            "condition": "always",
+            "reason": "The user asks for a checklist document for initial checks when ALM-TEMP-402 occurs."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "run only after specific equipment_id or line_id is clarified",
+            "reason": "The user asks for multiple quality metrics related to chamber temperature, vacuum, deposition rate, film thickness uniformity, and particles, but specific equipment or line is not specified."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial checklist for field engineers"
+            },
+            "condition": "always",
+            "reason": "The user asks for a checklist document for initial checks when ALM-TEMP-402 occurs."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "run only after specific equipment_id or line_id is clarified",
+            "reason": "The user asks for multiple quality metrics related to chamber temperature, vacuum, deposition rate, film thickness uniformity, and particles, but specific equipment or line is not specified."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 10
+            },
+            "condition": "run only after specific equipment_id is clarified",
+            "reason": "The user asks for recent alarm events related to ALM-TEMP-402, but specific equipment is not specified."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "limit": null
+            },
+            "condition": "run only after specific process_name or line_id is clarified",
+            "reason": "The user asks for process status, but specific process or line is not specified."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial checklist for field engineers"
+            },
+            "condition": "always",
+            "reason": "The user asks for a checklist document for initial checks when ALM-TEMP-402 occurs."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "run only after specific equipment_id or line_id is clarified",
+            "reason": "The user asks for multiple quality metrics related to chamber temperature, vacuum, deposition rate, film thickness uniformity, and particles, but specific equipment or line is not specified."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 10
+            },
+            "condition": "run only after specific equipment_id is clarified",
+            "reason": "The user asks for recent alarm events related to ALM-TEMP-402, but specific equipment is not specified."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "limit": null
+            },
+            "condition": "run only after specific process_name or line_id is clarified",
+            "reason": "The user asks for process status, but specific process or line is not specified."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 2: 'get_quality_metrics'은 metric_name, equipment_id, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_argument",
+          "message": "step 3: 'get_recent_alarm_events'의 필수 argument 'equipment_id' 누락.",
+          "tool_name": "get_recent_alarm_events",
+          "argument": "equipment_id"
+        },
+        {
+          "type": "missing_argument",
+          "message": "step 4: 'get_process_status'은 process_name, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 5.477
+    },
+    {
+      "case_id": "TC-ACTION-003",
+      "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": []
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the equipment for any ongoing issues."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To review recent alarm events related to the chamber temperature deviation."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To assess the impact of the alarm on the process status."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To determine if the alarm has affected quality metrics."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check if there is a history of maintenance related to the alarm."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm"
+            },
+            "condition": "always",
+            "reason": "To find troubleshooting procedures or documentation related to the alarm."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check the current status of the equipment for any ongoing issues."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To review recent alarm events related to the chamber temperature deviation."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To assess the impact of the alarm on the process status."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To determine if the alarm has affected quality metrics."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "To check if there is a history of maintenance related to the alarm."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "chamber temperature deviation alarm"
+            },
+            "condition": "always",
+            "reason": "To find troubleshooting procedures or documentation related to the alarm."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 3: 'get_process_status'은 process_name, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 4.573
+    },
+    {
+      "case_id": "TC-ACTION-004",
+      "user_query": "ALM-TEMP-402가 다시 발생하는지 감시하려면 어떤 조건을 설정해야 하나요? 최근 24시간 반복 알람, 챔버 온도 편차, 진공도 변동, defect_rate, particle_count, 박막 두께 균일도 관점에서 감시 조건을 제안해 주세요.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": []
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To check for recent occurrences of the ALM-TEMP-402 alarm."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor chamber temperature deviation and vacuum fluctuation."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "defect_rate",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor defect rate as part of the monitoring conditions."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "particle_count",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor particle count as part of the monitoring conditions."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "박막 두께 균일도",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor thin film thickness uniformity as part of the monitoring conditions."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 monitoring conditions",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "To find documentation on monitoring conditions for ALM-TEMP-402."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To check for recent occurrences of the ALM-TEMP-402 alarm."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor chamber temperature deviation and vacuum fluctuation."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "defect_rate",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor defect rate as part of the monitoring conditions."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "particle_count",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor particle count as part of the monitoring conditions."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": "박막 두께 균일도",
+              "equipment_id": null,
+              "line_id": null,
+              "date_range": null,
+              "limit": null
+            },
+            "condition": "always",
+            "reason": "To monitor thin film thickness uniformity as part of the monitoring conditions."
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 monitoring conditions",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "To find documentation on monitoring conditions for ALM-TEMP-402."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 1: 'get_recent_alarm_events'의 필수 argument 'equipment_id' 누락.",
+          "tool_name": "get_recent_alarm_events",
+          "argument": "equipment_id"
+        },
+        {
+          "type": "missing_argument",
+          "message": "step 2: 'get_process_status'은 process_name, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 5.791
+    },
+    {
+      "case_id": "TC-ACTION-007",
+      "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": []
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To gather recent alarm events for the specified equipment and alarm code."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 점검 절차"
+            },
+            "condition": "always",
+            "reason": "To find the inspection procedure for the specified alarm code."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "To gather recent alarm events for the specified equipment and alarm code."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 점검 절차"
+            },
+            "condition": "always",
+            "reason": "To find the inspection procedure for the specified alarm code."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_equipment_status'이(가) plan에 없습니다.",
+          "tool_name": "get_equipment_status"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_maintenance_history'이(가) plan에 없습니다.",
+          "tool_name": "get_maintenance_history"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_process_status'이(가) plan에 없습니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 3.095
+    }
+  ]
+}

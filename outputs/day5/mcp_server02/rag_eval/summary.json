@@ -1,0 +1,79 @@
+﻿{
+  "total_cases": 20,
+  "configured_top_k": 10,
+  "pass_count": 17,
+  "warning_count": 3,
+  "fail_count": 0,
+  "info_count": 0,
+  "error_count": 0,
+  "positive_case_count": 17,
+  "positive_rank_evaluable_count": 17,
+  "keyword_any_hit_rate": 0.85,
+  "keyword_all_hit_rate": 0.65,
+  "metadata_hit_rate": 0.8235,
+  "metadata_partial_hit_rate": 0.0588,
+  "metadata_gap_case_count": 1,
+  "auxiliary_equipment_id_hit_count": 3,
+  "auxiliary_equipment_id_hit_rate": 0.75,
+  "evidence_type_doc_evaluable_count": 14,
+  "evidence_type_doc_hit_rate": 0.9286,
+  "evidence_type_signal_hit_rate": 1.0,
+  "evidence_type_hit_rate": 1.0,
+  "hit_at_1_positive": 0.8824,
+  "hit_at_3_positive": 0.9412,
+  "hit_at_5_positive": 1.0,
+  "hit_at_10_positive": 1.0,
+  "mean_mrr_positive": 0.9235,
+  "out_of_scope_case_count": 3,
+  "out_of_scope_warning_count": 3,
+  "out_of_scope_fail_count": 0,
+  "out_of_scope_false_positive_count": 0,
+  "direct_evidence_found_count": 16,
+  "direct_evidence_missing_count": 3,
+  "fallback_count": 0,
+  "chroma_count": 20,
+  "avg_returned_doc_count": 10.0,
+  "forbidden_field_case_count": 0,
+  "low_confidence_case_count": 2,
+  "low_confidence_pass_count": 2,
+  "quality_gate": {
+    "passed": true,
+    "checks": {
+      "min_positive_hit_at_3": {
+        "threshold": 0.9,
+        "actual": 0.9412,
+        "passed": true
+      },
+      "min_mean_mrr_positive": {
+        "threshold": 0.9,
+        "actual": 0.9235,
+        "passed": true
+      },
+      "min_keyword_any_hit_rate": {
+        "threshold": 0.8,
+        "actual": 0.85,
+        "passed": true
+      },
+      "min_evidence_type_doc_hit_rate": {
+        "threshold": 0.7,
+        "actual": 0.9286,
+        "passed": true
+      },
+      "max_forbidden_field_case_count": {
+        "threshold": 0,
+        "actual": 0,
+        "passed": true
+      },
+      "max_fallback_count": {
+        "threshold": 0,
+        "actual": 0,
+        "passed": true
+      },
+      "max_fail_count": {
+        "threshold": 0,
+        "actual": 0,
+        "passed": true
+      }
+    }
+  }
+}

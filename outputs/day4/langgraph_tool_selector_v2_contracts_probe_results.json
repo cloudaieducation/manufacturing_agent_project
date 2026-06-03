@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-05-31T22:50:26",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases.json",
+  "output_tag": "contracts_probe",
+  "normalization_mode": "full",
+  "fallback_mode": "rule",
+  "results": [
+    {
+      "case_id": "TC-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했는지 확인해줘",
+      "expected_tools": [
+        "get_recent_alarm_events"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": null,
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "rule",
+      "elapsed_seconds": 5.767,
+      "normalization_mode": "full",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    }
+  ]
+}

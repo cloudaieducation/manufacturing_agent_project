@@ -1,0 +1,1140 @@
+{
+  "generated_at": "2026-05-31T22:02:52",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_holdout_5.json",
+  "output_tag": "fallback_strict_holdout_none",
+  "normalization_mode": "none",
+  "fallback_mode": "strict",
+  "summary": {
+    "total_cases": 5,
+    "pass_count": 0,
+    "warning_count": 0,
+    "fail_count": 0,
+    "json_parse_error_count": 4,
+    "missing_tool_count": 1,
+    "extra_tool_count": 1,
+    "missing_argument_count": 0,
+    "wrong_argument_name_count": 0,
+    "missing_condition_count": 0,
+    "weak_reason_count": 0,
+    "tool_contract_mismatch_count": 0,
+    "llm_used_count": 4,
+    "fallback_count": 0,
+    "repair_attempt_count": 5,
+    "repair_success_count": 0,
+    "needs_review_count": 5,
+    "normalization_mode": "none",
+    "normalization_applied_count": 0,
+    "action_policy_rule_count": 0,
+    "argument_normalization_rule_count": 0,
+    "argument_removed_rule_count": 0,
+    "dedup_rule_count": 0,
+    "fallback_mode": "strict",
+    "initial_fallback_count": 0,
+    "repair_fallback_count": 0,
+    "llm_error_count": 5,
+    "llm_unavailable_count": 0
+  },
+  "results": [
+    {
+      "case_id": "HOLDOUT-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 주기적으로 올라오는 것 같습니다. 확정 원인은 말하지 말고 설비 상태, 최근 알람 이력, 공정 상태, 품질 지표, 정비 이력, 관련 매뉴얼 근거를 바탕으로 확인해야 할 가능성 있는 원인 관점을 정리해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 설비 상태 확인을 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 알람의 최근 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 품질 지표 확인을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 정비 이력 확인을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 관련 매뉴얼 근거 검색을 요청함."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "json_parse_error",
+          "message": "LLM 응답 파싱 실패: llm_error"
+        }
+      ],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": "llm_error",
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "strict",
+      "elapsed_seconds": 102.861,
+      "normalization_mode": "none",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 설비 상태 확인을 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 알람의 최근 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 품질 지표 확인을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 정비 이력 확인을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 관련 매뉴얼 근거 검색을 요청함."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 설비 상태 확인을 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 알람의 최근 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 품질 지표 확인을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 정비 이력 확인을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 관련 매뉴얼 근거 검색을 요청함."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "normalized_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      }
+    },
+    {
+      "case_id": "HOLDOUT-ACTION-002",
+      "user_query": "ALM-TEMP-402가 발생했을 때 현장에서 빠르게 먼저 확인해야 할 초기 점검 항목을 묶어 정리하고 싶습니다. 최근 알람 이력, 증착 공정 상태, 품질 지표, 관련 매뉴얼 근거를 함께 확인해 주세요.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "사용자가 ALM-TEMP-402 알람 이력을 요청했으나 특정 설비 ID를 제공하지 않았습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null
+            },
+            "condition": "always",
+            "reason": "사용자가 증착 공정의 상태를 요청했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial inspection checklist troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 관련 매뉴얼과 초기 점검 절차를 요청했습니다."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "json_parse_error",
+          "message": "LLM 응답 파싱 실패: llm_error"
+        }
+      ],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": "llm_error",
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "strict",
+      "elapsed_seconds": 88.007,
+      "normalization_mode": "none",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "사용자가 ALM-TEMP-402 알람 이력을 요청했으나 특정 설비 ID를 제공하지 않았습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null
+            },
+            "condition": "always",
+            "reason": "사용자가 증착 공정의 상태를 요청했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial inspection checklist troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 관련 매뉴얼과 초기 점검 절차를 요청했습니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "사용자가 ALM-TEMP-402 알람 이력을 요청했으나 특정 설비 ID를 제공하지 않았습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null
+            },
+            "condition": "always",
+            "reason": "사용자가 증착 공정의 상태를 요청했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 initial inspection checklist troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 관련 매뉴얼과 초기 점검 절차를 요청했습니다."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "normalized_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      }
+    },
+    {
+      "case_id": "HOLDOUT-ACTION-003",
+      "user_query": "EQP-EV-03에서 온도 편차 관련 알람이 반복되는 상황입니다. 이 이슈를 설비, 공정, 품질, 정비 중 어느 관점에서 먼저 봐야 할지 판단할 수 있도록 관련 근거를 수집해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "반복 알람의 패턴, 빈도, 최근 발생 이력을 확인하여 설비 관점 근거 수집"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "현재 설비 상태와 온도 편차 관련 상태 코드 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 기본 정보, 사양, 모델 등 개요 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "온도 편차가 품질에 미친 영향(불량률, 수율 등) 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 및 부품 교체 기록 확인"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "온도 편차 반복 알람 조치 절차",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "온도 편차 관련 알람의 공식 조치 절차 및 원인 후보 문서 검색"
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "json_parse_error",
+          "message": "LLM 응답 파싱 실패: llm_error"
+        }
+      ],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": "llm_error",
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "strict",
+      "elapsed_seconds": 97.574,
+      "normalization_mode": "none",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "반복 알람의 패턴, 빈도, 최근 발생 이력을 확인하여 설비 관점 근거 수집"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "현재 설비 상태와 온도 편차 관련 상태 코드 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 기본 정보, 사양, 모델 등 개요 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "온도 편차가 품질에 미친 영향(불량률, 수율 등) 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 및 부품 교체 기록 확인"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "온도 편차 반복 알람 조치 절차",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "온도 편차 관련 알람의 공식 조치 절차 및 원인 후보 문서 검색"
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "반복 알람의 패턴, 빈도, 최근 발생 이력을 확인하여 설비 관점 근거 수집"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "현재 설비 상태와 온도 편차 관련 상태 코드 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 기본 정보, 사양, 모델 등 개요 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "온도 편차가 품질에 미친 영향(불량률, 수율 등) 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "최근 정비 이력 및 부품 교체 기록 확인"
+          },
+          {
+            "step": 6,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "온도 편차 반복 알람 조치 절차",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "온도 편차 관련 알람의 공식 조치 절차 및 원인 후보 문서 검색"
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "normalized_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      }
+    },
+    {
+      "case_id": "HOLDOUT-ACTION-004",
+      "user_query": "ALM-TEMP-402가 다시 나타나는지 추적할 기준을 만들고 싶습니다. 최근 알람 발생 패턴, 증착 공정 상태, defect_rate, particle_count, 박막 두께 균일도 같은 품질 지표, 관련 문서 근거를 확인해 주세요.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "The user requests recent alarm pattern for ALM-TEMP-402 but equipment ID is not specified."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the status of the deposition process."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "run only after specific metric names or line/equipment IDs are clarified",
+            "reason": "The user requests multiple quality metrics (defect_rate, particle_count, uniformity) but no specific line/equipment is provided and multiple metrics cannot be combined in one call."
+          },
+          {
+            "step": 4,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "The user requests documentary evidence and troubleshooting guidance for the repeated alarm."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "json_parse_error",
+          "message": "LLM 응답 파싱 실패: llm_error"
+        }
+      ],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": "llm_error",
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "strict",
+      "elapsed_seconds": 72.125,
+      "normalization_mode": "none",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "The user requests recent alarm pattern for ALM-TEMP-402 but equipment ID is not specified."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the status of the deposition process."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "run only after specific metric names or line/equipment IDs are clarified",
+            "reason": "The user requests multiple quality metrics (defect_rate, particle_count, uniformity) but no specific line/equipment is provided and multiple metrics cannot be combined in one call."
+          },
+          {
+            "step": 4,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "The user requests documentary evidence and troubleshooting guidance for the repeated alarm."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": null,
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "run only after equipment_id is clarified",
+            "reason": "The user requests recent alarm pattern for ALM-TEMP-402 but equipment ID is not specified."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착",
+              "line_id": null,
+              "equipment_id": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for the status of the deposition process."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "metric_name": null,
+              "line_id": null,
+              "equipment_id": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "run only after specific metric names or line/equipment IDs are clarified",
+            "reason": "The user requests multiple quality metrics (defect_rate, particle_count, uniformity) but no specific line/equipment is provided and multiple metrics cannot be combined in one call."
+          },
+          {
+            "step": 4,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "The user requests documentary evidence and troubleshooting guidance for the repeated alarm."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "normalized_repaired_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "Repair LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      }
+    },
+    {
+      "case_id": "HOLDOUT-ACTION-005",
+      "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 발생 상황을 교육용 점검 안내 초안으로 정리하려고 합니다. 실제 조치를 지시하는 내용이 아니라, 설비 상태, 알람 이력, 공정 상태, 정비 이력, 매뉴얼 근거를 확인하는 점검 중심으로 구성해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03의 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람 이력 조회"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 정비 이력 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 설비 개요 조회"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 매뉴얼 검색"
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03의 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람 이력 조회"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 정비 이력 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 설비 개요 조회"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 매뉴얼 검색"
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_process_status'이(가) plan에 없습니다.",
+          "tool_name": "get_process_status"
+        },
+        {
+          "type": "extra_tool",
+          "message": "기대하지 않은 Tool 'get_equipment_overview'이(가) plan에 있습니다.",
+          "tool_name": "get_equipment_overview"
+        }
+      ],
+      "generation_source": "llm_error",
+      "initial_generation_source": "llm_error",
+      "repair_generation_source": "llm",
+      "llm_used": false,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "strict",
+      "elapsed_seconds": 82.512,
+      "normalization_mode": "none",
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "normalized_initial_tool_plan": {
+        "llm_error_code": "llm_error",
+        "llm_error_message": "LLM 실패, strict mode로 rule fallback 미사용",
+        "plan": []
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03의 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람 이력 조회"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 정비 이력 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 설비 개요 조회"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 매뉴얼 검색"
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03의 현재 상태 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 알람 이력 조회"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 정비 이력 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "EQP-EV-03 설비 개요 조회"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "ALM-TEMP-402 매뉴얼 검색"
+          }
+        ]
+      }
+    }
+  ]
+}

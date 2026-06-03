@@ -1,0 +1,355 @@
+{
+  "generated_at": "2026-06-01T02:04:51",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_5.json",
+  "output_tag": "normsplit_action_before",
+  "normalization_mode": "full",
+  "fallback_mode": "rule",
+  "results": [
+    {
+      "case_id": "TC-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 반복 발생을 언급하여, 알람 이력을 확인하여 반복성 여부를 검증하기 위해"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 원인 분석 및 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 관점에서 ALM-TEMP-402의 원인 후보, 근거, 추가 확인 항목을 문서에서 찾기 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 반복 발생을 언급하여, 알람 이력을 확인하여 반복성 여부를 검증하기 위해"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 원인 분석 및 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 관점에서 ALM-TEMP-402의 원인 후보, 근거, 추가 확인 항목을 문서에서 찾기 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "initial_generation_source": "llm",
+      "repair_generation_source": null,
+      "llm_used": true,
+      "fallback_used": false,
+      "initial_fallback_used": false,
+      "repair_fallback_used": false,
+      "fallback_mode": "rule",
+      "elapsed_seconds": 23.288,
+      "normalization_mode": "full",
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_equipment_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_equipment_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_equipment_status"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_equipment_status."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_process_status",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_process_status",
+          "before": {},
+          "after": {
+            "tool_name": "get_process_status"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_process_status."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_quality_metrics",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_quality_metrics",
+          "before": {},
+          "after": {
+            "tool_name": "get_quality_metrics"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_quality_metrics."
+        },
+        {
+          "rule_id": "POLICY-root_cause_ranking-get_maintenance_history",
+          "rule_type": "action_tool_policy",
+          "tool_name": "get_maintenance_history",
+          "before": {},
+          "after": {
+            "tool_name": "get_maintenance_history"
+          },
+          "reason": "Action intent 'root_cause_ranking' inferred from user_query requires get_maintenance_history."
+        },
+        {
+          "rule_id": "ARG-get_equipment_status-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_equipment_status",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        },
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        },
+        {
+          "rule_id": "ARG-get_quality_metrics-anyof-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_quality_metrics",
+          "before": {
+            "metric_name": null,
+            "equipment_id": null,
+            "line_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "get_quality_metrics requires one of ['metric_name', 'equipment_id', 'line_id']; filled 'equipment_id' from query entity."
+        },
+        {
+          "rule_id": "ARG-get_maintenance_history-equipment_id",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_maintenance_history",
+          "before": {
+            "equipment_id": null
+          },
+          "after": {
+            "equipment_id": "EQP-EV-03"
+          },
+          "reason": "Tool Contract requires/normalizes 'equipment_id'. Filled from query entity."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 반복 발생을 언급하여, 알람 이력을 확인하여 반복성 여부를 검증하기 위해"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 원인 분석 및 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 관점에서 ALM-TEMP-402의 원인 후보, 근거, 추가 확인 항목을 문서에서 찾기 위해"
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 반복 발생을 언급하여, 알람 이력을 확인하여 반복성 여부를 검증하기 위해"
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 박막 증착 공정 원인 분석 및 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "박막 증착 공정 관점에서 ALM-TEMP-402의 원인 후보, 근거, 추가 확인 항목을 문서에서 찾기 위해"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_equipment_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_process_status as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_quality_metrics as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          },
+          {
+            "step": 6,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "Action intent 'root_cause_ranking' requires get_maintenance_history as an evidence-collection tool; added by action tool policy (not based on expected_tools)."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    }
+  ]
+}

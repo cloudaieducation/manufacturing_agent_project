@@ -1,0 +1,392 @@
+{
+  "generated_at": "2026-05-31T14:10:50",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_action_5.json",
+  "output_tag": "action_5_preview",
+  "results": [
+    {
+      "case_id": "TC-ACTION-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "Verify repeated occurrence of ALM-TEMP-402 on EQP-EV-03."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 repeated alarm troubleshooting procedure in thin film deposition process",
+              "alarm_code": "ALM-TEMP-402",
+              "equipment_type": null
+            },
+            "condition": "always",
+            "reason": "Find documented causes, evidence, and verification items for ALM-TEMP-402 in thin film deposition context."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 2: 'get_process_status'은 process_name, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_process_status"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_equipment_status'이(가) plan에 없습니다.",
+          "tool_name": "get_equipment_status"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_maintenance_history'이(가) plan에 없습니다.",
+          "tool_name": "get_maintenance_history"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_quality_metrics'이(가) plan에 없습니다.",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_recent_alarm_events'이(가) plan에 없습니다.",
+          "tool_name": "get_recent_alarm_events"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": true,
+      "elapsed_seconds": 423.736
+    },
+    {
+      "case_id": "TC-ACTION-002",
+      "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표도 함께 확인하고 싶습니다.",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 1차 체크리스트 챔버 온도 진공도 증착률 박막 두께 균일도 파티클",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 발생 시 1차 체크리스트와 특정 품질 지표 확인 방법을 요청함. 문서 검색을 통해 조치 절차 및 체크리스트를 찾아야 함."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {},
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {},
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_argument",
+          "message": "step 1: 'get_quality_metrics'은 metric_name, equipment_id, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_argument",
+          "message": "step 2: 'get_process_status'은 process_name, line_id 중 하나 이상이 필요합니다.",
+          "tool_name": "get_process_status"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_recent_alarm_events'이(가) plan에 없습니다.",
+          "tool_name": "get_recent_alarm_events"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'search_manual'이(가) plan에 없습니다.",
+          "tool_name": "search_manual"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": true,
+      "elapsed_seconds": 267.882
+    },
+    {
+      "case_id": "TC-ACTION-003",
+      "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단해 주세요.",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "알람 반복 발생 여부 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 통한 잠재적 원인 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 영향도 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차"
+            },
+            "condition": "always",
+            "reason": "챔버 온도 편차 알람의 조치 절차 및 원인 후보 검색"
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "알람 반복 발생 여부 확인"
+          },
+          {
+            "step": 2,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "설비 현재 상태 확인"
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 통한 잠재적 원인 확인"
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 영향도 확인"
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "챔버 온도 편차"
+            },
+            "condition": "always",
+            "reason": "챔버 온도 편차 알람의 조치 절차 및 원인 후보 검색"
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "weak_reason",
+          "message": "step 4: reason이 너무 짧습니다 (10자 미만).",
+          "tool_name": "get_quality_metrics"
+        },
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_process_status'이(가) plan에 없습니다.",
+          "tool_name": "get_process_status"
+        }
+      ],
+      "generation_source": "fallback_rule",
+      "llm_used": false,
+      "fallback_used": true,
+      "elapsed_seconds": 279.831
+    }
+  ]
+}

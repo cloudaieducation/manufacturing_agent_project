@@ -1,0 +1,1417 @@
+{
+  "generated_at": "2026-05-31T17:32:11",
+  "runner_name": "langgraph_tool_selector_v2_runner",
+  "langgraph_mode": "enabled",
+  "input_file": "data/tool_selection_test_cases_core_10.json",
+  "output_tag": "core_10_nvidia_norm",
+  "results": [
+    {
+      "case_id": "TC-001",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했는지 확인해줘",
+      "expected_tools": [
+        "get_recent_alarm_events"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 6.793,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks to check if a specific alarm code repeats on a specific equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-002",
+      "user_query": "EQP-EV-03의 최근 품질 영향도 확인해줘. 불량률이나 수율 변화가 있었는지 보고 싶어",
+      "expected_tools": [
+        "get_quality_metrics"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 품질 영향도(불량률, 수율 변화)를 확인하려고 함. 여러 metric이 요청되어 metric_name을 null로 설정."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 품질 영향도(불량률, 수율 변화)를 확인하려고 함. 여러 metric이 요청되어 metric_name을 null로 설정."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 16.887,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 품질 영향도(불량률, 수율 변화)를 확인하려고 함. 여러 metric이 요청되어 metric_name을 null로 설정."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 품질 영향도(불량률, 수율 변화)를 확인하려고 함. 여러 metric이 요청되어 metric_name을 null로 설정."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-003",
+      "user_query": "ALM-TEMP-402 조치 절차를 매뉴얼에서 찾아줘",
+      "expected_tools": [
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 코드에 대한 조치 절차 문서만 요청함."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 코드에 대한 조치 절차 문서만 요청함."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 6.446,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 코드에 대한 조치 절차 문서만 요청함."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 조치 절차",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402 알람 코드에 대한 조치 절차 문서만 요청함."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-004",
+      "user_query": "EQP-EV-03 알람 원인, 최근 품질 영향, 조치 절차를 종합해줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_quality_metrics",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for alarm causes for EQP-EV-03, requiring recent alarm history lookup."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, requiring quality metrics for the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user asks for corrective action procedures, requiring manual/document search."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for alarm causes for EQP-EV-03, requiring recent alarm history lookup."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, requiring quality metrics for the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user asks for corrective action procedures, requiring manual/document search."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 8.056,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for alarm causes for EQP-EV-03, requiring recent alarm history lookup."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, requiring quality metrics for the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user asks for corrective action procedures, requiring manual/document search."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for alarm causes for EQP-EV-03, requiring recent alarm history lookup."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user asks for recent quality impact, requiring quality metrics for the equipment."
+          },
+          {
+            "step": 3,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03 alarm troubleshooting procedure",
+              "alarm_code": null
+            },
+            "condition": "always",
+            "reason": "The user asks for corrective action procedures, requiring manual/document search."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-006",
+      "user_query": "EQP-EV-03의 최근 정비 이력과 부품 교체 여부를 확인해줘",
+      "expected_tools": [
+        "get_maintenance_history"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 정비 이력과 부품 교체 기록을 요청함."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 정비 이력과 부품 교체 기록을 요청함."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 8.381,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 정비 이력과 부품 교체 기록을 요청함."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 최근 정비 이력과 부품 교체 기록을 요청함."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-007",
+      "user_query": "EQP-EV-03의 최근 온도, 압력, 진공 상태를 확인해줘",
+      "expected_tools": [
+        "get_process_status"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status including temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 온도, 압력, 진공 상태를 요청하여 공정 상태 조회가 필요함."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 온도, 압력, 진공 상태를 요청하여 공정 상태 조회가 필요함."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 225.713,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status including temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user asks for the current status including temperature, pressure, and vacuum for a specific equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 온도, 압력, 진공 상태를 요청하여 공정 상태 조회가 필요함."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "process_name": "EQP-EV-03",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 온도, 압력, 진공 상태를 요청하여 공정 상태 조회가 필요함."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-008",
+      "user_query": "EQP-EV-03의 설비 위치와 담당 공정 정보를 알려줘",
+      "expected_tools": [
+        "get_equipment_status"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user requests location and responsible process information for a specific equipment, which is covered by equipment overview."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 위치와 담당 공정 정보를 요청하여, 해당 정보를 제공하는 get_equipment_status 도구를 사용합니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 위치와 담당 공정 정보를 요청하여, 해당 정보를 제공하는 get_equipment_status 도구를 사용합니다."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 15.269,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user requests location and responsible process information for a specific equipment, which is covered by equipment overview."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_overview",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "The user requests location and responsible process information for a specific equipment, which is covered by equipment overview."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 위치와 담당 공정 정보를 요청하여, 해당 정보를 제공하는 get_equipment_status 도구를 사용합니다."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 특정 설비의 위치와 담당 공정 정보를 요청하여, 해당 정보를 제공하는 get_equipment_status 도구를 사용합니다."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-010",
+      "user_query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+      "expected_tools": [
+        "get_equipment_status",
+        "get_recent_alarm_events",
+        "get_process_status",
+        "get_quality_metrics",
+        "get_maintenance_history",
+        "search_manual"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 현재 설비 상태를 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 알람 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 품질 영향(품질 지표)을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402에 대한 조치 절차 문서를 요청함."
+          }
+        ]
+      },
+      "initial_status": "FAIL",
+      "repair_attempted": true,
+      "repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "final_status": "NEEDS_REVIEW",
+      "final_issues": [
+        {
+          "type": "missing_tool",
+          "message": "기대 Tool 'get_equipment_status'이(가) plan에 없습니다.",
+          "tool_name": "get_equipment_status"
+        }
+      ],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": true,
+      "elapsed_seconds": 86.387,
+      "normalization_applied": true,
+      "normalization_rules": [
+        {
+          "rule_id": "ARG-get_process_status-anyof-process_name",
+          "rule_type": "argument_normalization",
+          "tool_name": "get_process_status",
+          "before": {
+            "process_name": null,
+            "line_id": null
+          },
+          "after": {
+            "process_name": "증착 공정"
+          },
+          "reason": "get_process_status requires one of ['process_name', 'line_id']; filled 'process_name' from educational scenario context."
+        }
+      ],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 현재 설비 상태를 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 알람 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 품질 영향(품질 지표)을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402에 대한 조치 절차 문서를 요청함."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_equipment_status",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 현재 설비 상태를 요청함."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03에서 ALM-TEMP-402 알람 이력을 요청함."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 품질 영향(품질 지표)을 요청함."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 요청함."
+          },
+          {
+            "step": 5,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "ALM-TEMP-402 troubleshooting procedure",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "사용자가 ALM-TEMP-402에 대한 조치 절차 문서를 요청함."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      },
+      "normalized_repaired_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": "ALM-TEMP-402",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "최근 알람 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "search_manual",
+            "arguments": {
+              "query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+              "alarm_code": "ALM-TEMP-402"
+            },
+            "condition": "always",
+            "reason": "관련 매뉴얼과 조치 절차 근거를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 3,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "정비 이력을 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 4,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "limit": 20,
+              "date_range": "recent"
+            },
+            "condition": "always",
+            "reason": "품질 지표를 확인하기 위해 선택했습니다."
+          },
+          {
+            "step": 5,
+            "tool_name": "get_process_status",
+            "arguments": {
+              "line_id": null,
+              "process_name": "증착 공정",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "공정/라인 상태를 확인하기 위해 선택했습니다."
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "TC-014",
+      "user_query": "EQP-EV-03의 온도 알람이 정비 이후에도 반복되는지 알람 이력과 정비 이력을 같이 확인해줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_maintenance_history"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 알람 이력을 확인하여 온도 알람 반복 여부를 판단하려고 합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 확인하여 정비 시기와 내용을 파악하려고 합니다."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 알람 이력을 확인하여 온도 알람 반복 여부를 판단하려고 합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 확인하여 정비 시기와 내용을 파악하려고 합니다."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 25.738,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 알람 이력을 확인하여 온도 알람 반복 여부를 판단하려고 합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 확인하여 정비 시기와 내용을 파악하려고 합니다."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 알람 이력을 확인하여 온도 알람 반복 여부를 판단하려고 합니다."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_maintenance_history",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "date_range": "recent",
+              "component": null
+            },
+            "condition": "always",
+            "reason": "사용자가 EQP-EV-03의 정비 이력을 확인하여 정비 시기와 내용을 파악하려고 합니다."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    },
+    {
+      "case_id": "TC-016",
+      "user_query": "EQP-EV-03에서 최근 알람이 있었고 수율도 떨어진 것 같아. 알람 이력과 품질 지표를 같이 봐줘",
+      "expected_tools": [
+        "get_recent_alarm_events",
+        "get_quality_metrics"
+      ],
+      "expected_arguments": {},
+      "initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests recent alarm history for the specified equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests quality metrics including yield for the same equipment."
+          }
+        ]
+      },
+      "initial_status": "PASS",
+      "repair_attempted": false,
+      "repaired_tool_plan": {},
+      "final_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests recent alarm history for the specified equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests quality metrics including yield for the same equipment."
+          }
+        ]
+      },
+      "final_status": "PASS",
+      "final_issues": [],
+      "generation_source": "llm",
+      "llm_used": true,
+      "fallback_used": false,
+      "elapsed_seconds": 8.875,
+      "normalization_applied": false,
+      "normalization_rules": [],
+      "raw_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests recent alarm history for the specified equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests quality metrics including yield for the same equipment."
+          }
+        ]
+      },
+      "normalized_initial_tool_plan": {
+        "plan": [
+          {
+            "step": 1,
+            "tool_name": "get_recent_alarm_events",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "alarm_code": null,
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests recent alarm history for the specified equipment."
+          },
+          {
+            "step": 2,
+            "tool_name": "get_quality_metrics",
+            "arguments": {
+              "equipment_id": "EQP-EV-03",
+              "metric_name": null,
+              "date_range": "recent",
+              "limit": 20
+            },
+            "condition": "always",
+            "reason": "The user requests quality metrics including yield for the same equipment."
+          }
+        ]
+      },
+      "raw_repaired_tool_plan": {},
+      "normalized_repaired_tool_plan": {}
+    }
+  ]
+}
