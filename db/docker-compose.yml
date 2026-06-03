@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: manufacturing_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: manufacturing_agent_db
+      POSTGRES_USER: agent_user
+      POSTGRES_PASSWORD: agent_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - manufacturing_postgres_data:/var/lib/postgresql/data
+      - ./init_manufacturing_db.sql:/docker-entrypoint-initdb.d/01_init_manufacturing_db.sql
+      - ./sample_manufacturing_data.sql:/docker-entrypoint-initdb.d/02_sample_manufacturing_data.sql
+
+volumes:
+  manufacturing_postgres_data:

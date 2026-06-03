@@ -1,0 +1,26 @@
+# Day3 Multi-Agent Roles 실행 결과
+
+## 1. 사용자 요청
+{{user_query}}
+
+## 2. 추출된 핵심 정보
+- equipment_id: {{equipment_id}}
+- alarm_code: {{alarm_code}}
+- line_id: {{line_id}}
+- mode: {{mode}}
+
+## 3. Agent 실행 단계
+{{#agent_steps}}
+- {{.}}
+{{/agent_steps}}
+{{^agent_steps}}
+- 실행 단계 기록이 없습니다.
+{{/agent_steps}}
+
+## 4. 최종 장애 대응 요약
+{{final_summary}}
+
+## 5. 교육용 데이터 안내
+- 본 실습은 실제 사내 데이터가 아닌 교육용 가상 제조 시나리오입니다.
+- 실제 회사명, 실제 라인명, 실제 설비명, 실제 제품명, 실제 공정 조건, 실제 품질 기준을 사용하지 않습니다.
+- 예시 데이터는 EQP-EV-03, LINE-07, ALM-TEMP-402 같은 교육용 가상명을 사용합니다.

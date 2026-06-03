@@ -1,0 +1,53 @@
+# Day4 LLM Tool Selection 결과
+
+## 1. 실습 목적
+
+- 이 파일은 LLM Tool Selection 흐름을 이해하기 위한 실습입니다.
+- 실제 LLM을 호출해 사용자 질문에 필요한 Tool 이름만 선택하게 합니다.
+- LLM은 Tool을 직접 실행하지 않고, 어떤 Tool을 사용할지 계획만 만듭니다.
+- Python 코드는 LLM이 선택한 Tool 이름을 확인하고 arguments를 붙여 Tool Plan으로 정리합니다.
+- Guardrail 대상 요청은 LLM 호출 전에 Python 코드에서 먼저 차단합니다.
+
+## 2. 전체 요약
+
+- 분석 생성 시간: `{{generated_at}}`
+- Selector 유형: `{{selector_type}}`
+- 입력 파일: `{{input_file}}`
+- 전체 테스트 케이스 수: {{summary.total_cases}}
+- 매칭 수: {{summary.matched_count}}
+- 불일치 수: {{summary.mismatch_count}}
+- Guardrail 차단 수: {{summary.guardrail_count}}
+
+## 3. 테스트 케이스별 LLM Tool 선택 결과
+
+| case_id | 사용자 질문 | 기대 Tool | 선택 Tool | Guardrail | 매칭 여부 |
+|---|---|---|---|---|---|
+{{#results}}
+| {{case_id}} | {{user_query}} | {{expected_tools_text}} | {{selected_tools_text}} | {{guardrail_text}} | {{matched_text}} |
+{{/results}}
+
+## 4. 불일치 케이스
+
+{{#mismatch_results}}
+### {{case_id}}
+
+- 사용자 질문: {{user_query}}
+- 기대 Tool: {{expected_tools_text}}
+- 선택 Tool: {{selected_tools_text}}
+- 누락 Tool: {{missing_tools_text}}
+- 추가 Tool: {{extra_tools_text}}
+- Guardrail: {{guardrail_text}}
+
+{{/mismatch_results}}
+{{^mismatch_results}}
+불일치 케이스가 없습니다.
+{{/mismatch_results}}
+
+## 5. 강의용 해석
+
+- LLM Tool Selection은 사용자의 질문을 보고 어떤 Tool을 호출할지 고르는 과정입니다.
+- 이 파일에서는 실제 LLM을 호출해 Tool 이름만 선택하게 합니다.
+- LLM은 Tool을 직접 실행하지 않고, 어떤 Tool을 사용할지 계획만 만듭니다.
+- Python 코드는 LLM이 선택한 Tool 이름을 확인하고 arguments를 붙여 Tool Plan으로 정리합니다.
+- Guardrail 대상 요청은 LLM 호출 전에 Python 코드에서 먼저 차단합니다.
+- 실제 Agent에서는 LLM 결과를 그대로 믿지 않고 Tool 이름, arguments, 실행 가능성을 검증해야 합니다.

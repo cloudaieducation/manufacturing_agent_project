@@ -1,0 +1,258 @@
+[
+  {
+    "scenario_id": "ACTION-001",
+    "action_type": "root_cause_ranking",
+    "action_name": "원인 후보 랭킹",
+    "title": "반복 챔버 온도 편차 알람의 원인 후보 정리",
+    "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "최근 24시간 동안 챔버 온도 편차 알람이 반복 관찰되었고, 같은 기간 일부 진공도 변동 알림과 품질 지표 관찰 필요 신호가 함께 나타난 교육용 가상 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 챔버 온도 안정성, 진공도 변동, 증착률, 박막 두께 균일도, 파티클 증가 가능성, 검사 불량률 관찰, 정비 이력 확인을 함께 검토하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "원인 후보를 단정하지 않고 가능성 순서로 정리",
+      "챔버 온도 제어 불안정 가능성",
+      "온도 센서 점검 필요 가능성",
+      "진공도 변동에 따른 증착 조건 영향 가능성",
+      "박막 두께 균일도 또는 파티클 증가와의 관련성 확인",
+      "추가 확인 항목 제시"
+    ],
+    "teaching_message": "Agent는 정답을 단정하는 도구가 아니라, 여러 Tool 근거를 바탕으로 원인 후보를 랭킹하고 추가 확인 항목을 제안하는 업무 보조 도구입니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-002",
+    "action_type": "checklist_generation",
+    "action_name": "조치 체크리스트 생성",
+    "title": "반복 알람 발생 시 10분 이내 1차 확인 체크리스트",
+    "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 박막 증착 공정에서 확인해야 할 온도, 진공도, 증착률, 품질 지표도 함께 포함해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "가상 증착 설비에서 챔버 온도 편차 알람이 반복되어 현장 엔지니어가 빠르게 1차 확인을 수행해야 하는 교육용 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 챔버 온도 안정성, 진공도 변동, 증착률, 박막 두께 균일도, 파티클 증가 가능성, 검사 불량률 관찰, 정비 이력 확인을 함께 검토하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "10분 이내 1차 확인 체크리스트",
+      "챔버 온도 로그 확인",
+      "온도 센서 상태 확인",
+      "진공도 변동 여부 확인",
+      "증착률 변동 여부 확인",
+      "박막 두께 균일도 및 파티클 관련 품질 지표 확인",
+      "확인 후 기록해야 할 항목"
+    ],
+    "teaching_message": "Agent는 긴 리포트뿐 아니라 현장 작업자가 바로 사용할 수 있는 체크리스트를 생성할 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-003",
+    "action_type": "team_routing",
+    "action_name": "담당 부서 라우팅",
+    "title": "알람 반복 발생 상황의 부서별 공유 및 확인 역할 정리",
+    "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단하고 부서별 전달 메시지 초안을 작성해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "챔버 온도 편차 알람이 반복되어 설비 상태, 공정 조건, 품질 지표, 정비 이력을 관련 부서가 함께 확인해야 하는 교육용 가상 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 챔버 온도 안정성, 진공도 변동, 증착률, 박막 두께 균일도, 파티클 증가 가능성, 검사 불량률 관찰, 정비 이력 확인을 함께 검토하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "우선 공유 대상 제안",
+      "동시 공유 대상 제안",
+      "설비팀, 공정팀, 품질팀, 정비팀별 확인 역할 정리",
+      "판단 근거 제시",
+      "부서별 전달 메시지 초안 생성"
+    ],
+    "teaching_message": "Agent는 단순 문서 작성뿐 아니라 업무 흐름을 라우팅하고, 담당 조직별 확인 포인트를 정리하는 데 활용될 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-004",
+    "action_type": "monitoring_rule_generation",
+    "action_name": "재발 감시 조건 생성",
+    "title": "반복 알람 재발 여부와 품질 연계 감시 조건 정의",
+    "user_query": "ALM-TEMP-402가 다시 발생하는지 감시하려면 어떤 조건을 설정해야 하나요? 최근 24시간 반복 알람, 챔버 온도 편차, 진공도 변동, defect_rate, particle_count, 박막 두께 균일도 관점에서 감시 조건을 제안해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "반복 챔버 온도 편차 알람이 일시적으로 해소된 뒤, 동일 유형의 알람 재발과 품질 영향 가능성을 함께 감시해야 하는 교육용 가상 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 챔버 온도 안정성, 진공도 변동, 증착률, 박막 두께 균일도, 파티클 증가 가능성, 검사 불량률 관찰, 정비 이력 확인을 함께 검토하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "감시 대상 정의",
+      "감시 기간 정의",
+      "반복 알람 기준 정의",
+      "챔버 온도 편차 조건",
+      "진공도 변동 조건",
+      "품질 지표 연계 조건",
+      "알림 대상 제안",
+      "Trace에 남길 항목 제안"
+    ],
+    "teaching_message": "Agent는 한 번 답하고 끝나는 도구가 아니라, 이후 어떤 조건을 감시해야 하는지 정의하는 업무 Action을 수행할 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-005",
+    "action_type": "self_review",
+    "action_name": "Agent 자기 점검",
+    "title": "Agent 응답의 단정 표현, 근거 부족, 민감정보 가능성 점검",
+    "user_query": "방금 생성한 원인 후보와 조치안에서 근거가 부족하거나 원인을 단정한 표현, 실제 사내 데이터처럼 보일 수 있는 표현, 민감정보가 포함될 수 있는 표현을 점검해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "Agent가 생성한 원인 후보, 조치 체크리스트, 부서 라우팅, 재발 감시 조건을 다시 검토하여 안전하고 교육용 범위에 맞는 표현으로 다듬어야 하는 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 챔버 온도 안정성, 진공도 변동, 증착률, 박막 두께 균일도, 파티클 증가 가능성, 검사 불량률 관찰, 정비 이력 확인을 함께 검토하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "원인 단정 표현 점검",
+      "근거 부족 표현 점검",
+      "민감정보 포함 여부 점검",
+      "실제 사내 데이터처럼 보이는 표현 점검",
+      "수정 제안 문장 생성"
+    ],
+    "teaching_message": "Agent는 결과를 생성하는 것뿐 아니라, 자신의 답변이 안전한지, 근거가 충분한지, 과도하게 단정하지 않았는지 점검하는 역할도 수행할 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-006",
+    "action_type": "priority_decision",
+    "action_name": "알람 우선순위 판단",
+    "title": "복수 설비 알람 발생 시 우선 확인 대상 판단",
+    "user_query": "여러 교육용 가상 설비에서 알람이 동시에 발생했습니다. 반복 횟수, 품질 영향 가능성, 최근 정비 이력을 기준으로 어느 알람을 먼저 확인해야 하는지 우선순위를 정리해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "여러 교육용 가상 설비에서 온도 편차, 진공도 변동, 파티클 증가 가능성 알림이 동시에 관찰되어 우선 확인 대상을 정해야 하는 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 알람 반복 횟수, 공정 영향 가능성, 품질 지표 관찰 필요성, 최근 정비 이력을 함께 고려해 우선순위를 판단하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history"
+    ],
+    "expected_output_focus": [
+      "알람별 우선순위 판단 기준 제시",
+      "반복 발생 횟수 비교",
+      "품질 영향 가능성 비교",
+      "최근 정비 이력 반영",
+      "우선 확인 대상과 보류 가능 대상 구분",
+      "원인을 확정하지 않고 확인 순서를 제안"
+    ],
+    "teaching_message": "Agent는 복수 이벤트가 동시에 발생했을 때 업무 우선순위를 정리하여 한정된 시간과 인력을 어디에 먼저 투입할지 판단하는 데 도움을 줄 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  },
+  {
+    "scenario_id": "ACTION-007",
+    "action_type": "work_instruction_draft",
+    "action_name": "작업 지시 초안 생성",
+    "title": "교육용 점검 지시 초안 작성",
+    "user_query": "반복 챔버 온도 편차 알람에 대해 현장 점검 지시 초안을 작성해 주세요. 실제 작업 지시가 아니라 교육용 점검 지시 초안이며, 실제 운영 적용 전 내부 승인과 표준 절차가 필요하다는 주의 문구를 포함해 주세요.",
+    "scenario": {
+      "line_id": "TRAINING-LINE-07",
+      "equipment_id": "EQP-EV-03",
+      "equipment_name": "Training Evaporation Equipment 03",
+      "equipment_type": "Vacuum Evaporation Chamber",
+      "process_name": "OLED 박막 증착 공정",
+      "alarm_code": "ALM-TEMP-402",
+      "alarm_name": "챔버 온도 편차 알람",
+      "situation": "반복 알람 대응을 위해 현장 확인 항목, 담당 역할, 기록 항목을 정리한 교육용 점검 지시 초안을 만들어 보는 상황입니다.",
+      "business_context": "디스플레이 박막 제조 기업에서 적용 가능한 교육용 가상 시나리오로, 설비 상태 확인, 공정 조건 관찰, 품질 지표 확인, 정비 이력 재확인을 포함한 점검 지시 초안을 작성하는 상황입니다.",
+      "data_notice": "본 내용은 실제 사내 데이터가 아닌 교육용 가상 데이터입니다."
+    },
+    "recommended_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "expected_output_focus": [
+      "교육용 점검 지시 목적 작성",
+      "현장 확인 항목 정리",
+      "부서별 확인 역할 정리",
+      "기록해야 할 항목 제시",
+      "실제 운영 적용 전 내부 승인과 표준 절차 필요 문구 포함",
+      "민감정보나 실제 운영 데이터 요구 금지"
+    ],
+    "teaching_message": "Agent는 실제 지시를 대체하는 것이 아니라, 담당자가 검토할 수 있는 교육용 초안을 생성하여 업무 문서 작성 시간을 줄이는 보조 도구로 활용될 수 있습니다.",
+    "safety_notice": "본 시나리오는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오입니다. 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다."
+  }
+]

@@ -1,0 +1,35 @@
+# Final Tool Control Review
+
+## 1. 사용자 요청
+{{user_query}}
+
+## 2. Guardrail 결과
+- 차단 여부: {{guardrail.blocked}}
+- 차단 코드: {{guardrail.detected_guardrail}}
+- 설명: {{guardrail.explanation}}
+
+## 3. Rule 기반 Tool Plan
+| 순서 | Tool | 선택 이유 |
+|---:|---|---|
+{{#tool_plan}}
+| {{step}} | {{tool_name}} | {{reason}} |
+{{/tool_plan}}
+
+## 4. Validator 결과
+- valid: {{validation.valid}}
+- issues: {{validation.issues_text}}
+
+## 5. LLM 사용 위치
+- LLM은 Tool 선택이나 Tool 실행을 직접 결정하지 않습니다.
+- LLM은 검증된 Tool 결과를 바탕으로 최종 리포트 문장 생성을 보조합니다.
+- 최종 실행 통제는 Rule + Validator + Guardrail이 담당합니다.
+
+## 6. Trace 저장 목적
+- Trace는 Agent 실행 흐름을 나중에 검토하기 위한 기록입니다.
+- 어떤 Tool이 실행되었고, 성공했는지 확인할 수 있습니다.
+
+## 7. 강의용 해석
+- Guardrail은 위험 요청을 차단하는 안전벨트입니다.
+- Rule 기반 Tool Plan은 안정적인 기준선입니다.
+- Validator는 Tool 이름과 입력값을 검사합니다.
+- Agent의 핵심은 LLM의 판단을 그대로 믿지 않고 통제된 실행 구조를 만드는 것입니다.

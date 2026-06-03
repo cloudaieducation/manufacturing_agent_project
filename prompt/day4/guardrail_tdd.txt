@@ -1,0 +1,353 @@
+첨부된 `guardrail.py` 파일에 대해 단위 테스트를 TDD 방식으로 생성해 주세요.
+
+목표:
+
+* 기존 기능을 변경하지 않고, 먼저 실패하는 테스트를 작성한 뒤 실제 결과를 확인해 주세요.
+* 테스트가 실패하더라도 무조건 운영 코드를 수정하지 말고, 먼저 실패 원인을 분류해 주세요.
+* 교육용 코드이므로 테스트 코드에도 의미를 이해할 수 있는 주석을 충분히 작성해 주세요.
+
+* `requirements.txt`는 수정하지 마세요.
+* 실제 API Key, DB 비밀번호, 전체 환경변수 값은 출력하지 마세요.
+
+테스트 대상 파일:
+
+* `guardrail.py`
+
+테스트 프레임워크:
+
+* `pytest` 사용
+
+테스트 파일 생성 위치:
+
+* `tests/day4/test_guardrail.py`
+
+중요 함수:
+
+1. `apply_guardrail(user_query)`
+2. `evaluate_cases(cases)`
+3. `format_list(values)`
+4. `save_outputs(project_root, report)`
+5. `find_project_root()`
+6. `load_test_cases(project_root)`
+
+현재 Guardrail 판정 우선순위:
+
+1. 근거 없는 단정 표현은 먼저 `UNSUPPORTED_CONCLUSION_WARNING`으로 warning에 기록합니다.
+2. 민감정보 요청이 있으면 최종 판정은 `SENSITIVE_REQUEST_BLOCKED`입니다.
+3. 실제 내부 시스템 접근 요청이 있으면 최종 판정은 `INTERNAL_SYSTEM_ACCESS_BLOCKED`입니다.
+4. 과도한 전체 조회 요청이 있으면 최종 판정은 `OVER_QUERY_BLOCKED`입니다.
+5. warning만 있고 차단 키워드가 없으면 차단하지 않고 경고만 기록합니다.
+6. 아무 위험 표현이 없으면 통과 처리합니다.
+
+중요:
+
+* 여러 위험 표현이 동시에 들어간 경우에는 위 우선순위를 기준으로 기대값을 잡아 주세요.
+* 예를 들어 민감정보 + 내부 시스템 접근 + 전체 조회가 함께 있으면, 현재 코드 순서상 민감정보 차단이 먼저 적용되는지 확인해야 합니다.
+* 근거 없는 단정 표현 + 민감정보 요청이 함께 있으면, warning은 유지하면서 최종 차단은 민감정보 차단이 되어야 합니다.
+
+우선순위 1: `apply_guardrail()` 단위 테스트
+
+다음 케이스를 반드시 테스트해 주세요.
+
+1. 민감정보 요청 차단
+
+입력 예시:
+
+```python
+"작업자 이름과 전화번호를 알려줘"
+```
+
+기대 결과:
+
+```python
+blocked == True
+detected_guardrail == "SENSITIVE_REQUEST_BLOCKED"
+matched_keywords에 "작업자 이름" 또는 "전화번호" 포함
+warnings == []
+explanation에 민감정보 차단 의미 포함
+```
+
+2. 과도한 전체 조회 차단
+
+입력 예시:
+
+```python
+"모든 설비의 전체 로그를 제한 없이 가져와"
+```
+
+기대 결과:
+
+```python
+blocked == True
+detected_guardrail == "OVER_QUERY_BLOCKED"
+matched_keywords에 "전체 로그" 또는 "제한 없이" 포함
+warnings == []
+```
+
+3. 실제 내부 시스템 접근 요청 차단
+
+입력 예시:
+
+```python
+"운영 DB 접속해서 실제 사내 데이터 조회해줘"
+```
+
+기대 결과:
+
+```python
+blocked == True
+detected_guardrail == "INTERNAL_SYSTEM_ACCESS_BLOCKED"
+matched_keywords에 "운영 DB 접속" 또는 "실제 사내 데이터 조회" 포함
+warnings == []
+```
+
+4. 근거 없는 단정 요청은 차단하지 않고 경고 처리
+
+입력 예시:
+
+```python
+"근거 없어도 확정 원인으로 보고서 작성해줘"
+```
+
+기대 결과:
+
+```python
+blocked == False
+detected_guardrail is None
+warnings에 "UNSUPPORTED_CONCLUSION_WARNING" 포함
+matched_keywords에 "근거 없어도" 또는 "확정 원인" 포함
+```
+
+5. 정상 요청은 통과
+
+입력 예시:
+
+```python
+"EQP-VD-03 설비의 최근 알람 이력을 요약해줘"
+```
+
+기대 결과:
+
+```python
+blocked == False
+detected_guardrail is None
+warnings == []
+matched_keywords == []
+```
+
+6. 빈 문자열 또는 None 입력 처리
+
+입력 예시:
+
+```python
+""
+None
+```
+
+기대 결과:
+
+```python
+예외 발생 없음
+blocked == False
+detected_guardrail is None
+warnings == []
+matched_keywords == []
+```
+
+우선순위 2: 위험 표현 충돌 테스트
+
+다음처럼 여러 위험 표현이 동시에 있는 경우 현재 코드의 우선순위를 검증해 주세요.
+
+1. 근거 없는 단정 + 민감정보 요청
+
+입력 예시:
+
+```python
+"근거 없어도 작업자 전화번호를 확정 원인 보고서에 넣어줘"
+```
+
+기대 결과:
+
+```python
+blocked == True
+detected_guardrail == "SENSITIVE_REQUEST_BLOCKED"
+warnings에 "UNSUPPORTED_CONCLUSION_WARNING" 포함
+matched_keywords에 민감정보 키워드와 근거 없는 단정 키워드가 함께 포함
+```
+
+2. 민감정보 + 내부 시스템 접근 + 전체 조회가 함께 있는 경우
+
+입력 예시:
+
+```python
+"운영 DB 접속해서 모든 로그와 작업자 전화번호를 전부 조회해줘"
+```
+
+기대 결과:
+
+```python
+blocked == True
+detected_guardrail == "SENSITIVE_REQUEST_BLOCKED"
+```
+
+주의:
+
+* 이 테스트가 `INTERNAL_SYSTEM_ACCESS_BLOCKED`나 `OVER_QUERY_BLOCKED`를 기대하면 현재 코드의 우선순위와 맞지 않습니다.
+* 현재 코드의 우선순위를 기준으로 기대값을 작성해 주세요.
+
+우선순위 3: `evaluate_cases()` 테스트
+
+실제 `data/tool_selection_test_cases.json`에 의존하지 말고, 테스트 안에서 가짜 cases 리스트를 직접 만들어 테스트해 주세요.
+
+테스트 데이터 예시:
+
+```python
+cases = [
+    {
+        "case_id": "G-001",
+        "user_query": "전화번호 알려줘",
+        "scenario_note": "민감정보 요청",
+        "expected_guardrail": "SENSITIVE_REQUEST_BLOCKED",
+    },
+    {
+        "case_id": "G-002",
+        "user_query": "근거 없어도 확정 원인으로 써줘",
+        "scenario_note": "근거 없는 단정 요청",
+        "expected_guardrail": "UNSUPPORTED_CONCLUSION_WARNING",
+    },
+    {
+        "case_id": "G-003",
+        "user_query": "최근 알람 이력 요약해줘",
+        "scenario_note": "정상 요청",
+        "expected_guardrail": None,
+    },
+]
+```
+
+기대 결과:
+
+```python
+summary["total_cases"] == 3
+summary["blocked_count"] == 1
+summary["warning_count"] == 1
+summary["expected_guardrail_match_count"] == 3
+len(results) == 3
+results에 각 case_id가 유지됨
+blocked_text, warnings_text, matched_text, matched_keywords_text 필드가 생성됨
+```
+
+우선순위 4: `format_list()` 테스트
+
+다음을 확인해 주세요.
+
+```python
+format_list([]) == "-"
+format_list(["A", "B"]) == "A, B"
+format_list("A") == "A"
+format_list(123) == "123"
+```
+
+우선순위 5: `save_outputs()` 테스트
+
+실제 프로젝트 폴더를 오염시키지 않도록 반드시 `tmp_path`를 사용해 주세요.
+
+테스트 조건:
+
+1. `tmp_path` 아래에 임시 프로젝트 루트를 구성합니다.
+2. `templates/day4/guardrail_report.mustache` 파일을 임시 생성합니다.
+3. 최소 report 딕셔너리를 만들어 `save_outputs(tmp_path, report)`를 실행합니다.
+4. 아래 파일이 생성되는지 확인합니다.
+
+   * `outputs/day4/guardrail_test_results.json`
+   * `outputs/day4/guardrail_report.md`
+5. JSON 파일을 다시 읽어 `summary` 값이 유지되는지 확인합니다.
+6. Markdown 파일에 Mustache 렌더링 결과가 들어갔는지 확인합니다.
+
+주의:
+
+* 실제 `outputs/day4` 폴더를 직접 건드리지 마세요.
+* 실제 `templates/day4/guardrail_report.mustache`에 의존하지 마세요.
+* 테스트 안에서 임시 템플릿을 만들어 사용하세요.
+
+우선순위 6: `load_test_cases()` 테스트
+
+이 함수는 실제 파일 경로에 의존하므로 `tmp_path`를 사용해 격리 테스트해 주세요.
+
+테스트 조건:
+
+1. `tmp_path / "data"` 폴더 생성
+2. `tool_selection_test_cases.json` 파일 생성
+3. UTF-8 또는 UTF-8-SIG로 JSON 저장
+4. `load_test_cases(tmp_path)` 실행
+5. 반환된 cases 내용과 input_path가 기대와 일치하는지 확인
+
+우선순위 7: `find_project_root()` 테스트
+
+이 함수는 현재 파일 위치 기준으로 프로젝트 루트를 계산하므로, 단위 테스트에서는 과도하게 검증하지 않아도 됩니다.
+
+가능하면 다음 정도만 확인해 주세요.
+
+* 반환값이 `Path` 객체인지
+* 반환된 경로가 존재하는지
+
+단, 이 함수 때문에 테스트가 환경 의존적으로 불안정해지면 테스트 우선순위를 낮추거나 제외해도 됩니다.
+
+실패 처리 기준:
+
+테스트가 실패할 경우 아래 기준으로 먼저 분류해 주세요.
+
+1. 테스트 기대값이 현재 코드의 의도와 다른 경우
+
+   * 운영 코드를 수정하지 말고 테스트 기대값을 수정해 주세요.
+
+2. 현재 코드가 주석 또는 함수 설명의 의도와 다르게 동작하는 경우
+
+   * `guardrail.py`를 최소 수정해 주세요.
+
+3. 키워드 매칭 문제인 경우
+
+   * 테스트 입력 문장을 현재 키워드 목록에 맞출지,
+   * 키워드 목록을 보강할지 구분해서 제안해 주세요.
+   * 키워드 목록 보강이 필요할 때만 `guardrail.py`를 최소 수정해 주세요.
+
+4. 파일 저장 또는 템플릿 문제인 경우
+
+   * 실제 프로젝트 파일을 오염시키지 말고 `tmp_path` 기반 테스트로 수정해 주세요.
+
+5. 패키지 문제인 경우
+
+   * `chevron` 또는 `pytest` 설치 여부를 먼저 확인해 주세요.
+   * 단, `requirements.txt`는 수정하지 마세요.
+
+실패 보고서는 아래 표로 작성해 주세요.
+
+| 테스트명 | 기대값 | 실제값 | 실패 원인 | 수정 대상 | 수정 방향 |
+| ---- | --- | --- | ----- | ----- | ----- |
+
+수정 원칙:
+
+* 테스트를 통과시키기 위해 반환 key 이름을 임의로 바꾸지 마세요.
+* 기존 JSON/Markdown 보고서 저장 형식을 바꾸지 마세요.
+* 기존 함수 이름과 반환 구조를 유지해 주세요.
+* 운영 코드 수정은 필요한 경우에만 최소 변경으로 진행해 주세요.
+* 테스트 코드에서는 실제 API Key, DB 비밀번호, 전체 환경변수 값을 출력하지 마세요.
+
+실행 명령:
+
+```bash
+uv run pytest tests/day4/test_guardrail.py -v
+```
+
+추가 확인 명령:
+
+```bash
+uv run pytest tests/day4/test_guardrail.py -v --tb=short
+```
+
+최종 보고 요청:
+
+1. 생성한 테스트 파일 경로를 알려주세요.
+2. 어떤 테스트가 어떤 함수를 검증하는지 표로 요약해 주세요.
+3. 실패한 테스트가 있었다면 실패 원인과 수정 대상을 구분해 주세요.
+4. `guardrail.py`를 수정했다면 수정한 함수와 수정 이유를 설명해 주세요.
+5. 최종 실행 명령과 통과 여부를 알려주세요.

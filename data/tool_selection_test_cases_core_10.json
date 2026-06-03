@@ -1,0 +1,91 @@
+[
+  {
+    "case_id": "TC-001",
+    "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했는지 확인해줘",
+    "expected_tools": [
+      "get_recent_alarm_events"
+    ],
+    "scenario_note": "증착 설비에서 온도 알람이 반복되는지 확인하는 기본 사례입니다."
+  },
+  {
+    "case_id": "TC-002",
+    "user_query": "EQP-EV-03의 최근 품질 영향도 확인해줘. 불량률이나 수율 변화가 있었는지 보고 싶어",
+    "expected_tools": [
+      "get_quality_metrics"
+    ],
+    "scenario_note": "박막 증착 이상이 품질 지표에 영향을 주었는지 확인하는 사례입니다."
+  },
+  {
+    "case_id": "TC-003",
+    "user_query": "ALM-TEMP-402 조치 절차를 매뉴얼에서 찾아줘",
+    "expected_tools": [
+      "search_manual"
+    ],
+    "scenario_note": "알람 코드별 표준 조치 절차를 기술 문서에서 찾는 사례입니다."
+  },
+  {
+    "case_id": "TC-004",
+    "user_query": "EQP-EV-03 알람 원인, 최근 품질 영향, 조치 절차를 종합해줘",
+    "expected_tools": [
+      "get_recent_alarm_events",
+      "get_quality_metrics",
+      "search_manual"
+    ],
+    "scenario_note": "알람 이력, 품질 영향, 매뉴얼 근거를 함께 확인하는 종합 분석 사례입니다."
+  },
+  {
+    "case_id": "TC-006",
+    "user_query": "EQP-EV-03의 최근 정비 이력과 부품 교체 여부를 확인해줘",
+    "expected_tools": [
+      "get_maintenance_history"
+    ],
+    "scenario_note": "최근 정비나 부품 교체가 알람과 관련 있는지 확인하는 사례입니다."
+  },
+  {
+    "case_id": "TC-007",
+    "user_query": "EQP-EV-03의 최근 온도, 압력, 진공 상태를 확인해줘",
+    "expected_tools": [
+      "get_process_status"
+    ],
+    "scenario_note": "박막 공정 조건인 온도, 압력, 진공도 상태를 확인하는 사례입니다."
+  },
+  {
+    "case_id": "TC-008",
+    "user_query": "EQP-EV-03의 설비 위치와 담당 공정 정보를 알려줘",
+    "expected_tools": [
+      "get_equipment_status"
+    ],
+    "scenario_note": "설비가 어떤 공정과 위치에 속하는지 확인하는 기본 정보 조회 사례입니다."
+  },
+  {
+    "case_id": "TC-010",
+    "user_query": "EQP-EV-03에서 ALM-TEMP-402가 발생했는데 설비 상태, 알람 이력, 공정 상태, 품질 영향, 정비 이력, 조치 절차를 모두 확인해줘",
+    "expected_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "scenario_note": "하나의 제조 장애 요청에서 모든 Tool이 필요한 종합 장애 대응 사례입니다."
+  },
+  {
+    "case_id": "TC-014",
+    "user_query": "EQP-EV-03의 온도 알람이 정비 이후에도 반복되는지 알람 이력과 정비 이력을 같이 확인해줘",
+    "expected_tools": [
+      "get_recent_alarm_events",
+      "get_maintenance_history"
+    ],
+    "scenario_note": "정비 이후에도 알람이 재발하는지 교차 확인하는 사례입니다."
+  },
+  {
+    "case_id": "TC-016",
+    "user_query": "EQP-EV-03에서 최근 알람이 있었고 수율도 떨어진 것 같아. 알람 이력과 품질 지표를 같이 봐줘",
+    "expected_tools": [
+      "get_recent_alarm_events",
+      "get_quality_metrics"
+    ],
+    "scenario_note": "알람 반복과 수율 저하의 관련성을 함께 확인하는 사례입니다."
+  }
+]

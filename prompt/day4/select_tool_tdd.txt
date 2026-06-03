@@ -1,0 +1,140 @@
+첨부된 langgraph_tool_selector_v2_runner.py에 대해 교육용 TDD 테스트를 핵심만 만들어줘.
+
+목표:
+
+* 전체 함수를 촘촘히 테스트하지 말고, 교육에서 설명하기 좋은 핵심만 테스트한다.
+* 실행 옵션을 바꿔 가며 성능이 낮은 설정에서 높은 설정으로 개선되는 흐름을 보여준다.
+* 단, 낮은 성능 기준에서도 --normalization-mode none은 사용하지 않는다.
+* 기존 production 코드는 가능한 수정하지 않는다.
+* pytest 기반으로 테스트한다.
+* 실제 LLM 호출은 하지 않도록 monkeypatch/mock 처리한다.
+* 실제 output 파일 저장은 하지 않는다.
+* 주석은 충분히 달되, “초보”, “초보자”라는 표현은 쓰지 않는다.
+
+대상 파일:
+
+* src/day4/langgraph_tool_selector_v2_runner.py
+
+테스트 파일 생성 위치:
+
+* tests/day4/test_langgraph_tool_selector_v2_runner_education.py
+
+교육용 핵심 테스트 범위:
+
+1. 옵션 태그 생성 테스트: derive_output_tag()
+
+목적:
+
+* 어떤 테스트 데이터 파일을 실행했는지 output tag가 어떻게 붙는지 설명하기 위함
+
+테스트할 것:
+
+* data/tool_selection_test_cases_core_10.json → core_10
+* data/tool_selection_test_cases_guardrail_10.json → guardrail_10
+* data/tool_selection_test_cases_action_5.json → action_5
+
+제외:
+
+* data/tool_selection_test_cases.json → all 테스트는 제외
+
+2. 케이스 선택 테스트: select_cases()
+
+목적:
+
+* --limit, --case-id 옵션이 테스트 범위를 어떻게 줄이는지 설명하기 위함
+
+테스트할 것:
+
+* --limit 2이면 앞에서 2개만 선택되는지 확인
+* --case-id TS-002이면 해당 케이스만 선택되는지 확인
+* --case-id가 --limit보다 우선되는지 확인
+
+3. Repair 판단 테스트: needs_repair()
+
+목적:
+
+* PASS는 바로 종료하고, WARNING/FAIL은 Repair 대상으로 가는 흐름을 설명하기 위함
+
+테스트할 것:
+
+* PASS → False
+* WARNING → True
+* FAIL → True
+
+4. 최종 결과 선택 테스트: finalize()
+
+목적:
+
+* Repair 전 결과와 Repair 후 결과 중 더 좋은 결과를 선택하는 방식을 설명하기 위함
+
+테스트할 것:
+
+* initial이 FAIL이고 repaired가 PASS이면 최종 PASS
+* initial이 WARNING이고 repaired가 PASS이면 최종 PASS
+* repaired도 FAIL이면 최종 NEEDS_REVIEW
+* repaired가 initial보다 나쁘면 initial 결과 유지
+
+5. 실행 옵션별 성능 비교 시나리오 테스트
+
+목적:
+
+* 교육에서 “낮은 성능 설정 → 높은 성능 설정” 순서로 보여주기 위함
+* 실제 LLM을 호출하지 않고, 옵션별 결과를 fake state로 만들어 비교한다.
+
+비교 순서:
+
+1단계 낮은 성능:
+
+* --normalization-mode argument-only
+* --fallback-mode strict
+* 예상 설명: argument 보정은 적용되지만, LLM 실패 시 rule fallback을 쓰지 않기 때문에 FAIL/NEEDS_REVIEW가 남을 수 있음
+
+2단계 높은 성능:
+
+* --normalization-mode full
+* --fallback-mode strict
+* 예상 설명: argument 보정뿐 아니라 action tool 정책 보정까지 적용되어 일부 오류가 줄어들 수 있음
+
+3단계 최고 성능:
+
+* --normalization-mode full
+* --fallback-mode rule
+* 예상 설명: full normalization에 더해 LLM 실패 시 rule fallback까지 사용하므로 가장 안정적인 결과를 기대할 수 있음
+
+테스트 방식:
+
+* 실제 main() 전체를 실행하지 않는다.
+* build_initial_state(), finalize(), build_summary() 또는 필요한 최소 함수만 사용한다.
+* 옵션별 fake state 목록을 만들어 summary의 pass_count, warning_count, fail_count, needs_review_count가 성능 개선 순서를 설명할 수 있는지 확인한다.
+* “정확한 실제 성능 측정”이 아니라 “교육용 실행 옵션 비교 구조”를 검증하는 테스트임을 주석에 명시한다.
+
+6. 실제 실행 명령을 테스트 파일 주석 또는 README 형태로 남긴다.
+
+교육에서 보여줄 실행 순서:
+
+1단계: 낮은 기준으로 실행
+uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode argument-only --fallback-mode strict --output-tag core_10_low
+
+2단계: full normalization만 적용
+uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode full --fallback-mode strict --output-tag core_10_mid
+
+3단계: full normalization + rule fallback 적용
+uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_core_10.json --normalization-mode full --fallback-mode rule --output-tag core_10_high
+
+Guardrail 테스트:
+uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_guardrail_10.json --normalization-mode full --fallback-mode rule --output-tag guardrail_10_high
+
+Action 테스트:
+uv run python src/day4/langgraph_tool_selector_v2_runner.py --input data/tool_selection_test_cases_action_5.json --normalization-mode full --fallback-mode rule --output-tag action_5_high
+
+pytest 실행 명령:
+uv run pytest tests/day4/test_langgraph_tool_selector_v2_runner_education.py -v
+
+최종 보고 형식:
+
+1. 생성한 테스트 파일
+2. 교육용으로 남긴 핵심 테스트 항목
+3. 낮은 성능 → 높은 성능 실행 옵션 순서
+4. 실제 LLM 호출을 막기 위해 mock 처리한 부분
+5. pytest 실행 명령
+6. 최종 결과

@@ -1,0 +1,44 @@
+# Day5 Edge Case / Guardrail Test Results
+
+## 1. 실습 목적
+- Agent가 항상 답을 만들어내면 위험합니다.
+- 근거가 없으면 없다고 말해야 합니다.
+- 위험 요청은 Tool 실행 전에 Guardrail로 차단해야 합니다.
+- Edge Case 처리는 실패가 아니라 현업 Agent의 중요한 품질 요소입니다.
+
+## 2. 전체 요약
+- 전체 케이스 수: {{summary.total_cases}}
+- Guardrail 차단 수: {{summary.guardrail_blocked_count}}
+- 경고 처리 수: {{summary.warning_count}}
+- 추가 정보 필요 수: {{summary.need_more_info_count}}
+- 조회 결과 없음 수: {{summary.safe_no_result_count}}
+- 정상 처리 수: {{summary.safe_success_count}}
+- 기대 동작 통과 수: {{summary.passed_expected_behavior_count}}
+
+## 3. 케이스별 결과
+| case_id | title | guardrail_code | warning_code | blocked | executed_tools | error_code | final_judgement | passed |
+|---|---|---|---|---|---|---|---|---|
+{{#results}}
+| {{case_id}} | {{title}} | {{guardrail_code_text}} | {{warning_code_text}} | {{blocked}} | {{executed_tools_text}} | {{error_code_text}} | {{final_judgement}} | {{passed_expected_behavior}} |
+{{/results}}
+
+## 4. 케이스별 해석
+{{#results}}
+### {{case_id}} - {{title}}
+- 사용자 요청: {{user_query}}
+- 최종 판정: {{final_judgement}}
+- 처리 요약: {{summary_message}}
+
+{{/results}}
+
+## 5. 강의용 해석
+- 위험 요청은 LLM이나 Tool로 보내기 전에 차단해야 합니다.
+- 없는 설비나 없는 알람 코드는 임의로 답을 만들지 않고 조회 결과 없음으로 처리해야 합니다.
+- 근거 없는 단정 요청은 확정 표현으로 답하지 않고 경고 처리해야 합니다.
+- 정보가 부족하면 추가 정보가 필요하다고 안내해야 합니다.
+- 정상 교육용 요청에서는 6개 Tool이 모두 실행될 수 있습니다.
+- Edge Case 처리는 실패가 아니라 실제 업무형 Agent의 안정성과 신뢰성을 높이는 핵심 품질 요소입니다.
+
+## 6. 주의 사항
+- 본 결과는 실제 사내 데이터가 아닌 교육용 가상 디스플레이 박막 제조 시나리오를 기반으로 합니다.
+- 실제 운영 적용 시에는 내부 표준 절차, 보안 정책, 품질 기준, 승인 체계를 반드시 따라야 합니다.

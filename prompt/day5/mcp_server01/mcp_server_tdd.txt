@@ -1,0 +1,888 @@
+첨부된 `mcp_server.py`를 기준으로 TDD 테스트 파일을 작성하고, 작성한 테스트를 실제로 실행해줘.
+
+목표:
+
+* `mcp_server.py`의 핵심 진입 함수가 의도대로 동작하는지 테스트한다.
+* 테스트 파일을 실제로 생성한다.
+* 테스트 실행 시 실제 JSONL 로그도 테스트 전용 경로에 저장되도록 한다.
+* 테스트 파일 생성 후 반드시 테스트를 실행한다.
+* 테스트 실행 결과와 로그 생성 결과를 보고한다.
+* 매번 Claude Code가 거의 같은 테스트 파일을 생성하도록 테스트 파일명, 테스트 클래스명, 테스트 함수명, 테스트 순서, 검증 항목을 고정한다.
+* 창의적으로 테스트를 추가하지 말고, 아래에 지정한 테스트만 작성한다.
+* 기능 코드는 수정하지 않는다.
+* 기존 서버 코드, DB, RAG, ChromaDB, requirements는 수정하지 않는다.
+
+============================================================
+
+1. 대상 파일
+   ============================================================
+
+테스트 대상 파일:
+
+```text
+src/day5/mcp_server01/mcp_server.py
+```
+
+프로젝트 기준 예상 import:
+
+```python
+from day5.mcp_server01 import mcp_server
+```
+
+먼저 실제 파일 위치를 확인하고, `src/day5/mcp_server01/mcp_server.py`가 존재하는지 확인해줘.
+없다면 같은 패키지의 `mcp_server.py` 위치를 찾아 보고하고, 임의로 다른 파일을 테스트하지 마.
+
+============================================================
+2. 생성할 테스트 파일
+=============
+
+아래 파일 하나만 생성한다.
+
+```text
+tests/day5/test_mcp_server01_mcp_server.py
+```
+
+다른 테스트 파일을 만들지 마.
+
+테스트 프레임워크:
+
+* Python 표준 라이브러리 `unittest`를 사용한다.
+* pytest 전용 fixture, pytest-mock, monkeypatch는 사용하지 않는다.
+* 이유: 테스트 결과와 구조를 매번 최대한 동일하게 만들기 위함이다.
+
+테스트 실행 명령:
+
+```powershell
+uv run python tests/day5/test_mcp_server01_mcp_server.py
+```
+
+테스트 파일 생성 후 위 명령을 반드시 실행한다.
+
+============================================================
+3. 테스트 로그 저장 정책
+===============
+
+이번 테스트는 실제 로그 파일이 저장되어야 한다.
+
+테스트 전용 로그 경로:
+
+```text
+outputs/day5/mcp_server01/test_logs/
+```
+
+예상 로그 파일:
+
+```text
+outputs/day5/mcp_server01/test_logs/mcp_server01.jsonl
+```
+
+요구사항:
+
+* 테스트 실행 전 `MCP_SERVER01_LOG_DIR` 환경변수를 테스트 전용 로그 디렉터리로 설정한다.
+* 테스트 실행 중 `mcp_logging.log_event()`가 실제로 실행되어 JSONL 로그가 저장되게 한다.
+* 기존 운영 로그 경로 `outputs/day5/mcp_server01/logs/`가 아니라 테스트 전용 경로를 사용한다.
+* 테스트 로그 파일은 테스트 시작 시 삭제하고 새로 생성되게 한다.
+* 테스트가 끝난 뒤 로그 파일이 존재하는지 확인한다.
+* 로그 파일에 최소 1개 이상의 JSONL 라인이 있는지 확인한다.
+* 로그 라인에 민감정보가 없어야 한다.
+
+중요:
+
+* 이번 수정에서는 `mcp_logging.log_event`를 무조건 mock 처리하지 않는다.
+* 로그 저장 여부를 확인해야 하는 테스트에서는 실제 `log_event`를 사용한다.
+* 다만 executor/selector/schema builder처럼 외부 실행 가능성이 있는 함수는 patch한다.
+* 테스트가 실제 로그 파일을 만들더라도, 경로는 반드시 테스트 전용 디렉터리여야 한다.
+* 운영 로그 경로에는 로그를 저장하지 않는다.
+
+민감정보 검증:
+
+로그 파일 내용에 아래 문자열이 원문으로 있으면 실패 처리한다.
+
+```text
+SECRETabc123
+Bearer 
+internal.example
+http://
+https://
+```
+
+주의:
+
+* “token”, “endpoint” 같은 단어가 key 이름으로만 등장할 수 있다면 값 노출 여부 중심으로 검사한다.
+* 단순 문자열 검사로 과도하게 실패할 가능성이 있으면, 최소한 명시된 secret 값과 URL 원문이 없는지 확인한다.
+
+============================================================
+4. 테스트 setUp / tearDown 고정
+==========================
+
+테스트 클래스에 `setUp`과 `tearDown`을 작성한다.
+
+`setUp`에서 수행:
+
+1. 프로젝트 루트 기준 테스트 로그 디렉터리 계산
+2. `outputs/day5/mcp_server01/test_logs/` 생성
+3. 기존 `mcp_server01.jsonl` 테스트 로그 파일 삭제
+4. `MCP_SERVER01_LOG_DIR` 환경변수 설정
+5. 필요하면 기존 환경변수 값을 보관
+
+`tearDown`에서 수행:
+
+1. 기존 `MCP_SERVER01_LOG_DIR` 값 복원
+2. 테스트 로그 파일은 삭제하지 않는다.
+
+   * 이유: 테스트 후 사용자가 로그 내용을 확인할 수 있어야 한다.
+
+예상 코드 구조:
+
+```python
+def setUp(self):
+    self.project_root = Path(__file__).resolve().parents[2]
+    self.test_log_dir = self.project_root / "outputs" / "day5" / "mcp_server01" / "test_logs"
+    self.test_log_path = self.test_log_dir / "mcp_server01.jsonl"
+    self.test_log_dir.mkdir(parents=True, exist_ok=True)
+    if self.test_log_path.exists():
+        self.test_log_path.unlink()
+    self._old_log_dir = os.environ.get("MCP_SERVER01_LOG_DIR")
+    os.environ["MCP_SERVER01_LOG_DIR"] = str(self.test_log_dir)
+
+def tearDown(self):
+    if self._old_log_dir is None:
+        os.environ.pop("MCP_SERVER01_LOG_DIR", None)
+    else:
+        os.environ["MCP_SERVER01_LOG_DIR"] = self._old_log_dir
+```
+
+필요 import:
+
+```python
+import os
+import json
+from pathlib import Path
+```
+
+============================================================
+5. 로그 검증 helper 추가
+==================
+
+테스트 클래스 안에 아래 helper를 추가한다.
+
+```python
+def _read_test_log_lines(self):
+    self.assertTrue(self.test_log_path.exists(), "테스트 로그 파일이 생성되어야 합니다.")
+    text = self.test_log_path.read_text(encoding="utf-8").strip()
+    self.assertTrue(text, "테스트 로그 파일에 최소 1줄 이상 기록되어야 합니다.")
+    return [json.loads(line) for line in text.splitlines() if line.strip()]
+
+def _assert_log_contains_event_type(self, event_type):
+    lines = self._read_test_log_lines()
+    event_types = [line.get("event_type") for line in lines]
+    self.assertIn(event_type, event_types)
+
+def _assert_log_contains_any_event_type(self, event_types):
+    lines = self._read_test_log_lines()
+    actual_event_types = [line.get("event_type") for line in lines]
+    self.assertTrue(
+        any(event_type in actual_event_types for event_type in event_types),
+        f"로그에 {event_types} 중 하나가 있어야 합니다. actual={actual_event_types}",
+    )
+
+def _assert_log_does_not_expose_sensitive_values(self):
+    if not self.test_log_path.exists():
+        return
+    text = self.test_log_path.read_text(encoding="utf-8")
+    forbidden_values = [
+        "SECRETabc123",
+        "Bearer ",
+        "internal.example",
+        "http://",
+        "https://",
+    ]
+    for value in forbidden_values:
+        self.assertNotIn(value, text)
+```
+
+주의:
+
+* helper 이름은 위 이름 그대로 사용한다.
+* 로그 JSON 파싱이 실패하면 테스트가 실패해도 된다.
+* 이는 JSONL 로그 형식 검증에도 도움이 된다.
+* `self.test_log_path.exists`가 아니라 반드시 `self.test_log_path.exists()`로 작성한다.
+
+============================================================
+6. 절대 수정하지 말아야 할 파일
+===================
+
+수정 금지:
+
+* `src/day5/mcp_server01/mcp_server.py`
+* `src/day5/mcp_server01/contracts.py`
+* `src/day5/mcp_server01/tool_executor.py`
+* `src/day5/mcp_server01/tool_selector.py`
+* `src/day5/mcp_server01/mcp_logging.py`
+* `src/day5/mcp_server01/mcp_schemas.py`
+* `src/day5/mcp_server01/security.py`
+* `src/day5/mcp_server01/validation.py`
+* `src/day5/mcp_server01/normalizer.py`
+* `src/day5/mcp_server02/`
+* `src/day5/mcp_server03/`
+* `src/day5/mcp_client01/`
+* `src/day5/mcp_client02/`
+* `src/day4/`
+* `src/day3/`
+* `db/`
+* `vector_db/`
+* `requirements.txt`
+* `pyproject.toml`
+* `uv.lock`
+
+이번 작업은 테스트 파일 생성과 테스트 실행만 수행한다.
+
+============================================================
+7. 테스트 작성 원칙
+============
+
+아래 원칙을 반드시 지켜줘.
+
+1. 테스트 이름과 순서를 고정한다.
+2. 아래 지정한 테스트 외에 임의 테스트를 추가하지 않는다.
+3. 외부 API, LLM, FastMCP 실제 서버 실행, DB, ChromaDB를 호출하지 않는다.
+4. `run_fastmcp_server()`는 실제 블로킹 서버 실행을 하면 안 된다.
+5. `server.run()` 같은 블로킹 실행은 절대 하지 않는다.
+6. mock은 `unittest.mock.patch`만 사용한다.
+7. 로그 저장 테스트를 위해 `mcp_logging.log_event`는 기본적으로 mock하지 않는다.
+8. 단, executor/selector/build schema 등 외부 실행 성격의 함수는 patch한다.
+9. 테스트는 deterministic해야 한다.
+10. 현재 시간, 랜덤값에 의존하지 않는다.
+11. 환경변수 값을 출력하지 않는다.
+12. 비밀값, token, password, endpoint를 테스트 출력에 쓰지 않는다.
+13. 테스트 주석에 “초보”, “초보자”라는 표현은 쓰지 않는다.
+
+============================================================
+8. 테스트 클래스명
+===========
+
+테스트 클래스명은 아래로 고정한다.
+
+```python
+class TestMcpServer01EntryPoints(unittest.TestCase):
+```
+
+============================================================
+9. 테스트 함수 목록과 순서
+================
+
+아래 테스트 함수 11개를 정확히 이 순서로 작성한다.
+
+```python
+def test_01_import_module(self):
+def test_02_list_mcp_tools_excludes_forbidden_sql_tools(self):
+def test_03_call_mcp_tool_rejects_forbidden_sql_tool_and_writes_log(self):
+def test_04_call_mcp_tool_rejects_unknown_tool_and_writes_log(self):
+def test_05_call_mcp_tool_executes_allowed_tool_via_executor_and_writes_log(self):
+def test_06_select_tools_logs_selection_summary(self):
+def test_07_validate_tool_plan_uses_dry_run_and_writes_log(self):
+def test_08_execute_selected_tools_delegates_to_executor_and_writes_log(self):
+def test_09_execute_query_adds_selection_metadata_and_writes_log(self):
+def test_10_fastmcp_unavailable_returns_none_or_safe_status_and_writes_log(self):
+def test_11_test_log_file_is_jsonl_and_has_no_sensitive_values(self):
+```
+
+위 11개 외에 테스트 함수를 추가하지 마.
+
+============================================================
+10. 각 테스트의 상세 요구사항
+==================
+
+---
+
+## test_01_import_module
+
+목적:
+
+* `day5.mcp_server01.mcp_server` 모듈이 import 가능한지 확인한다.
+* 핵심 함수가 존재하는지 확인한다.
+
+검증 대상 함수:
+
+```python
+list_mcp_tools
+call_mcp_tool
+call_select_tools_for_manufacturing_query
+call_validate_tool_plan
+call_execute_selected_tools
+call_execute_query
+has_fastmcp
+create_fastmcp_server
+run_fastmcp_server
+```
+
+검증:
+
+* `hasattr(mcp_server, "...")` 사용
+* callable 여부 확인
+
+로그:
+
+* 이 테스트는 로그를 요구하지 않는다.
+
+---
+
+## test_02_list_mcp_tools_excludes_forbidden_sql_tools
+
+목적:
+
+* `list_mcp_tools()`가 schema 목록을 반환하는지 확인한다.
+* 금지 SQL Tool이 노출되지 않는지 확인한다.
+
+방법:
+
+* `mcp_server.mcp_schemas.build_mcp_tool_schemas`를 patch한다.
+* 반환값은 아래로 고정한다.
+
+```python
+[
+    {"name": "get_equipment_status"},
+    {"name": "search_manual"},
+]
+```
+
+검증:
+
+* 결과가 list인지 확인
+* `build_mcp_tool_schemas()`가 1회 호출되었는지 확인
+* 반환된 name 목록에 `execute_sql`이 없는지 확인
+
+로그:
+
+* 이 테스트는 로그를 요구하지 않는다.
+
+---
+
+## test_03_call_mcp_tool_rejects_forbidden_sql_tool_and_writes_log
+
+목적:
+
+* `execute_sql` 같은 금지 Tool이 즉시 rejected 되는지 확인한다.
+* 거부 이벤트가 실제 JSONL 로그에 저장되는지 확인한다.
+
+방법:
+
+* `mcp_server.FORBIDDEN_SQL_TOOLS`를 `{"execute_sql"}`로 patch한다.
+* `mcp_server.ALLOWED_TOOLS`를 `{"get_equipment_status"}`로 patch한다.
+* `mcp_server.tool_executor.build_single_tool_plan`이 호출되지 않는지 확인한다.
+* `mcp_server.tool_executor.execute_tool_plan`이 호출되지 않는지 확인한다.
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_mcp_tool("execute_sql", {"query": "select * from users"})
+```
+
+검증:
+
+* `status == "rejected"`
+* `validation_status == "FAIL"`
+* `executed_count == 0`
+* message에 SQL 또는 Tool 금지 의미가 포함되는지 확인
+* executor 함수들이 호출되지 않았는지 확인
+* `_assert_log_contains_any_event_type(["tool_rejected", "tool_error"])` 호출
+* `_assert_log_does_not_expose_sensitive_values()` 호출
+
+---
+
+## test_04_call_mcp_tool_rejects_unknown_tool_and_writes_log
+
+목적:
+
+* 허용 목록에 없는 Tool이 rejected 되는지 확인한다.
+* 거부 이벤트가 실제 JSONL 로그에 저장되는지 확인한다.
+
+방법:
+
+* `mcp_server.FORBIDDEN_SQL_TOOLS`를 `{"execute_sql"}`로 patch한다.
+* `mcp_server.ALLOWED_TOOLS`를 `{"get_equipment_status"}`로 patch한다.
+* executor 함수 patch
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_mcp_tool("unknown_tool", {})
+```
+
+검증:
+
+* `status == "rejected"`
+* `validation_status == "FAIL"`
+* `executed_count == 0`
+* executor 함수들이 호출되지 않았는지 확인
+* `_assert_log_contains_any_event_type(["tool_rejected", "tool_error"])` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_05_call_mcp_tool_executes_allowed_tool_via_executor_and_writes_log
+
+목적:
+
+* 허용된 Tool은 single tool plan으로 감싸고 executor에 위임되는지 확인한다.
+* 실행 이벤트가 실제 JSONL 로그에 저장되는지 확인한다.
+
+방법:
+
+* `mcp_server.FORBIDDEN_SQL_TOOLS`를 `{"execute_sql"}`로 patch한다.
+* `mcp_server.ALLOWED_TOOLS`를 `{"get_equipment_status"}`로 patch한다.
+* `build_single_tool_plan` 반환값을 아래로 고정한다.
+
+```python
+{"plan": [{"tool_name": "get_equipment_status", "arguments": {"equipment_id": "EQP-EV-03"}}]}
+```
+
+* `execute_tool_plan` 반환값을 아래로 고정한다.
+
+```python
+{
+    "status": "executed",
+    "validation_status": "PASS",
+    "executed_count": 1,
+    "results": [{"tool_name": "get_equipment_status", "result": {"equipment_id": "EQP-EV-03"}}],
+    "issues": [],
+    "message": "ok",
+}
+```
+
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_mcp_tool("get_equipment_status", {"equipment_id": "EQP-EV-03"})
+```
+
+검증:
+
+* 결과 status가 `executed`
+* `build_single_tool_plan`이 정확한 인자로 1회 호출
+* `execute_tool_plan`이 plan과 `user_query=""`로 호출
+* `_assert_log_contains_any_event_type(["tool_called", "tool_executed"])` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_06_select_tools_logs_selection_summary
+
+목적:
+
+* 사용자 질의로 Tool Plan을 생성하고 selection summary를 실제 로그로 저장하는지 확인한다.
+
+방법:
+
+* `mcp_server.tool_selector.select_tool_plan_with_llm`를 patch한다.
+* 반환값 고정:
+
+```python
+{
+    "tool_plan": {"plan": [{"tool_name": "search_manual", "arguments": {"query": "ALM-TEMP-402"}}]},
+    "generation_source": "fallback_rule",
+    "fallback_used": True,
+    "error_message": None,
+}
+```
+
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_select_tools_for_manufacturing_query("ALM-TEMP-402 조치 방향")
+```
+
+검증:
+
+* 반환값의 `generation_source == "fallback_rule"`
+* selector가 `fallback_mode="rule"`로 호출되었는지 확인
+* `_assert_log_contains_event_type("tool_selected")` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_07_validate_tool_plan_uses_dry_run_and_writes_log
+
+목적:
+
+* 검증 함수가 executor를 dry_run=True로 호출하고, PASS이면 executable=True를 반환하는지 확인한다.
+* 검증 이벤트가 실제 로그로 저장되는지 확인한다.
+
+방법:
+
+* `mcp_server.tool_executor.execute_tool_plan`를 patch한다.
+* 반환값 고정:
+
+```python
+{
+    "status": "dry_run",
+    "validation_status": "PASS",
+    "executed_count": 0,
+    "results": [],
+    "issues": [],
+}
+```
+
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_validate_tool_plan({"plan": []}, user_query="test query")
+```
+
+검증:
+
+* `validation_status == "PASS"`
+* `executable is True`
+* `execute_tool_plan`이 `dry_run=True`로 호출되었는지 확인
+* `_assert_log_contains_event_type("tool_validated")` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_08_execute_selected_tools_delegates_to_executor_and_writes_log
+
+목적:
+
+* 이미 만들어진 Tool Plan이 executor에 그대로 위임되는지 확인한다.
+* 실행 이벤트가 실제 로그로 저장되는지 확인한다.
+
+방법:
+
+* `execute_tool_plan` 반환값 고정:
+
+```python
+{
+    "status": "executed",
+    "validation_status": "PASS",
+    "executed_count": 1,
+    "results": [],
+    "issues": [],
+}
+```
+
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_execute_selected_tools({"plan": []}, user_query="query", dry_run=False)
+```
+
+검증:
+
+* executor가 `tool_plan`, `user_query`, `dry_run=False`로 호출되었는지 확인
+* 결과 status가 `executed`
+* `_assert_log_contains_event_type("tool_executed")` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_09_execute_query_adds_selection_metadata_and_writes_log
+
+목적:
+
+* end-to-end 함수가 selection 결과를 실행 결과에 추가하는지 확인한다.
+* 선택/실행 이벤트가 실제 로그로 저장되는지 확인한다.
+
+방법:
+
+* `tool_selector.select_tool_plan_with_llm` patch
+* `tool_executor.execute_tool_plan` patch
+* selection 반환값:
+
+```python
+{
+    "tool_plan": {"plan": [{"tool_name": "search_manual", "arguments": {"query": "ALM-TEMP-402"}}]},
+    "generation_source": "fallback_rule",
+    "fallback_used": True,
+    "error_message": None,
+}
+```
+
+* executor 반환값:
+
+```python
+{
+    "status": "executed",
+    "validation_status": "PASS",
+    "executed_count": 1,
+    "results": [],
+    "issues": [],
+}
+```
+
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+호출:
+
+```python
+mcp_server.call_execute_query("ALM-TEMP-402 조치 방향")
+```
+
+검증:
+
+* 결과에 `generation_source == "fallback_rule"`
+* 결과에 `fallback_used is True`
+* 결과에 `selection_error_message is None`
+* selector와 executor가 1회 호출되었는지 확인
+* `_assert_log_contains_event_type("tool_selected")` 호출
+* `_assert_log_contains_event_type("tool_executed")` 호출
+* 민감값 노출 없음 확인
+
+---
+
+## test_10_fastmcp_unavailable_returns_none_or_safe_status_and_writes_log
+
+목적:
+
+* FastMCP가 없는 상황에서도 안전하게 동작하는지 확인한다.
+* FastMCP unavailable 이벤트가 실제 로그에 저장되는지 확인한다.
+
+방법:
+
+* `mcp_server._HAS_FASTMCP`를 `False`로 patch한다.
+* `mcp_server.FastMCP`를 `None`으로 patch한다.
+* `mcp_server.mcp_logging.log_event`는 patch하지 않는다.
+
+검증:
+
+1. `mcp_server.has_fastmcp()`가 False인지 확인
+2. `mcp_server.create_fastmcp_server()`가 None을 반환하는지 확인
+3. `mcp_server.run_fastmcp_server()`가 dict를 반환하고 `status == "unavailable"`인지 확인
+4. 실제 `server.run()` 같은 블로킹 실행이 발생하지 않는지 확인
+5. `_assert_log_contains_any_event_type(["fastmcp_unavailable", "server_unavailable"])` 호출
+6. 민감값 노출 없음 확인
+
+---
+
+## test_11_test_log_file_is_jsonl_and_has_no_sensitive_values
+
+목적:
+
+* 테스트 과정에서 생성된 로그 파일이 JSONL 형식인지 확인한다.
+* 로그 파일에 민감값이 없는지 확인한다.
+
+방법:
+
+* 이전 테스트들과 독립적으로 실행될 수도 있으므로, 이 테스트 안에서 작은 로그 이벤트를 하나 발생시킨다.
+* 허용되지 않은 Tool 호출 1회로 로그를 생성한다.
+* 단, 외부 DB/LLM/FastMCP 서버 실행은 하지 않는다.
+
+호출 예:
+
+```python
+with patch.object(mcp_server, "FORBIDDEN_SQL_TOOLS", {"execute_sql"}), \
+     patch.object(mcp_server, "ALLOWED_TOOLS", {"get_equipment_status"}), \
+     patch.object(mcp_server.tool_executor, "build_single_tool_plan") as mock_build, \
+     patch.object(mcp_server.tool_executor, "execute_tool_plan") as mock_execute:
+    mcp_server.call_mcp_tool("execute_sql", {"query": "select * from users"})
+    mock_build.assert_not_called()
+    mock_execute.assert_not_called()
+```
+
+검증:
+
+* 테스트 로그 파일을 읽는다.
+* 각 줄을 `json.loads()`로 파싱한다.
+* 최소 1줄 이상 있는지 확인한다.
+* 각 로그 dict에 `event_type` 또는 이에 준하는 event 필드가 있는지 확인한다.
+* `_assert_log_does_not_expose_sensitive_values()` 호출
+
+============================================================
+11. mock/patch 작성 규칙
+====================
+
+patch 경로는 반드시 `mcp_server` 모듈 객체 기준으로 작성한다.
+
+예:
+
+```python
+with patch.object(mcp_server.tool_executor, "execute_tool_plan") as mock_execute:
+    ...
+```
+
+권장 import:
+
+```python
+import os
+import json
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from day5.mcp_server01 import mcp_server
+```
+
+주의:
+
+* `patch("day5.mcp_server01...")` 문자열 patch보다 `patch.object`를 우선 사용한다.
+* patch 범위는 각 테스트 함수 내부로 제한한다.
+* 테스트 간 상태 공유 금지.
+* 테스트 순서에 의존하지 마.
+* 단, 로그 파일은 테스트 전용 디렉터리에 누적될 수 있다.
+
+============================================================
+12. 테스트 파일 기본 구조
+================
+
+테스트 파일은 아래 구조를 따른다.
+
+```python
+# -*- coding: utf-8 -*-
+"""
+mcp_server01.mcp_server TDD 테스트
+
+대상:
+- src/day5/mcp_server01/mcp_server.py
+
+원칙:
+- 외부 API/LLM/DB/ChromaDB/FastMCP 실제 서버 실행 없음
+- 테스트 전용 JSONL 로그 저장 확인
+- mcp_server.py의 진입점 orchestration만 검증
+"""
+
+import os
+import json
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from day5.mcp_server01 import mcp_server
+
+
+class TestMcpServer01EntryPoints(unittest.TestCase):
+    ...
+    
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
+```
+
+============================================================
+13. 테스트 파일 생성 후 반드시 실행
+======================
+
+테스트 파일 작성 후 아래 명령을 반드시 실행해줘.
+
+```powershell
+uv run python tests/day5/test_mcp_server01_mcp_server.py
+```
+
+정상 기준:
+
+* 11개 테스트가 모두 통과해야 한다.
+* 테스트 로그가 아래 경로에 생성되어야 한다.
+
+```text
+outputs/day5/mcp_server01/test_logs/mcp_server01.jsonl
+```
+
+* 외부 DB, ChromaDB, FastMCP server 실행이 없어야 한다.
+* API Key나 환경변수가 없어도 통과해야 한다.
+
+테스트 실패 시 처리:
+
+* 테스트가 실패하면 기능 코드를 수정하지 말고, 테스트 코드가 실제 `mcp_server.py`의 반환 구조와 맞지 않는 부분을 조정한다.
+* 단, 테스트 함수명, 테스트 개수, 테스트 순서는 유지한다.
+* 실패 원인과 수정 내용을 보고한다.
+* 최종적으로 테스트를 다시 실행한다.
+* 테스트가 통과할 때까지 테스트 코드만 수정한다.
+* 기능 코드는 절대 수정하지 않는다.
+
+============================================================
+14. 로그 파일 확인 명령도 실행
+===================
+
+테스트 실행 후 아래 명령도 실행해서 로그 파일이 실제 생성되었는지 확인해줘.
+
+```powershell
+dir outputs\day5\mcp_server01\test_logs
+type outputs\day5\mcp_server01\test_logs\mcp_server01.jsonl
+```
+
+확인할 것:
+
+* `mcp_server01.jsonl` 파일이 존재하는가
+* JSONL 라인이 1개 이상 있는가
+* event_type이 기록되어 있는가
+* 민감값이 노출되지 않았는가
+
+============================================================
+15. 수정 금지 확인 명령 실행
+==================
+
+테스트 후 아래 명령을 실행해 수정 금지 파일이 변경되지 않았는지 확인해줘.
+
+```powershell
+git diff -- src/day5/mcp_server01/mcp_server.py
+git diff -- src/day5/mcp_server01
+git diff -- src/day5/mcp_server02
+git diff -- src/day5/mcp_server03
+git diff -- src/day4
+git diff -- src/day3
+git diff -- db
+git diff -- vector_db
+git diff -- requirements.txt pyproject.toml uv.lock
+```
+
+주의:
+
+* `tests/day5/test_mcp_server01_mcp_server.py` 외에는 변경하지 않아야 한다.
+* 단, 테스트 실행으로 `outputs/day5/mcp_server01/test_logs/mcp_server01.jsonl`이 생성되는 것은 허용한다.
+* 만약 기존 테스트 디렉터리가 없다면 `tests/day5/`만 생성한다.
+
+============================================================
+16. 하지 말아야 할 작업
+===============
+
+아래 작업은 하지 마.
+
+* 기능 코드 수정
+* `mcp_server.py` 수정
+* contracts/tool_executor/tool_selector/mcp_logging 수정
+* FastMCP 실제 server 실행
+* LLM 호출
+* DB 호출
+* ChromaDB 호출
+* requirements 수정
+* 테스트 함수 추가
+* 테스트 함수명 변경
+* pytest 전용 코드 사용
+* 랜덤값/현재시간/운영 로그 파일 의존
+* snapshot 파일 생성
+* 테스트 로그 외의 출력 파일 생성
+* 운영 로그 경로에 로그 저장
+
+============================================================
+17. 작업 후 보고 형식
+==============
+
+작업 후 아래 형식으로 보고해줘.
+
+1. 생성한 테스트 파일
+2. 수정한 파일
+3. 테스트 프레임워크
+4. 테스트 개수
+5. 테스트 함수 목록
+6. 테스트 로그 저장 경로
+7. 로그 JSONL 생성 여부
+8. 로그 event_type 검증 여부
+9. 로그 민감값 미노출 확인 여부
+10. mock 처리 방식
+11. 외부 의존성 차단 여부
+12. FastMCP 블로킹 실행 차단 여부
+13. SQL Tool 거부 테스트 여부
+14. 실행 명령
+15. 테스트 결과
+16. 로그 파일 확인 결과
+17. 수정 금지 파일 변경 여부
+18. 기능 코드 수정 여부
+19. 남은 TODO

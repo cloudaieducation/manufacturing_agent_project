@@ -1,0 +1,67 @@
+[
+  {
+    "case_id": "TC-ACTION-001",
+    "user_query": "EQP-EV-03에서 ALM-TEMP-402가 반복 발생했습니다. 박막 증착 공정 관점에서 원인 후보를 가능성 순서대로 정리해 주세요. 단, 원인을 확정하지 말고 근거와 추가 확인 항목을 함께 제시해 주세요.",
+    "expected_action": "root_cause_ranking",
+    "expected_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "scenario_note": "Agent가 리포트 작성이 아니라 OLED 박막 증착 공정의 챔버 온도 편차, 진공도 변동, 증착률 변동, 박막 두께 균일도 관찰 필요성을 바탕으로 원인 후보를 근거 기반으로 랭킹하는 Action 사례입니다."
+  },
+  {
+    "case_id": "TC-ACTION-002",
+    "user_query": "ALM-TEMP-402 발생 시 현장 엔지니어가 10분 안에 확인할 1차 체크리스트를 만들어 주세요. 챔버 온도, 진공도, 증착률, 박막 두께 균일도, 파티클 관련 품질 지표도 함께 확인하고 싶습니다.",
+    "expected_action": "checklist_generation",
+    "expected_tools": [
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "search_manual"
+    ],
+    "scenario_note": "Agent가 긴 리포트가 아니라 챔버 온도 편차, 진공도 변동, 증착률 변동, particle_count 관찰 필요, thickness_uniformity_risk 확인을 포함한 현장 확인용 체크리스트를 생성하는 Action 사례입니다."
+  },
+  {
+    "case_id": "TC-ACTION-003",
+    "user_query": "EQP-EV-03의 챔버 온도 편차 알람이 반복 발생했습니다. 설비팀, 공정팀, 품질팀, 정비팀 중 어디에 먼저 공유해야 하는지 판단해 주세요.",
+    "expected_action": "team_routing",
+    "expected_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "scenario_note": "Agent가 OLED 박막 증착 공정의 챔버 온도 편차, 온도 센서 점검 이력, 챔버 온도 제어부 확인 이력, 품질 지표 관찰 필요성을 바탕으로 담당 부서 라우팅과 부서별 확인 포인트를 제안하는 Action 사례입니다."
+  },
+  {
+    "case_id": "TC-ACTION-004",
+    "user_query": "ALM-TEMP-402가 다시 발생하는지 감시하려면 어떤 조건을 설정해야 하나요? 최근 24시간 반복 알람, 챔버 온도 편차, 진공도 변동, defect_rate, particle_count, 박막 두께 균일도 관점에서 감시 조건을 제안해 주세요.",
+    "expected_action": "monitoring_rule_generation",
+    "expected_tools": [
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_quality_metrics",
+      "search_manual"
+    ],
+    "scenario_note": "Agent가 단발성 답변이 아니라 챔버 온도 편차, 진공도 변동, defect_rate 관찰 필요, particle_count 관찰 필요, 박막 두께 균일도 관점의 재발 감시 조건을 생성하는 Action 사례입니다."
+  },
+  {
+    "case_id": "TC-ACTION-007",
+    "user_query": "EQP-EV-03의 ALM-TEMP-402 반복 알람에 대해 교육용 1차 점검 작업 지시 초안을 만들어 주세요. 실제 조치가 아니라 점검 항목 중심으로 작성해 주세요.",
+    "expected_action": "work_instruction_draft",
+    "expected_tools": [
+      "get_equipment_status",
+      "get_recent_alarm_events",
+      "get_process_status",
+      "get_maintenance_history",
+      "search_manual"
+    ],
+    "scenario_note": "Agent가 실제 작업 명령이 아니라 OLED 박막 증착 공정의 챔버 온도 편차와 온도 센서 점검 이력을 확인하는 교육용 점검 지시 초안을 생성하는 Action 사례입니다. 실제 운영 적용 전에는 내부 승인과 표준 절차가 필요함을 안내해야 합니다."
+  }
+]

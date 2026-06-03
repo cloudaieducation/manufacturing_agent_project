@@ -1,0 +1,323 @@
+# Task
+
+You are generating a ReAct-style v2 MCP Tool Plan for an educational manufacturing agent
+scenario (a fictional "DisplayEdu Fab"). All equipment IDs, alarm codes, lines, and processes
+are fictional training data.
+
+Analyze the user request, use the Allowed MCP tools and Tool contracts below to decide which
+tools are needed, and produce a single valid JSON tool plan. Each tool call step must include
+"step", "tool_name", "arguments", "condition", and "reason". If no allowed MCP tool can handle
+the request, return {"plan": []}.
+
+Do not invent tool names or argument names. Do not use any tool or argument that is not defined
+in the Allowed MCP tools and Tool contracts.
+
+# ReAct Mapping
+
+ReAct mapping for this task:
+- reason = Thought
+- tool_name = Action
+- arguments = Action Input
+- condition = Execution condition
+- validator result or tool result = Observation
+
+Reason rule:
+- reason is a concise execution rationale, not a hidden chain-of-thought.
+- Do not include long private reasoning.
+- Do not reveal private or step-by-step reasoning.
+- Keep reason short, concrete, and auditable.
+
+# Allowed MCP Tools
+
+Allowed MCP tools:
+{{available_tools}}
+
+Rules:
+- Use only tools listed in Allowed MCP tools.
+- Do not invent tool names.
+- Do not use example tool names unless they are included in Allowed MCP tools.
+- Few-shot examples show the intended output pattern, but the actual Allowed MCP tools always take priority.
+- If an example tool is not included in Allowed MCP tools, do not use that example tool.
+- If no allowed MCP tool matches the user request, return {"plan": []}.
+
+# Tool Contracts
+
+Tool contracts:
+{{tool_contracts}}
+
+Tool contract rules:
+- Follow the provided Tool contracts.
+- Use the Tool purpose, when_to_use, when_not_to_use, required_arguments, and optional_arguments to decide the plan.
+- If the Tool contract is missing or insufficient, use conservative selection.
+- If required information is unclear, prefer null arguments and clarification conditions over guessing.
+- Do not create arguments that are not defined in the Tool contract.
+- Do not infer table names, column names, internal system names, or hidden fields.
+
+# Tool Selection Rules
+
+Tool selection rules:
+- Select a tool only when the user intent matches the tool purpose.
+- Select the minimum necessary tools.
+- Select multiple tools only when the request clearly requires multiple evidence sources or actions.
+- Do not select redundant tools.
+- When the user asks for both operational data and documentary evidence, select both the relevant DB/status/history tool and search_manual.
+- Do not select search_manual when the user only asks for simple DB/status/history lookup.
+- Do not select a DB/status/history lookup tool when the user only asks for a manual, procedure, or troubleshooting document.
+- If the request cannot be handled by the allowed MCP tools, return {"plan": []}.
+
+# Argument Rules
+
+Argument rules:
+- Use only argument names defined in the Tool contract.
+- Do not invent argument names.
+- Extract equipment_id, alarm_code, metric_name, date_range, line_id, process_name, limit, and query only when they are present or clearly implied.
+- If a required argument is missing or ambiguous, set it to null.
+- Do not guess missing IDs, alarm codes, metric names, date ranges, table names, column names, or internal system names.
+- Explain missing or ambiguous arguments in condition and reason.
+- Use metric_name only when the metric name is clear from the user request or the Tool contract.
+- If multiple metrics are requested and the Tool contract does not define a combined metric name, set metric_name to null and explain it in reason.
+- Use simple semantic date_range values such as "recent" only when no exact date is provided.
+- Do not invent exact dates.
+
+# Text-to-SQL Rule
+
+Text-to-SQL rule:
+- Text-to-SQL is not part of this MCP Tool Selector.
+- Do not select check_text_to_sql_safety.
+- Do not create SQL safety tools.
+- Do not create SQL generation tools.
+- If the user request is mainly about SQL generation, SQL execution, or SQL validation and no allowed MCP tool can handle it, return {"plan": []}.
+
+# Output Schema
+
+Return a single JSON object that follows this schema:
+
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "",
+      "arguments": {},
+      "condition": "always",
+      "reason": ""
+    }
+  ]
+}
+
+If no allowed MCP tool can handle the request, return:
+
+{
+  "plan": []
+}
+
+Output rules:
+- Return only one valid JSON object.
+- Do not write markdown.
+- Do not wrap JSON in code fences.
+- Do not add comments.
+- Do not add trailing commas.
+- Do not add fields outside the requested schema.
+- Use double quotes for all JSON keys and string values.
+- The top-level JSON object must contain only the "plan" key.
+- Each plan item must contain only "step", "tool_name", "arguments", "condition", and "reason".
+
+# Few-shot Examples
+
+The following examples show the intended output pattern.
+During the actual task, use only tools listed in Allowed MCP tools.
+If an example tool is not included in Allowed MCP tools, do not use that example tool.
+
+Example 1. Simple alarm history lookup
+
+User request:
+EQP-VD-03 최근 알람 이력만 보여줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_recent_alarm_events",
+      "arguments": {
+        "equipment_id": "EQP-VD-03",
+        "alarm_code": null,
+        "limit": 20
+      },
+      "condition": "always",
+      "reason": "The user only asks for recent alarm history for a specific equipment."
+    }
+  ]
+}
+
+Example 2. Alarm history + manual (multiple tools)
+
+User request:
+EQP-VD-03에서 ALM-2047이 반복 발생했어. 최근 알람 이력과 조치 문서를 확인해줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_recent_alarm_events",
+      "arguments": {
+        "equipment_id": "EQP-VD-03",
+        "alarm_code": "ALM-2047",
+        "limit": 20
+      },
+      "condition": "always",
+      "reason": "The user needs operational alarm history for the repeated alarm."
+    },
+    {
+      "step": 2,
+      "tool_name": "search_manual",
+      "arguments": {
+        "query": "ALM-2047 repeated alarm troubleshooting procedure",
+        "alarm_code": "ALM-2047"
+      },
+      "condition": "always",
+      "reason": "The user also asks for documentary evidence and troubleshooting guidance."
+    }
+  ]
+}
+
+Example 3. Quality metrics lookup
+
+User request:
+EDU-LINE-01 라인의 최근 불량률과 수율을 확인해줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_quality_metrics",
+      "arguments": {
+        "line_id": "EDU-LINE-01",
+        "metric_name": null,
+        "date_range": "recent",
+        "limit": 20
+      },
+      "condition": "always",
+      "reason": "The user asks for multiple recent quality metrics for a specific manufacturing line."
+    }
+  ]
+}
+
+Example 4. Maintenance history lookup
+
+User request:
+EQP-VD-03의 최근 정비 이력과 부품 교체 기록을 확인해줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_maintenance_history",
+      "arguments": {
+        "equipment_id": "EQP-VD-03",
+        "date_range": "recent",
+        "component": null
+      },
+      "condition": "always",
+      "reason": "The user asks for recent maintenance and component replacement history."
+    }
+  ]
+}
+
+Example 5. Equipment status lookup
+
+User request:
+EQP-VD-03 현재 설비 상태 알려줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_equipment_status",
+      "arguments": {
+        "equipment_id": "EQP-VD-03"
+      },
+      "condition": "always",
+      "reason": "The user asks for the current status of a specific equipment."
+    }
+  ]
+}
+
+Example 6. Ambiguous equipment ID
+
+User request:
+VD-03 알람 이력 보여줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "get_recent_alarm_events",
+      "arguments": {
+        "equipment_id": null,
+        "alarm_code": null,
+        "limit": 20
+      },
+      "condition": "run only after equipment_id is clarified",
+      "reason": "The equipment identifier is ambiguous and should not be guessed."
+    }
+  ]
+}
+
+Example 7. No allowed MCP tool can handle the request
+
+User request:
+이 SQL을 실행해도 안전한지 확인해줘: SELECT * FROM alarm_logs;
+
+Expected output:
+{
+  "plan": []
+}
+
+This request is about SQL validation. Text-to-SQL is not part of this MCP Tool Selector, so the correct MCP tool plan is empty.
+
+Example 8. Document search only
+
+User request:
+ALM-2047 반복 발생 시 조치 절차 문서만 찾아줘.
+
+Expected output:
+{
+  "plan": [
+    {
+      "step": 1,
+      "tool_name": "search_manual",
+      "arguments": {
+        "query": "ALM-2047 repeated alarm troubleshooting procedure",
+        "alarm_code": "ALM-2047"
+      },
+      "condition": "always",
+      "reason": "The user asks only for a troubleshooting procedure document."
+    }
+  ]
+}
+
+Example 9. Request outside the allowed scope
+
+User request:
+작업자 이름과 연락처를 알려줘.
+
+Expected output:
+{
+  "plan": []
+}
+
+This request asks for personal or sensitive information outside the allowed MCP tool scope.
+
+# User Request
+
+Now create the MCP Tool Plan for the following user request.
+
+User request:
+{{user_query}}
+
+Return only valid JSON.

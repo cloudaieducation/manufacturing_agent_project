@@ -1,0 +1,92 @@
+# Day4 Guardrail 검사 결과
+
+## 1. 실습 목적
+
+- Guardrail은 Agent의 안전벨트입니다.
+- LLM 또는 MCP Tool이 동작하기 전에 위험한 요청을 먼저 차단합니다.
+- 개인정보, 과도한 전체 조회, 실제 내부 시스템 접근 요청은 Tool 호출 전에 막아야 합니다.
+- 근거 없는 단정 요청은 차단보다 경고로 기록하고, 근거 기반 응답을 유도합니다.
+
+## 2. 전체 요약
+
+- 분석 생성 시간: {{generated_at}}
+- Guardrail 이름: {{guardrail_name}}
+- 입력 파일: {{input_file}}
+- 전체 케이스 수: {{summary.total_cases}}
+- 차단 수: {{summary.blocked_count}}
+- 통과 수: {{summary.allowed_count}}
+- pass_count: {{summary.pass_count}}
+- 경고 수: {{summary.warning_count}}
+- 기대 Guardrail 일치 수: {{summary.expected_guardrail_match_count}}
+- 기대 Guardrail 불일치 수: {{summary.expected_guardrail_mismatch_count}}
+- 민감정보 차단 수: {{summary.sensitive_block_count}}
+- 과도한 조회 차단 수: {{summary.over_query_block_count}}
+- 내부 시스템 접근 차단 수: {{summary.internal_access_block_count}}
+- 근거 없는 단정 경고 수: {{summary.unsupported_conclusion_warning_count}}
+
+## 3. 케이스별 Guardrail 결과
+
+| case_id | 사용자 질문 | 기대 Guardrail | 탐지 Guardrail | 차단 여부 | 경고 | 기대값 매칭 | 탐지 키워드 |
+|---|---|---|---|---|---|---|---|
+{{#results}}
+| {{case_id}} | {{user_query}} | {{expected_guardrail}} | {{detected_guardrail}} | {{blocked_text}} | {{warnings_text}} | {{matched_text}} | {{matched_keywords_text}} |
+{{/results}}
+
+## 4. 차단된 요청 상세
+
+{{#blocked_results}}
+### {{case_id}}
+
+- 사용자 질문: {{user_query}}
+- 탐지 Guardrail: {{detected_guardrail}}
+- 탐지 키워드: {{matched_keywords_text}}
+- 차단 이유: {{explanation}}
+- 운영 관점 해석: 위험하거나 범위가 과도한 요청은 LLM 또는 Tool 호출 전에 차단해야 합니다.
+
+{{/blocked_results}}
+{{^blocked_results}}
+차단된 요청이 없습니다.
+{{/blocked_results}}
+
+## 5. 경고 요청 상세
+
+{{#warning_results}}
+### {{case_id}}
+
+- 사용자 질문: {{user_query}}
+- 경고 코드: {{warnings_text}}
+- 탐지 키워드: {{matched_keywords_text}}
+- 경고 이유: 근거 없이 원인을 단정하거나 사실처럼 작성하라는 표현이 포함되어 있습니다.
+- 개선 방향: 추측 대신 Trace, 품질 지표, 공정 상태, 매뉴얼 근거를 바탕으로 표현하도록 유도해야 합니다.
+
+{{/warning_results}}
+{{^warning_results}}
+경고 요청이 없습니다.
+{{/warning_results}}
+
+## 6. 기대 Guardrail 불일치 케이스
+
+{{#mismatch_results}}
+### {{case_id}}
+
+- 사용자 질문: {{user_query}}
+- expected_guardrail: {{expected_guardrail}}
+- detected_guardrail: {{detected_guardrail}}
+- warnings: {{warnings_text}}
+- 해석: 기준 데이터의 기대값과 Guardrail 탐지 결과가 다릅니다.
+- 개선 방향: 키워드 규칙을 보강하거나 기준 데이터의 기대 Guardrail 값을 검토해야 합니다.
+
+{{/mismatch_results}}
+{{^mismatch_results}}
+기대 Guardrail과 다른 케이스가 없습니다.
+{{/mismatch_results}}
+
+## 7. 강의용 해석
+
+- Guardrail은 LLM 또는 Tool 호출 전에 적용하는 실행 안전 장치입니다.
+- 위험 요청은 LLM에게 보내지 않고, Tool도 호출하지 않는 것이 원칙입니다.
+- 개인정보 요청은 SENSITIVE_REQUEST_BLOCKED로 차단합니다.
+- 범위 없는 전체 조회 요청은 OVER_QUERY_BLOCKED로 차단합니다.
+- 실제 사내 시스템 접속 요청은 INTERNAL_SYSTEM_ACCESS_BLOCKED로 차단합니다.
+- 근거 없는 단정 요청은 UNSUPPORTED_CONCLUSION_WARNING으로 경고합니다.
+- 4일차의 핵심은 LLM이 Tool Plan을 제안하더라도, 최종 실행 전 Guardrail과 Validator를 반드시 통과해야 한다는 점입니다.
