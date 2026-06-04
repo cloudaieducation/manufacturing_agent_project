@@ -232,3 +232,5 @@ node_modules/
 *.avi
 *.mov
 *.webm
+docs/readme_source_notes.md
+docs/readme_supporting_folder_review.md
