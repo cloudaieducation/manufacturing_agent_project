@@ -286,7 +286,7 @@ uv run streamlit run src/day5/mcp_client_final/streamlit_app.py
 
 | 경로 | 설명 |
 |---|---|
-| `lecture_materials/` | Day별 강의자료가 포함됩니다. PPTX, PDF, drawio, png 파일이 포함될 수 있습니다. |
+| `lecture_materials/` | Day별 강의자료가 포함됩니다.  |
 | `notebook_instructor/` | 강사용 노트북 자료가 포함됩니다. |
 
 강의자료와 강사용 노트북은 폴더 단위로 제공되며, 세부 파일은 각 폴더에서 확인할 수 있습니다.
